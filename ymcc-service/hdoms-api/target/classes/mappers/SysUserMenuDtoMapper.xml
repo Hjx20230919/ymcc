@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.SysUserMenuDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.SysUserMenuDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="USER_ACTION_ID" jdbcType="VARCHAR" property="userActionId" />
+    <result column="ACTION_ID" jdbcType="VARCHAR" property="actionId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+  </resultMap>
+
+  <!-- 通过userId删除菜单权限 -->
+  <delete id="deleteByAny" parameterType="java.util.Map">
+    DELETE FROM T_SYS_USER_ACTIONS
+    <where>
+      <if test="userId!=null and userId!=''">
+        and T_SYS_USER_ACTIONS.USER_ID =#{userId}
+      </if>
+      <if test="actionId!=null and actionId!=''">
+        and  T_SYS_USER_ACTIONS.ACTION_ID =#{actionId}
+      </if>
+    </where>
+
+
+
+  </delete>
+
+</mapper>

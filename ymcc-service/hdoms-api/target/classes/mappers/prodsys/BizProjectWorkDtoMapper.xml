@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.BizProjectWorkDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizProjectWorkDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="PW_LINK_ID" jdbcType="VARCHAR" property="pwLinkId"/>
+        <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId"/>
+        <result column="CLAS_ID" jdbcType="VARCHAR" property="clasId"/>
+        <result column="CLAS_TYPE" jdbcType="VARCHAR" property="clasType"/>
+        <result column="PLAN_WORK_NUM" jdbcType="INTEGER" property="planWorkNum"/>
+        <result column="PLAN_DOC_NUM" jdbcType="INTEGER" property="planDocNum"/>
+        <result column="INIT_WORK_NUM" jdbcType="FLOAT" property="initWorkNum"/>
+        <result column="INIT_DOC_NUM" jdbcType="INTEGER" property="initDocNum"/>
+        <result column="UNIT" jdbcType="VARCHAR" property="unit"/>
+        <result column="PRICE" jdbcType="DOUBLE" property="price"/>
+        <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser"/>
+        <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="ROW_STATE" jdbcType="VARCHAR" property="rowState"/>
+        <result column="AUDIT_IF" jdbcType="INTEGER" property="auditIf"/>
+        <result column="PLAN_WORK_TIME" jdbcType="INTEGER" property="planWorkTime"/>
+        <result column="WORK_TYPE1" jdbcType="VARCHAR" property="workType1"/>
+        <result column="WORK_TYPE2" jdbcType="VARCHAR" property="workType2"/>
+        <result column="SERV_TYPE" jdbcType="VARCHAR" property="servType"/>
+        <result column="FINISH_WORK_NUM" jdbcType="FLOAT" property="finishWorkNum"/>
+    </resultMap>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TBPW.* FROM T_BIZ_PROJECT_WORK TBPW
+        <where>
+            <if test="contractId!=null and contractId!=''">
+                AND TBPW.CONTRACT_ID = #{contractId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectWithWorkList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TBPW.*, TBW.WORK_TYPE1, TBW.WORK_TYPE2, TBW.SERV_TYPE
+        FROM T_BIZ_PROJECT_WORK TBPW
+        LEFT JOIN T_BIZ_WORK_TABLE TBW ON TBPW.CLAS_ID = TBW.CLAS_ID
+        <where>
+            <if test="contractId!=null and contractId!=''">
+                AND TBPW.CONTRACT_ID = #{contractId}
+            </if>
+        </where>
+    </select>
+</mapper>

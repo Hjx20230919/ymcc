@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContCreditAttachMapper">
+
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContCreditAttachDto">
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="CREDIT_ID" jdbcType="VARCHAR" property="creditId" />
+    <result column="ATTACH_ID" jdbcType="VARCHAR" property="attachId" />
+    <result column="ATTACH_STATE" jdbcType="VARCHAR" property="attachState" />
+    <result column="STATE_AT" jdbcType="TIMESTAMP" property="stateAt" />
+    <result column="SET_ID" jdbcType="VARCHAR" property="setId" />
+  </resultMap>
+
+
+  <!--查询-->
+  <select id="getCreditAttachDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_CONT_CREDIT_ATTACH TCCA
+
+    <where>
+      <if test="creditId!=null and creditId!=''">
+        and TCCA.CREDIT_ID=#{creditId}
+      </if>
+
+      <if test="attachState!=null and attachState!=''">
+        and TCCA.ATTACH_STATE=#{attachState}
+      </if>
+
+      <if test="setId!=null and setId!=''">
+        and TCCA.SET_ID=#{setId}
+      </if>
+      <if test="attachId!=null and attachId!=''">
+        and TCCA.ATTACH_ID=#{attachId}
+      </if>
+
+    </where>
+    ORDER BY STATE_AT ASC
+  </select>
+
+  <!--查询-->
+  <select id="getCreditAttachDtoBySetId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_CONT_CREDIT_ATTACH TCCA
+    INNER JOIN T_CONT_CREDIT_SET_ITEM TCCSI
+    ON TCCSI.CREDIT_ID=TCCA.CREDIT_ID
+    WHERE TCCA.SET_ID=#{setId}
+    AND TCCA.BEFORE_ID IS NOT NULL
+    <if test="attachState!=null and attachState!=''">
+      and TCCA.ATTACH_STATE=#{attachState}
+    </if>
+  </select>
+
+</mapper>

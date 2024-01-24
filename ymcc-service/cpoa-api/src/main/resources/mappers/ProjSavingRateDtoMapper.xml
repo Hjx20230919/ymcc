@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.ProjSavingRateDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.ProjSavingRateDto">
+    <result column="SAVING_RATE_ID" jdbcType="VARCHAR" property="savingRateId" />
+    <result column="CALC_YEAR" jdbcType="TIMESTAMP" property="calcYear" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+    <result column="SAVING_RATE" jdbcType="REAL" property="savingRate" />
+    <result column="TAX_RATE" jdbcType="INTEGER" property="taxRate" />
+    <result column="DEAL_VALUE_IN_RATE" jdbcType="DECIMAL" property="dealValueInRate" />
+    <result column="DEAL_VALUE_EX_RATE" jdbcType="DECIMAL" property="dealValueExRate" />
+    <result column="DEAL_SETTLE_M1" jdbcType="DECIMAL" property="dealSettleM1" />
+    <result column="DEAL_SETTLE_M2" jdbcType="DECIMAL" property="dealSettleM2" />
+    <result column="DEAL_SETTLE_M3" jdbcType="DECIMAL" property="dealSettleM3" />
+    <result column="DEAL_SETTLE_M4" jdbcType="DECIMAL" property="dealSettleM4" />
+    <result column="DEAL_SETTLE_M5" jdbcType="DECIMAL" property="dealSettleM5" />
+    <result column="DEAL_SETTLE_M6" jdbcType="DECIMAL" property="dealSettleM6" />
+    <result column="DEAL_SETTLE_M7" jdbcType="DECIMAL" property="dealSettleM7" />
+    <result column="DEAL_SETTLE_M8" jdbcType="DECIMAL" property="dealSettleM8" />
+    <result column="DEAL_SETTLE_M9" jdbcType="DECIMAL" property="dealSettleM9" />
+    <result column="DEAL_SETTLE_M10" jdbcType="DECIMAL" property="dealSettleM10" />
+    <result column="DEAL_SETTLE_M11" jdbcType="DECIMAL" property="dealSettleM11" />
+    <result column="DEAL_SETTLE_M12" jdbcType="DECIMAL" property="dealSettleM12" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="ProjSavingRateVo" type="cn.com.cnpc.cpoa.vo.ProjSavingRateVo">
+    <result column="SAVING_RATE_ID" jdbcType="VARCHAR" property="savingRateId" />
+    <result column="CALC_YEAR" jdbcType="TIMESTAMP" property="calcYear" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+    <result column="SAVING_RATE" jdbcType="REAL" property="savingRate" />
+    <result column="TAX_RATE" jdbcType="INTEGER" property="taxRate" />
+    <result column="DEAL_VALUE_IN_RATE" jdbcType="DECIMAL" property="dealValueInRate" />
+    <result column="DEAL_VALUE_EX_RATE" jdbcType="DECIMAL" property="dealValueExRate" />
+    <result column="DEAL_SETTLE_M1" jdbcType="DECIMAL" property="dealSettleM1" />
+    <result column="DEAL_SETTLE_M2" jdbcType="DECIMAL" property="dealSettleM2" />
+    <result column="DEAL_SETTLE_M3" jdbcType="DECIMAL" property="dealSettleM3" />
+    <result column="DEAL_SETTLE_M4" jdbcType="DECIMAL" property="dealSettleM4" />
+    <result column="DEAL_SETTLE_M5" jdbcType="DECIMAL" property="dealSettleM5" />
+    <result column="DEAL_SETTLE_M6" jdbcType="DECIMAL" property="dealSettleM6" />
+    <result column="DEAL_SETTLE_M7" jdbcType="DECIMAL" property="dealSettleM7" />
+    <result column="DEAL_SETTLE_M8" jdbcType="DECIMAL" property="dealSettleM8" />
+    <result column="DEAL_SETTLE_M9" jdbcType="DECIMAL" property="dealSettleM9" />
+    <result column="DEAL_SETTLE_M10" jdbcType="DECIMAL" property="dealSettleM10" />
+    <result column="DEAL_SETTLE_M11" jdbcType="DECIMAL" property="dealSettleM11" />
+    <result column="DEAL_SETTLE_M12" jdbcType="DECIMAL" property="dealSettleM12" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo" />
+    <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+    <result column="DEAL_STATUS" jdbcType="VARCHAR" property="dealStatus" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="dealStartEnd" jdbcType="VARCHAR" property="dealStartEnd" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="SEL_CONT_TYPE" jdbcType="VARCHAR" property="selContType" />
+    <result column="projNo" jdbcType="VARCHAR" property="projNo" />
+  </resultMap>
+
+  <select id="selectSavingRateByMap" parameterType="java.util.Map" resultMap="ProjSavingRateVo">
+    SELECT
+    sr.*,
+    tbd.DEAL_NO,
+    tbd.DEAL_NAME,
+    tbd.DEAL_STATUS,
+    tbd.CONT_NAME,
+    tbd.dealStartEnd,
+    tbd.DEPT_NAME,
+    tbd.DEPT_ID,
+    tpp.SEL_CONT_TYPE,
+    tpp.projNo
+    FROM
+    T_PROJ_SAVING_RATE sr
+    LEFT JOIN (
+    SELECT
+    bd.DEAL_ID,
+    bd.DEAL_NO,
+    bd.DEAL_NAME,
+    sd.DEPT_ID,
+    CASE
+
+    WHEN bd.DEAL_STATUS = 'draft' THEN
+    '草稿'
+    WHEN bd.DEAL_STATUS = 'back' THEN
+    '退回'
+    WHEN bd.DEAL_STATUS = 'buildAuditing' THEN
+    '立项审核中'
+    WHEN bd.DEAL_STATUS = 'signing' THEN
+    '合同签订中'
+    WHEN bd.DEAL_STATUS = 'progressAuditing' THEN
+    '履行中'
+    WHEN bd.DEAL_STATUS = 'changeAuditing' THEN
+    '变更审核中'
+    WHEN bd.DEAL_STATUS = 'changeBack' THEN
+    '变更退回'
+    WHEN bd.DEAL_STATUS = 'placing' THEN
+    '归档中'
+    WHEN bd.DEAL_STATUS = 'placed' THEN
+    '归档完毕'
+    END DEAL_STATUS,
+    bc.CONT_NAME,
+    CONCAT_WS( '至', bd.DEAL_START, bd.DEAL_END ) dealStartEnd,
+    sd.DEPT_NAME
+    FROM
+    T_BIZ_DEAL bd
+    LEFT JOIN T_BIZ_CONTRACTOR bc ON bd.CONTRACT_ID = bc.CONT_ID
+    LEFT JOIN T_SYS_DEPT sd ON sd.DEPT_ID = bd.DEPT_ID
+    ) tbd ON tbd.DEAL_ID = sr.DEAL_ID
+    LEFT JOIN (
+    SELECT
+    pp.PROJ_ID,
+    pp.DEAL_NO projNo,
+    CASE
+
+    WHEN pp.SEL_CONT_TYPE = 'buildProjectSingle' THEN
+    '单一来源'
+    WHEN pp.SEL_CONT_TYPE = 'buildProjectNegotiation' THEN
+    '竞争性谈判'
+    WHEN pp.SEL_CONT_TYPE = 'openTender' THEN
+    '公开招标'
+    WHEN pp.SEL_CONT_TYPE = 'noTender' THEN
+    '可不招标'
+    WHEN pp.SEL_CONT_TYPE = 'buildProjectInside' THEN
+    '内责书'
+    END SEL_CONT_TYPE
+    FROM
+    T_PROJ_PROJECT pp
+    ) tpp ON tpp.PROJ_ID = sr.PROJ_ID
+    <where>
+      <if test="calcYear != null and calcYear != ''">
+        and sr.CALC_YEAR = #{calcYear}
+      </if>
+      <if test="deptName != null and deptName != ''">
+        and tbd.DEPT_ID = #{deptName}
+      </if>
+      <if test="deptNo != null and deptNo != ''">
+        and tbd.DEAL_NO  LIKE CONCAT('%',#{deptNo},'%')
+      </if>
+      <if test="projNo != null and projNo != ''">
+        and tpp.projNo  LIKE CONCAT('%',#{projNo},'%')
+      </if>
+      <if test="selContType != null and selContType != ''">
+        and tpp.SEL_CONT_TYPE = #{selContType}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectThisDaySavingRate" resultType="java.lang.String">
+    select sr.SAVING_RATE_ID from T_PROJ_SAVING_RATE sr where sr.CALC_YEAR = DATE_FORMAT(CURDATE(),'%Y') and sr.DEAL_ID is not null
+  </select>
+</mapper>

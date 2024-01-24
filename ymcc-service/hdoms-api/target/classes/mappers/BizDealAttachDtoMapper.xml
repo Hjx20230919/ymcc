@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizDealAttachDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizDealAttachDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+    <result column="ATTACH_ID" jdbcType="VARCHAR" property="attachId" />
+    <result column="DEAL_FILE_TYPE" jdbcType="VARCHAR" property="dealFileType" />
+
+  </resultMap>
+
+  <!--查询合同附件-->
+  <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_BIZ_DEAL_ATTACH TBDA
+    <where>
+      <if test="dealId!=null and dealId!=''">
+        AND TBDA.DEAL_ID = #{dealId}
+      </if>
+      <if test="attachId!=null and attachId!=''">
+        AND TBDA.ATTACH_ID = #{attachId}
+      </if>
+    </where>
+  </select>
+
+
+
+</mapper>

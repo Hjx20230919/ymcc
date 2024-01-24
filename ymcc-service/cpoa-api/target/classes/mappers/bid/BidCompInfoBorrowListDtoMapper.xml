@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidCompInfoBorrowListDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidCompInfoBorrowListDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="COMP_INFO_BORROW_LIST_ID" jdbcType="VARCHAR" property="compInfoBorrowListId" />
+    <result column="CERTI_BORROW_ID" jdbcType="VARCHAR" property="certiBorrowId" />
+    <result column="COMP_INFO_TYPE" jdbcType="VARCHAR" property="compInfoType" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="COMP_INFO_REQ" jdbcType="VARCHAR" property="compInfoReq" />
+    <result column="LAST_AT" jdbcType="TIMESTAMP" property="lastAt" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="BidCompInfoBorrowListPo" type="cn.com.cnpc.cpoa.po.bid.BidCompInfoBorrowListPo">
+    <result column="COMP_INFO_BORROW_LIST_ID" jdbcType="VARCHAR" property="compInfoBorrowListId" />
+    <result column="CERTI_BORROW_ID" jdbcType="VARCHAR" property="certiBorrowId" />
+    <result column="COMP_INFO_TYPE" jdbcType="VARCHAR" property="compInfoType" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="COMP_INFO_REQ" jdbcType="VARCHAR" property="compInfoReq" />
+    <result column="LAST_AT" jdbcType="TIMESTAMP" property="lastAt" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectByCertiBorrowId" parameterType="java.lang.String" resultMap="BidCompInfoBorrowListPo">
+    select * from T_BID_COMP_INFO_BORROW_LIST tbcibl where tbcibl.CERTI_BORROW_ID = #{certiBorrowId}
+  </select>
+</mapper>

@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContProjectDtoMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContProjectDto">
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="PROJ_CONT_CODE" jdbcType="VARCHAR" property="projContCode"/>
+        <result column="PROJ_CONT_NAME" jdbcType="VARCHAR" property="projContName"/>
+        <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType"/>
+        <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent"/>
+        <result column="PROJ_AT" jdbcType="TIMESTAMP" property="projAt"/>
+        <result column="PROJ_STATE" jdbcType="VARCHAR" property="projState"/>
+        <result column="PROJ_STATE_AT" jdbcType="TIMESTAMP" property="projStateAt"/>
+        <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId"/>
+        <result column="PROJ_APPLY_REASON" jdbcType="VARCHAR" property="projApplyReason"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.contractor.ContProjectPo">
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="PROJ_CONT_CODE" jdbcType="VARCHAR" property="projContCode"/>
+        <result column="PROJ_CONT_NAME" jdbcType="VARCHAR" property="projContName"/>
+        <result column="PROJ_CONT_LINKMAN" jdbcType="VARCHAR" property="projContLinkman"/>
+        <result column="PROJ_CONT_PHONE" jdbcType="VARCHAR" property="projContPhone"/>
+        <result column="PROJ_CONT_MAIL" jdbcType="VARCHAR" property="projContMail"/>
+        <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType"/>
+        <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent"/>
+        <result column="PROJ_AT" jdbcType="TIMESTAMP" property="projAt"/>
+        <result column="PROJ_STATE" jdbcType="VARCHAR" property="projState"/>
+        <result column="PROJ_STATE_AT" jdbcType="TIMESTAMP" property="projStateAt"/>
+        <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="ACCE_CODE" jdbcType="VARCHAR" property="acessCode"/>
+        <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId"/>
+        <result column="ACCE_STATE" jdbcType="VARCHAR" property="acceState"/>
+        <result column="OBJ_ID" jdbcType="VARCHAR" property="objId"/>
+        <result column="OBJ_TYPE" jdbcType="VARCHAR" property="objType"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="ACCE_FILL_TIME" jdbcType="TIMESTAMP" property="acceFillTime"/>
+        <result column="PROJ_APPLY_REASON" jdbcType="VARCHAR" property="projApplyReason"/>
+        <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel"/>
+        <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId"/>
+        <result column="isRelieve" jdbcType="INTEGER" property="isRelieve"/>
+    </resultMap>
+
+
+    <!--查询-->
+    <select id="selectBaseContProject" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TCP.*,TSU.USER_NAME.TSD.DEPT_NAME FROM T_CONT_PROJECT TCP
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+
+        <where>
+            <if test="projContName!=null and projContName!=''">
+                and TCP.PROJ_CONT_NAME=#{projContName}
+            </if>
+            <if test="ownerId!=null and ownerId!=''">
+                and TCP.OWNER_ID=#{ownerId}
+            </if>
+            <if test="ownerDeptId!=null and ownerDeptId!=''">
+                and TCP.OWNER_DEPT_ID=#{ownerDeptId}
+            </if>
+            <if test="projState!=null and projState!=''">
+                and TCP.PROJ_STATE=#{projState}
+            </if>
+        </where>
+    </select>
+
+    <!--查询-->
+    <select id="selectContProject" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT TCP.*,TSU.USER_NAME,TSD.DEPT_NAME,TCA.ACCE_CODE,TCA.ACCE_ID,TCA.ACCE_STATE,TCA.ACCE_FILL_TIME,
+        TCC.ACCESS_LEVEL,TCC.isRelieve
+        FROM
+        T_CONT_PROJECT TCP
+        LEFT JOIN T_CONT_ACCESS TCA ON TCP.PROJ_ID=TCA.PROJ_ID
+        LEFT JOIN (SELECT TCC.*,IF(TCB.CONT_NAME = TCC.CONT_NAME,1,0) isRelieve FROM T_CONT_CONTRACTOR TCC LEFT JOIN (SELECT * FROM T_CONT_BLACKLIST TCB WHERE TCB.IS_RELIEVE = '1') TCB ON TCB.CONT_NAME = TCC.CONT_NAME) TCC ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+
+        <where>
+            <if test="projId!=null and projId!=''">
+                and TCP.PROJ_ID =#{projId}
+            </if>
+            <if test="projContName!=null and projContName!=''">
+                and TCP.PROJ_CONT_NAME like CONCAT('%',#{projContName},'%')
+            </if>
+            <if test="projContName2!=null and projContName2!=''">
+                and TCP.PROJ_CONT_NAME =#{projContName2}
+            </if>
+            <if test="projContCode!=null and projContCode!=''">
+                and TCP.PROJ_CONT_CODE =#{projContCode}
+            </if>
+            <if test="projContType!=null and projContType!=''">
+                and TCP.PROJ_CONTENT like CONCAT('%',#{projContType},'%')
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+            </if>
+            <if test="projState!=null and projState!=''">
+                and TCP.PROJ_STATE=#{projState}
+            </if>
+            <if test="projAccessType!=null and projAccessType!=''">
+                and TCP.PROJ_ACCESS_TYPE=#{projAccessType}
+            </if>
+            <if test="applyDateStart!=null and applyDateStart!=''">
+                and TCP.PROJ_AT >=str_to_date(#{applyDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="applyDateEnd!=null and applyDateEnd!=''">
+                and TCP.PROJ_AT &lt;=str_to_date(CONCAT(#{applyDateEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <choose>
+                <when test="accessLevel2!=null and accessLevel2!=''">
+                    and ((TCP.PROJ_ACCESS_TYPE=#{accessLevel2} and TCC.ACCESS_LEVEL is null) or TCC.ACCESS_LEVEL=#{accessLevel})
+                </when>
+                <when test="accessLevel!=null and accessLevel!=''">
+                    AND TCC.ACCESS_LEVEL=#{accessLevel}
+                </when>
+                <otherwise>
+
+                </otherwise>
+            </choose>
+
+
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+        ORDER BY TCP.PROJ_AT DESC
+    </select>
+
+    <!--查询-->
+    <select id="selectAuditContProject" parameterType="java.util.Map" resultMap="BaseResultMap2">
+
+        SELECT *FROM (
+
+        SELECT
+        TCP.PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCP.PROJ_CONT_PHONE,TCP.OWNER_ID,TCP.OWNER_DEPT_ID,TCP.PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCP.PROJ_ID OBJ_ID,'contProject' OBJ_TYPE,'1' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL,TCA.ACCE_ID
+        FROM T_CONT_PROJECT TCP
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TCP1.PROJ_ID FROM T_CONT_PROJECT TCP1
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCP1.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TCP1.PROJ_STATE='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TCP1.PROJ_ID ) A
+        ON TCP.PROJ_ID=A.PROJ_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.USER_ID=#{userId}
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.PROJ_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+        LEFT JOIN T_CONT_ACCESS TCA ON TCP.PROJ_ID=TCA.PROJ_ID
+
+        UNION ALL
+
+        SELECT
+        TCC.CONT_NAME PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCC.LINK_MOBILE
+        PROJ_CONT_PHONE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCA.ACCE_STATE PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCA.ACCE_ID OBJ_ID,'access' OBJ_TYPE,'2' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL,TCA.ACCE_ID
+        FROM T_CONT_ACCESS TCA
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TCA.ACCE_ID FROM T_CONT_ACCESS TCA
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCA.ACCE_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TCA.ACCE_STATE='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TCA.ACCE_ID ) A
+        ON TCA.ACCE_ID=A.ACCE_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.USER_ID=#{userId}
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.ACCE_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TCC.CONT_NAME PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCC.LINK_MOBILE
+        PROJ_CONT_PHONE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCCS.SET_STATE PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCCS.SET_ID OBJ_ID,'creditSet' OBJ_TYPE,'3' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL,TCA.ACCE_ID
+        FROM T_CONT_CREDIT_SET TCCS
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TCCS.SET_ID FROM T_CONT_CREDIT_SET TCCS
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCCS.SET_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TCCS.SET_STATE='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TCCS.SET_ID ) A
+        ON TCCS.SET_ID=A.SET_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.USER_ID=#{userId}
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.SET_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_CONT_ACCESS TCA ON TCCS.ACCE_ID=TCA.ACCE_ID
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+
+        )A
+        <where>
+            <if test="projContName!=null and projContName!=''">
+                and A.PROJ_CONT_NAME like CONCAT('%',#{projContName},'%')
+            </if>
+            <if test="projAccessType!=null and projAccessType!=''">
+                and A.PROJ_ACCESS_TYPE = #{projAccessType}
+            </if>
+
+            <if test="projContType!=null and projContType!=''">
+                and A.PROJ_CONTENT like CONCAT('%',#{projContType},'%')
+            </if>
+            <if test="userName!=null and userName!=''">
+                and A.USER_NAME like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and A.DEPT_NAME like CONCAT('%',#{deptName},'%')
+            </if>
+            <if test="projState!=null and projState!=''">
+                and A.STATE=#{projState}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and A.PROJ_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and A.PROJ_AT &lt;=str_to_date(#{accessDateEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <!--数据权限-->
+            <!--<if test="dataScopeDept!=null and dataScopeDept!=''">-->
+                <!--AND A.OWNER_DEPT_ID=#{dataScopeDept}-->
+            <!--</if>-->
+
+            <!--<if test="dataScopeSelf!=null and dataScopeSelf!=''">-->
+                <!--AND A.USER_ID = #{dataScopeSelf}-->
+            <!--</if>-->
+        </where>
+        ORDER BY NUM ASC,PROJ_AT DESC
+
+    </select>
+
+
+    <!--查询流程中事项-->
+    <select id="selectActivitiItem" parameterType="java.util.Map" resultMap="BaseResultMap2">
+
+        SELECT *FROM (
+
+        SELECT
+        TCP.PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCP.PROJ_CONT_PHONE,TCP.OWNER_ID,TCP.OWNER_DEPT_ID,TCP.PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCP.PROJ_ID OBJ_ID,'contProject' OBJ_TYPE,'1' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL,TCA.acce_id
+        FROM T_CONT_PROJECT TCP
+
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+        left join T_CONT_ACCESS TCA on TCP.PROJ_ID=TCA.PROJ_ID
+        WHERE
+        TCP.PROJ_STATE IN ('auditing','back')
+
+
+        UNION ALL
+
+        SELECT
+        TCC.CONT_NAME PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCC.LINK_MOBILE
+        PROJ_CONT_PHONE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCA.ACCE_STATE PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCA.ACCE_ID OBJ_ID,'access' OBJ_TYPE,'2' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL,TCA.acce_id
+        FROM T_CONT_ACCESS TCA
+
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+
+        WHERE TCA.ACCE_STATE IN ('auditing','back')
+
+        UNION ALL
+
+        SELECT
+        TCC.CONT_NAME PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCC.LINK_MOBILE
+        PROJ_CONT_PHONE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCCS.SET_STATE PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCCS.SET_ID OBJ_ID,'creditSet' OBJ_TYPE,'3' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL,TCA.acce_id
+        FROM T_CONT_CREDIT_SET TCCS
+
+        LEFT JOIN T_CONT_ACCESS TCA ON TCCS.ACCE_ID=TCA.ACCE_ID
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+        WHERE TCCS.SET_STATE IN ('auditing','back')
+        )A
+        <where>
+            <if test="projContName!=null and projContName!=''">
+                and A.PROJ_CONT_NAME like CONCAT('%',#{projContName},'%')
+            </if>
+
+            <if test="projContType!=null and projContType!=''">
+                and A.PROJ_CONTENT like CONCAT('%',#{projContType},'%')
+            </if>
+            <if test="userName!=null and userName!=''">
+                and A.USER_NAME like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and A.DEPT_NAME like CONCAT('%',#{deptName},'%')
+            </if>
+            <if test="projState!=null and projState!=''">
+                and A.STATE=#{projState}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and A.PROJ_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and A.PROJ_AT &lt;=str_to_date(#{accessDateEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND A.OWNER_DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND A.USER_ID = #{dataScopeSelf}
+            </if>
+
+        </where>
+        ORDER BY NUM ASC,PROJ_AT DESC
+
+    </select>
+
+
+    <!--查询-->
+    <select id="selectAuditedContProject" parameterType="java.util.Map" resultMap="BaseResultMap2">
+
+        SELECT *FROM (
+
+        SELECT
+        TCP.PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCP.PROJ_CONT_PHONE,TCP.OWNER_ID,TCP.OWNER_DEPT_ID,TCP.PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCP.PROJ_ID OBJ_ID,'contProject' OBJ_TYPE,'1' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL
+        FROM T_CONT_PROJECT TCP
+        INNER JOIN (
+        SELECT TCP1.PROJ_ID FROM T_CONT_PROJECT TCP1
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCP1.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.CHECK_STATE='PENDED' AND TBCM.USER_ID=#{userId}
+        GROUP BY TCP1.PROJ_ID ) A
+        ON TCP.PROJ_ID=A.PROJ_ID
+
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TCC.CONT_NAME PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCC.LINK_MOBILE
+        PROJ_CONT_PHONE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCA.ACCE_STATE PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCA.ACCE_ID OBJ_ID,'access' OBJ_TYPE,'2' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL
+        FROM T_CONT_ACCESS TCA
+        INNER JOIN (
+        SELECT TCA.ACCE_ID FROM T_CONT_ACCESS TCA
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCA.ACCE_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.CHECK_STATE='PENDED' AND TBCM.USER_ID=#{userId}
+        GROUP BY TCA.ACCE_ID ) A
+
+        ON TCA.ACCE_ID=A.ACCE_ID
+
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TCC.CONT_NAME PROJ_CONT_NAME,TCP.PROJ_CONT_CODE,TCC.LINK_MOBILE
+        PROJ_CONT_PHONE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCCS.SET_STATE PROJ_STATE,TCP.PROJ_ACCESS_TYPE,
+        TCP.PROJ_CONTENT,TCP.PROJ_AT,TSD.DEPT_NAME,TSU.USER_NAME,TCCS.SET_ID OBJ_ID,'creditSet' OBJ_TYPE,'3' NUM
+        ,TCP.PROJ_APPLY_REASON,TCP.PROJ_CONT_LINKMAN,TCP.PROJ_CONT_MAIL
+        FROM T_CONT_CREDIT_SET TCCS
+        INNER JOIN (
+        SELECT TCCS.SET_ID FROM T_CONT_CREDIT_SET TCCS
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCCS.SET_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.CHECK_STATE='PENDED' AND TBCM.USER_ID=#{userId}
+        GROUP BY TCCS.SET_ID ) A
+        ON TCCS.SET_ID=A.SET_ID
+
+        LEFT JOIN T_CONT_ACCESS TCA ON TCCS.ACCE_ID=TCA.ACCE_ID
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+
+        )A
+        <where>
+            <if test="projContName!=null and projContName!=''">
+                and A.PROJ_CONT_NAME like CONCAT('%',#{projContName},'%')
+            </if>
+
+            <if test="projContType!=null and projContType!=''">
+                and A.PROJ_CONTENT like CONCAT('%',#{projContType},'%')
+            </if>
+            <if test="userName!=null and userName!=''">
+                and A.USER_NAME like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and A.DEPT_NAME like CONCAT('%',#{deptName},'%')
+            </if>
+            <if test="projState!=null and projState!=''">
+                and A.STATE=#{projState}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and A.PROJ_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and A.PROJ_AT &lt;=str_to_date(#{accessDateEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <!--数据权限-->
+            <!--<if test="dataScopeDept!=null and dataScopeDept!=''">-->
+                <!--AND A.OWNER_DEPT_ID=#{dataScopeDept}-->
+            <!--</if>-->
+
+            <!--<if test="dataScopeSelf!=null and dataScopeSelf!=''">-->
+                <!--AND A.USER_ID = #{dataScopeSelf}-->
+            <!--</if>-->
+        </where>
+        ORDER BY NUM ASC,PROJ_AT DESC
+
+    </select>
+
+
+    <!--查询当前审核人-->
+    <select id="selectUserNameList" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT A.OBJ_ID,B.USER_NAME,B.USER_ID FROM (
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TCP.PROJ_ID OBJ_ID
+        FROM T_CONT_PROJECT TCP
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCP.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TCP.PROJ_STATE='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TCP.PROJ_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TCP.PROJ_ID
+
+        UNION ALL
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TCA.ACCE_ID OBJ_ID
+        FROM T_CONT_ACCESS TCA
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCA.ACCE_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TCA.ACCE_STATE='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TCA.ACCE_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TCA.ACCE_ID
+
+
+        UNION ALL
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TCCS.SET_ID OBJ_ID
+        FROM T_CONT_CREDIT_SET TCCS
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCCS.SET_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TCCS.SET_STATE='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TCCS.SET_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TCCS.SET_ID
+
+        ) A
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID,TSU.USER_ID,TSU.USER_NAME
+        FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+        WHERE TBCM.CHECK_STATE='PENDING'
+        AND TBCS.CHECK_OBJ_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TBCS.CHECK_OBJ_ID,TSU.USER_ID,TSU.USER_NAME
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.OBJ_ID=B.CHECK_OBJ_ID
+    </select>
+</mapper>

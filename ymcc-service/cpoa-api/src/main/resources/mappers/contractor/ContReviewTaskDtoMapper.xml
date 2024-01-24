@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.ContReviewTaskDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.ContReviewTaskDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="REVIEW_TASK_ID" jdbcType="VARCHAR" property="reviewTaskId" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="REVIEW_YEAR" jdbcType="VARCHAR" property="reviewYear" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="DEAL_VALUE" jdbcType="REAL" property="dealValue" />
+    <result column="DEAL_FINISH_VALUE" jdbcType="REAL" property="dealFinishValue" />
+    <result column="ACC_NAME" jdbcType="VARCHAR" property="accName" />
+    <result column="ACC_TYPE" jdbcType="VARCHAR" property="accType" />
+    <result column="FINISH_AT" jdbcType="TIMESTAMP" property="finishAt" />
+    <result column="IE_DESC" jdbcType="VARCHAR" property="ieDesc" />
+    <result column="TOTAL_SCORE" jdbcType="REAL" property="totalScore" />
+    <result column="CONVERSION_SCORE" jdbcType="REAL" property="conversionScore" />
+    <result column="EVAL_CONCLUSION" jdbcType="VARCHAR" property="evalConclusion" />
+    <result column="EVAL_AT" jdbcType="TIMESTAMP" property="evalAt" />
+    <result column="EVAL_MAN" jdbcType="VARCHAR" property="evalMan" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="ContReviewTaskPo" type="cn.com.cnpc.cpoa.po.contractor.ContReviewTaskPo">
+    <result column="REVIEW_TASK_ID" jdbcType="VARCHAR" property="reviewTaskId" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="REVIEW_YEAR" jdbcType="VARCHAR" property="reviewYear" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="DEAL_VALUE" jdbcType="REAL" property="dealValue" />
+    <result column="DEAL_FINISH_VALUE" jdbcType="REAL" property="dealFinishValue" />
+    <result column="ACC_NAME" jdbcType="VARCHAR" property="accName" />
+    <result column="ACC_TYPE" jdbcType="VARCHAR" property="accType" />
+    <result column="FINISH_AT" jdbcType="TIMESTAMP" property="finishAt" />
+    <result column="IE_DESC" jdbcType="VARCHAR" property="ieDesc" />
+    <result column="TOTAL_SCORE" jdbcType="REAL" property="totalScore" />
+    <result column="CONVERSION_SCORE" jdbcType="REAL" property="conversionScore" />
+    <result column="EVAL_CONCLUSION" jdbcType="VARCHAR" property="evalConclusion" />
+    <result column="EVAL_AT" jdbcType="TIMESTAMP" property="evalAt" />
+    <result column="EVAL_MAN" jdbcType="VARCHAR" property="evalMan" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="MAN_ID" jdbcType="VARCHAR" property="manId" />
+    <result column="STEP_ID" jdbcType="VARCHAR" property="stepId" />
+    <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel" />
+    <result column="objId" jdbcType="VARCHAR" property="objId" />
+  </resultMap>
+
+  <select id="selectContReviewTaskByMap" parameterType="java.util.Map" resultMap="ContReviewTaskPo">
+    SELECT
+    tcrt.REVIEW_TASK_ID,
+    tcrt.CREATE_ID,
+    tcrt.CREATE_AT,
+    CASE
+
+    WHEN tcrt.TASK_STATUS = 'wait_review' THEN
+    '待考评'
+    WHEN tcrt.TASK_STATUS = 'reviewing' THEN
+    '考评中'
+    WHEN tcrt.TASK_STATUS = 'buildAuditing' THEN
+    '审核中'
+    WHEN tcrt.TASK_STATUS = 'back' THEN
+    '退回'
+    WHEN tcrt.TASK_STATUS = 'down' THEN
+    '考评完成'
+    WHEN tcrt.TASK_STATUS = 'noFinishWaitReview' THEN
+    '未完成待考评'
+    WHEN tcrt.TASK_STATUS = 'no_review' THEN
+    '不考评'
+    END TASK_STATUS,
+    tcrt.REVIEW_YEAR,
+    tcrt.CONT_ID,
+    tcrt.OWNER_DEPT_ID,
+    tcrt.PROJ_ID,
+    tcrt.DEAL_VALUE,
+    tcrt.DEAL_FINISH_VALUE,
+    tcrt.ACC_NAME,
+    tcrt.ACC_TYPE,
+    tcrt.FINISH_AT,
+    tcrt.IE_DESC,
+    tcrt.TOTAL_SCORE,
+    tcrt.CONVERSION_SCORE,
+    tcrt.EVAL_CONCLUSION,
+    tcrt.EVAL_AT,
+    tcrt.EVAL_MAN,
+    tcrt.NOTES,
+    tcc.CONT_NAME,
+    tpp.PROJ_NAME,
+    tsd.DEPT_NAME
+    FROM
+    T_CONT_REVIEW_TASK tcrt
+    LEFT JOIN T_CONT_CONTRACTOR tcc ON tcc.CONT_ID = tcrt.CONT_ID
+    LEFT JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tcrt.PROJ_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tcrt.OWNER_DEPT_ID
+    <where>
+      <if test="reviewYear != null and reviewYear != ''">
+        and tcrt.REVIEW_YEAR = #{reviewYear}
+      </if>
+      <if test="taskStatus != null and taskStatus != ''">
+        and tcrt.TASK_STATUS = #{taskStatus}
+      </if>
+      <if test="deptName != null and deptName != ''">
+        and tsd.DEPT_NAME = #{deptName}
+      </if>
+      <if test="userId != null and userId != ''">
+        and tcrt.CREATE_ID = #{userId}
+      </if>
+      <if test="createAtStart != null and createAtStart != ''">
+        and tcrt.CREATE_AT &gt;= #{createAtStart}
+      </if>
+      <if test="createAtEnd != null and createAtEnd!= ''">
+        and tcrt.CREATE_AT &lt;= #{createAtEnd}
+      </if>
+      <if test="contId != null and contId != ''">
+        and tcrt.CONT_ID = #{contId}
+      </if>
+    </where>
+
+  </select>
+
+  <select id="selectReviewTaskAuditItem" parameterType="java.util.Map" resultMap="ContReviewTaskPo">
+    SELECT
+    rt.REVIEW_TASK_ID,
+    rt.CREATE_ID,
+    rt.CREATE_AT,
+    CASE
+
+    WHEN rt.TASK_STATUS = 'wait_review' THEN
+    '待考评'
+    WHEN rt.TASK_STATUS = 'reviewing' THEN
+    '考评中'
+    WHEN rt.TASK_STATUS = 'buildAuditing' THEN
+    '审核中'
+    WHEN rt.TASK_STATUS = 'back' THEN
+    '退回'
+    WHEN rt.TASK_STATUS = 'down' THEN
+    '考评完成'
+    WHEN rt.TASK_STATUS = 'noFinishWaitReview' THEN
+    '未完成待考评'
+    WHEN rt.TASK_STATUS = 'no_review' THEN
+    '不考评'
+    END TASK_STATUS,
+    rt.REVIEW_YEAR,
+    rt.CONT_ID,
+    rt.OWNER_DEPT_ID,
+    rt.PROJ_ID,
+    rt.DEAL_VALUE,
+    rt.DEAL_FINISH_VALUE,
+    rt.ACC_NAME,
+    rt.ACC_TYPE,
+    rt.FINISH_AT,
+    rt.IE_DESC,
+    rt.TOTAL_SCORE,
+    rt.CONVERSION_SCORE,
+    rt.EVAL_CONCLUSION,
+    rt.EVAL_AT,
+    rt.EVAL_MAN,
+    rt.NOTES,
+    TSD.DEPT_NAME,
+    B.MAN_ID,
+    B.STEP_ID,
+    TCC.CONT_NAME,
+    TCC.ACCESS_LEVEL,
+    rt.REVIEW_TASK_ID objId
+    FROM
+    T_CONT_REVIEW_TASK rt
+    INNER JOIN (
+    SELECT
+    ANY_VALUE(IFNULL( MIN( TBCS.STEP_NO ),- 1 )) STEP_NO,
+    rt.REVIEW_TASK_ID
+    FROM
+    T_CONT_REVIEW_TASK rt
+    INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID = rt.REVIEW_TASK_ID
+    INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID = TBCM.STEP_ID
+    WHERE
+    rt.TASK_STATUS = 'buildAuditing'
+    AND TBCM.CHECK_STATE = 'PENDING'
+    AND TBCS.CHECK_OBJ_TYPE = 'task'
+    GROUP BY
+    rt.REVIEW_TASK_ID
+    ) A ON rt.REVIEW_TASK_ID = A.REVIEW_TASK_ID
+    INNER JOIN (
+    SELECT
+    ANY_VALUE(MIN( TBCS.STEP_NO )) STEP_NO,
+    ANY_VALUE(TBCS.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(TBCS.STEP_ID) STEP_ID,
+    ANY_VALUE(TBCM.MAN_ID) MAN_ID
+    FROM
+    T_BIZ_CHECK_STEP TBCS
+    INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID = TBCM.STEP_ID
+    WHERE
+    TBCM.USER_ID = #{userId}
+    AND TBCM.CHECK_STATE = 'PENDING'
+    AND TBCS.CHECK_OBJ_TYPE = 'task'
+    GROUP BY
+    TBCS.CHECK_OBJ_ID
+    ) B ON A.STEP_NO = B.STEP_NO
+    AND A.REVIEW_TASK_ID = B.CHECK_OBJ_ID
+    LEFT JOIN T_SYS_DEPT TSD ON rt.OWNER_DEPT_ID = TSD.DEPT_ID
+    LEFT JOIN T_SYS_USER TSU ON rt.CREATE_ID = TSU.USER_ID
+    LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID = rt.CONT_ID
+    <where>
+      <if test="taskStatus != null and taskStatus != ''">
+        and rt.TASK_STATUS = #{taskStatus}
+      </if>
+      <if test="evalAtStart != null and evalAtStart != ''">
+        and rt.EVAL_AT &gt;= #{evalAtStart}
+      </if>
+      <if test="evalAtEnd != null and evalAtEnd != ''">
+        and rt.EVAL_AT &lt;= #{taskStatus}
+      </if>
+      <if test="reviewYear != null and reviewYear != ''">
+        and rt.REVIEW_YEAR = #{reviewYear}
+      </if>
+      <if test="deptId != null and deptId != ''">
+        and rt.OWNER_DEPT_ID = #{deptId}
+      </if>
+      <if test="contName != null and contName != ''">
+        and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+      </if>
+    </where>
+
+  </select>
+
+  <select id="selectContByContIdAndYear" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(rt.REVIEW_TASK_ID) from T_CONT_REVIEW_TASK rt
+    <where>
+      <if test="contId != null and contId != ''">
+        and rt.CONT_ID = #{contId}
+      </if>
+      <if test="reviewYear != null and reviewYear != ''">
+        and rt.REVIEW_YEAR = #{reviewYear}
+      </if>
+      <if test="taskStatus != null and taskStatus.size() > 0">
+        and rt.TASK_STATUS in
+        <foreach collection="taskStatus" index="index" item="status" open="(" separator="," close=")">
+          #{status}
+        </foreach>
+      </if>
+    </where>
+  </select>
+</mapper>

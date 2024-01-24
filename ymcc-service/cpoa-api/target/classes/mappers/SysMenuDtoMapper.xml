@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.SysMenuDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.SysMenuDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="ACTION_ID" jdbcType="VARCHAR" property="actionId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="PARENT_ACTION_ID" jdbcType="VARCHAR" property="parentActionId" />
+    <result column="ACTION_URL" jdbcType="VARCHAR" property="actionUrl" />
+    <result column="ACTION_ICON" jdbcType="VARCHAR" property="actionIcon" />
+    <result column="SEQ" jdbcType="INTEGER" property="seq" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="PATH" jdbcType="VARCHAR" property="path" />
+    <result column="REDIRECT" jdbcType="VARCHAR" property="redirect" />
+    <result column="COMPONENT" jdbcType="VARCHAR" property="component" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="SYSKIND" jdbcType="VARCHAR" property="syskind" />
+
+  </resultMap>
+
+  <resultMap id="MenuVo" type="cn.com.cnpc.cpoa.vo.MenuVo">
+    <result column="ACTION_ID" jdbcType="VARCHAR" property="actionId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="PARENT_ACTION_ID" jdbcType="VARCHAR" property="parentActionId" />
+    <result column="ACTION_URL" jdbcType="VARCHAR" property="actionUrl" />
+    <result column="ACTION_ICON" jdbcType="VARCHAR" property="actionIcon" />
+    <result column="SEQ" jdbcType="INTEGER" property="seq" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="PATH" jdbcType="VARCHAR" property="path" />
+    <result column="REDIRECT" jdbcType="VARCHAR" property="redirect" />
+    <result column="COMPONENT" jdbcType="VARCHAR" property="component" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="SYSKIND" jdbcType="VARCHAR" property="syskind" />
+
+  </resultMap>
+
+    <!--查询菜单-->
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM T_SYS_ACTIONS TSA
+        <where>
+          <if test="name!=null and name!=''">
+            AND TSA.NAME = #{name}
+          </if>
+          <if test="type!=null and type!=''">
+            AND TSA.TYPE = #{type}
+          </if>
+          <if test="actionIcon!=null and actionIcon!=''">
+            AND TSA.ACTION_ICON = #{actionIcon}
+          </if>
+        </where>
+        ORDER BY TSA.SEQ ASC
+    </select>
+
+  <!--查询菜单-->
+  <select id="selectList2" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_SYS_ACTIONS TSA WHERE TSA.NAME = #{name}
+  </select>
+
+  <!--查询所有菜单-->
+  <select id="selecMenuList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select tna.* from T_SYS_ACTIONS tna
+    left join T_SYS_ACTIONS tna2
+    on tna.parent_action_id=tna2.action_id
+    <where>
+
+      <if test="parentName!=null and parentName!=''">
+        and tna2.NAME like CONCAT('%',#{parentName},'%')
+      </if>
+
+      <if test="type!=null and type!=''">
+        and tna.TYPE = #{type}
+      </if>
+
+      <if test="name!=null and name!=''">
+        and tna.NAME like CONCAT('%',#{name},'%')
+      </if>
+    </where>
+    order by tna.SEQ
+  </select>
+
+  <!--查询部门-->
+  <select id="selectSelfActions" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select tna.* from T_SYS_ACTIONS tna
+    inner join T_SYS_ROLE_ACTIONS tnra
+    on tna.action_id=tnra.action_id
+    inner join T_SYS_USER_ROLES tnur
+    on tnra.role_id=tnur.role_id
+    where tnur.user_id=#{userId}
+    <if test="type!=null and type!=''">
+      and tna.TYPE = #{type}
+    </if>
+    order by tna.SEQ
+  </select>
+
+  <select id="selectMenuByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+    select tsra.ACTION_ID from T_SYS_ROLE tsr
+                                 LEFT JOIN T_SYS_ROLE_ACTIONS tsra ON tsr.ROLE_ID = tsra.ROLE_ID
+                                 LEFT JOIN T_SYS_USER tsu ON tsr.`NAME` = tsu.USER_ROLE
+    where tsu.USER_ID = #{userId}
+  </select>
+
+  <!--查询部门-->
+  <select id="selectActionsByUserId" parameterType="java.util.Map" resultMap="MenuVo">
+    SELECT
+      tna.*
+    FROM
+      T_SYS_ACTIONS tna
+    INNER JOIN T_SYS_ROLE_ACTIONS tnra ON tna.action_id = tnra.action_id
+    <where>
+      <if test="roleId != null and roleId != ''">
+        and tnra.ROLE_ID = #{roleId}
+      </if>
+      <if test="parentActionId != null and parentActionId != ''">
+        and tna.PARENT_ACTION_ID = #{parentActionId}
+      </if>
+      <if test="parentActionId == null or parentActionId == ''">
+        and tna.PARENT_ACTION_ID is null
+      </if>
+    </where>
+    ORDER BY tna.SEQ ASC
+  </select>
+
+  <!--查询部门-->
+  <select id="selectButtonByPath" parameterType="java.util.Map" resultType="java.lang.String">
+    SELECT t.ACTION_ICON FROM(
+    SELECT
+    tna.*,
+    tnur.USER_ID
+    FROM
+    T_SYS_ACTIONS tna
+    INNER JOIN T_SYS_ROLE_ACTIONS tnra ON tna.action_id = tnra.action_id
+    INNER JOIN T_SYS_USER_ROLES tnur ON tnra.role_id = tnur.role_id
+    where tna.PARENT_ACTION_ID = (select tna.ACTION_ID from T_SYS_ACTIONS tna where tna.PATH = #{path})) t
+    <where>
+      <if test="userId != null and userId != ''">
+        and t.USER_ID = #{userId}
+      </if>
+    </where>
+    ORDER BY t.SEQ ASC
+  </select>
+</mapper>

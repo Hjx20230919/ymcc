@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/hdoms-api/pom.xml" />
+        <option value="$PROJECT_DIR$/lql-basic/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-api/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-api/ymcc-api-system/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-basic/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-pojo-media/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-pojo/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-service-common/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-service-course/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-service-media/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-service-order/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-service-pay/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-service-system/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-service-uaa/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-service-user/pom.xml" />
+        <option value="$PROJECT_DIR$/ymcc-service/ymcc-servie-search/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

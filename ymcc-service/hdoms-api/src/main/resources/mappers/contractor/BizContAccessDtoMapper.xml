@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContAccessDtoMapper">
+
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContAccessDto">
+    <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="ACCE_AT" jdbcType="TIMESTAMP" property="acceAt" />
+    <result column="ACCE_STATE" jdbcType="VARCHAR" property="acceState" />
+    <result column="ACCE_CODE" jdbcType="VARCHAR" property="acceCode" />
+    <result column="ACCE_FILL_TIME" jdbcType="TIMESTAMP" property="acceFillTime" />
+    <result column="ACCE_STATE_AT" jdbcType="TIMESTAMP" property="acceStateAt" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+
+  </resultMap>
+
+  <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.contractor.ContAccessPo">
+    <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="ACCE_AT" jdbcType="TIMESTAMP" property="acceAt" />
+    <result column="ACCE_STATE" jdbcType="VARCHAR" property="acceState" />
+    <result column="ACCE_CODE" jdbcType="VARCHAR" property="acceCode" />
+    <result column="ACCE_FILL_TIME" jdbcType="TIMESTAMP" property="acceFillTime" />
+    <result column="ACCE_STATE_AT" jdbcType="TIMESTAMP" property="acceStateAt" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap3" type="cn.com.cnpc.cpoa.po.contractor.ContAccessAuditPo">
+    <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="LINK_MOBILE" jdbcType="VARCHAR" property="linkMobile" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="ACCE_STATE" jdbcType="VARCHAR" property="acceState" />
+    <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+  </resultMap>
+
+
+  <select id="selectContAccess" parameterType="java.util.Map" resultMap="BaseResultMap2">
+    SELECT TCA.*,TSU.USER_NAME,TSD.DEPT_NAME,CAP.CONTENT PROJ_CONTENT FROM T_CONT_ACCESS TCA
+    LEFT JOIN T_SYS_USER TSU ON TCA.OWNER_ID=TSU.USER_ID
+    LEFT JOIN T_SYS_DEPT TSD ON TSD.DEPT_ID=TCA.OWNER_DEPT_ID
+    LEFT JOIN (
+    SELECT ACCE_ID,GROUP_CONCAT(TCAP.PROJ_NAME) CONTENT,PROJ_ACCESS_TYPE FROM
+    T_CONT_ACCESS_PROJ TCAP  GROUP BY  TCAP.ACCE_ID,PROJ_ACCESS_TYPE
+    ) CAP ON TCA.ACCE_ID=CAP.ACCE_ID
+
+    <where>
+      <if test="acceCode!=null and acceCode!=''">
+        and TCA.ACCE_CODE=#{acceCode}
+      </if>
+
+      <if test="contId!=null and contId!=''">
+        and TCA.CONT_ID=#{contId}
+      </if>
+
+      <if test="accessId!=null and accessId!=''">
+        and TCA.ACCE_ID=#{accessId}
+      </if>
+
+      <if test="projId!=null and projId!=''">
+        and TCA.PROJ_ID=#{projId}
+      </if>
+
+
+      <if test="overdue!=null and overdue!=''">
+        and TCA.ACCE_FILL_TIME &lt;NOW();
+      </if>
+    </where>
+
+  </select>
+
+  <select id="selectContAccessDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_CONT_ACCESS TCA
+    <where>
+      <if test="acceCode!=null and acceCode!=''">
+        and TCA.ACCE_CODE=#{acceCode}
+      </if>
+
+      <if test="contId!=null and contId!=''">
+        and TCA.CONT_ID=#{contId}
+      </if>
+
+      <if test="accessId!=null and accessId!=''">
+        and TCA.ACCE_ID=#{contId}
+      </if>
+
+      <if test="overdue!=null and overdue!=''">
+        and TCA.ACCE_FILL_TIME &lt;NOW() and TCA.ACCE_STATE='fillin';
+      </if>
+    </where>
+
+  </select>
+
+  <select id="selectAuditContAccess" parameterType="java.util.Map" resultMap="BaseResultMap3">
+    SELECT
+    TCC.CONT_NAME,TCC.LINK_MOBILE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCA.ACCE_STATE,TCP.PROJ_CONTENT,TCC.CREATE_AT
+    TSD.DEPT_NAME,TSU.USER_NAME,TCA.ACCE_ID
+    FROM T_CONT_ACCESS TCA
+    INNER JOIN (
+    SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TCA.ACCE_ID FROM T_CONT_ACCESS TCA
+    INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCA.ACCE_ID
+    INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+    WHERE TCA.ACCE_STATE='auditing'
+    AND TBCM.CHECK_STATE='PENDING'
+    GROUP BY TCA.ACCE_ID ) A
+    ON TCA.ACCE_ID=A.ACCE_ID
+    INNER JOIN (
+    SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+    INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+    INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+    WHERE TSU.USER_ID=#{userId}
+    AND TBCM.CHECK_STATE='PENDING'
+    GROUP BY TBCS.CHECK_OBJ_ID
+    ) B ON A.STEP_NO=B.STEP_NO
+    AND A.ACCE_ID=B.CHECK_OBJ_ID
+    LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID=TCA.CONT_ID
+    LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+    LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+    LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+    <where>
+    <if test="contName!=null and contName!=''">
+      and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+    </if>
+    <if test="contentType!=null and contentType!=''">
+      and TCP.CONTENT  like CONCAT('%',#{contentType},'%')
+    </if>
+    <if test="userName!=null and userName!=''">
+      and TSU.USER_NAME like CONCAT('%',#{userName},'%')
+    </if>
+    <if test="deptName!=null and deptName!=''">
+      and TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+    </if>
+    <if test="contState!=null and contState!=''">
+      and TCC.CONT_STATE=#{contState}
+    </if>
+    <if test="accessDateStart!=null and accessDateStart!=''">
+      and TCC.CREATE_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+    </if>
+
+    <if test="accessDateEnd!=null and accessDateEnd!=''">
+      and TCC.CREATE_AT &lt;=str_to_date(#{accessDateEnd},'%Y-%m-%d %H:%i:%s')
+    </if>
+    </where>
+
+  </select>
+
+  <select id="selectAcceIdByPlanId" parameterType="java.lang.String" resultType="java.util.HashMap">
+    select tca.ACCE_ID acceId,tcc.CONT_NAME contName from (SELECT
+                               TCC.*
+                             FROM
+                               T_PROJ_PLAN_CONT TPPC
+                                 LEFT JOIN T_CONT_CONTRACTOR TCC ON TPPC.CONT_ID = TCC.CONT_ID
+                             WHERE
+                                 TPPC.PLAN_LIST_ID =(
+                                 SELECT
+                                   PLAN_LIST_ID
+                                 FROM
+                                   T_PROJ_PLAN_LIST
+                                 WHERE
+                                   PLAN_ID = #{planId})) tcc
+                              left join T_CONT_ACCESS tca on tcc.CONT_ID =tca.CONT_ID
+    <where>
+      tca.ACCE_STATE = 'done'
+    </where>
+
+  </select>
+
+  <select id="selectAccessIdByProjIdAndContId" parameterType="java.util.Map" resultType="java.lang.String">
+    SELECT tca.ACCE_ID FROM T_CONT_ACCESS tca
+    <where>
+      <if test="projId != null and projId != ''">
+        and tca.PROJ_ID = #{projId}
+      </if>
+      <if test="contId != null and contId != ''">
+        and tca.CONT_ID = #{contId}
+      </if>
+    </where>
+  </select>
+
+</mapper>

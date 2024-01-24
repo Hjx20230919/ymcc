@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizContBlackListDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizContBlackListDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="BLACKLIST_ID" jdbcType="VARCHAR" property="blacklistId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="CONT_IAC_NO" jdbcType="VARCHAR" property="contIacNo" />
+    <result column="CONT_TAX_NO" jdbcType="VARCHAR" property="contTaxNo" />
+    <result column="CONT_ORG_NO" jdbcType="VARCHAR" property="contOrgNo" />
+    <result column="CORPORATE" jdbcType="VARCHAR" property="corporate" />
+    <result column="CONT_REG_CAPTIAL" jdbcType="BIGINT" property="contRegCaptial" />
+    <result column="LINKMAN" jdbcType="VARCHAR" property="linkman" />
+    <result column="LINK_MOBILE" jdbcType="VARCHAR" property="linkMobile" />
+    <result column="LINK_PHONE" jdbcType="VARCHAR" property="linkPhone" />
+    <result column="LINK_COMPANY" jdbcType="VARCHAR" property="linkCompany" />
+    <result column="COM_TYPE" jdbcType="VARCHAR" property="comType" />
+    <result column="SETUP_TIME" jdbcType="DATE" property="setupTime" />
+    <result column="CONT_BANK" jdbcType="VARCHAR" property="contBank" />
+    <result column="CONT_ACCOUNT" jdbcType="VARCHAR" property="contAccount" />
+    <result column="LINK_FAX" jdbcType="VARCHAR" property="linkFax" />
+    <result column="LINK_MAIL" jdbcType="VARCHAR" property="linkMail" />
+    <result column="CONT_SITE_URL" jdbcType="VARCHAR" property="contSiteUrl" />
+    <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel" />
+    <result column="BLACK_REASON" jdbcType="VARCHAR" property="blackReason" />
+    <result column="BLACK_AT" jdbcType="TIMESTAMP" property="blackAt" />
+    <result column="BLACK_MAN" jdbcType="VARCHAR" property="blackMan" />
+    <result column="IS_RELIEVE" jdbcType="INTEGER" property="isRelieve" />
+    <result column="RELIEVE_REASON" jdbcType="VARCHAR" property="relieveReason" />
+    <result column="RELIEVE_AT" jdbcType="TIMESTAMP" property="relieveAt" />
+    <result column="RELIEVE_MAN" jdbcType="VARCHAR" property="relieveMan" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="CONT_ADDR_DETAIL" jdbcType="LONGVARCHAR" property="contAddrDetail" />
+  </resultMap>
+
+  <resultMap id="BizContBlackListPo" type="cn.com.cnpc.cpoa.po.contractor.BizContBlackListPo">
+    <result column="BLACKLIST_ID" jdbcType="VARCHAR" property="blacklistId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="CONT_IAC_NO" jdbcType="VARCHAR" property="contIacNo" />
+    <result column="CONT_TAX_NO" jdbcType="VARCHAR" property="contTaxNo" />
+    <result column="CONT_ORG_NO" jdbcType="VARCHAR" property="contOrgNo" />
+    <result column="CORPORATE" jdbcType="VARCHAR" property="corporate" />
+    <result column="CONT_REG_CAPTIAL" jdbcType="BIGINT" property="contRegCaptial" />
+    <result column="LINKMAN" jdbcType="VARCHAR" property="linkman" />
+    <result column="LINK_MOBILE" jdbcType="VARCHAR" property="linkMobile" />
+    <result column="LINK_PHONE" jdbcType="VARCHAR" property="linkPhone" />
+    <result column="LINK_COMPANY" jdbcType="VARCHAR" property="linkCompany" />
+    <result column="COM_TYPE" jdbcType="VARCHAR" property="comType" />
+    <result column="SETUP_TIME" jdbcType="VARCHAR" property="setupTime" />
+    <result column="CONT_BANK" jdbcType="VARCHAR" property="contBank" />
+    <result column="CONT_ACCOUNT" jdbcType="VARCHAR" property="contAccount" />
+    <result column="LINK_FAX" jdbcType="VARCHAR" property="linkFax" />
+    <result column="LINK_MAIL" jdbcType="VARCHAR" property="linkMail" />
+    <result column="CONT_SITE_URL" jdbcType="VARCHAR" property="contSiteUrl" />
+    <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel" />
+    <result column="BLACK_REASON" jdbcType="VARCHAR" property="blackReason" />
+    <result column="BLACK_AT" jdbcType="VARCHAR" property="blackAt" />
+    <result column="BLACK_MAN" jdbcType="VARCHAR" property="blackMan" />
+    <result column="IS_RELIEVE" jdbcType="INTEGER" property="isRelieve" />
+    <result column="RELIEVE_REASON" jdbcType="VARCHAR" property="relieveReason" />
+    <result column="RELIEVE_AT" jdbcType="VARCHAR" property="relieveAt" />
+    <result column="RELIEVE_MAN" jdbcType="VARCHAR" property="relieveMan" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="CONT_ADDR_DETAIL" jdbcType="LONGVARCHAR" property="contAddrDetail" />
+  </resultMap>
+
+  <select id="selectAllBlackList" parameterType="java.util.Map" resultMap="BizContBlackListPo">
+    select BLACKLIST_ID,CONT_NAME,CONT_IAC_NO,CONT_TAX_NO,CONT_ORG_NO,CORPORATE,CONT_REG_CAPTIAL,LINKMAN,
+           LINK_MOBILE,LINK_PHONE,LINK_COMPANY,COM_TYPE,SETUP_TIME,CONT_BANK,CONT_ACCOUNT,LINK_FAX,
+           LINK_MAIL,CONT_SITE_URL,ACCESS_LEVEL,BLACK_REASON,BLACK_AT,BLACK_MAN,IS_RELIEVE,RELIEVE_REASON,
+           RELIEVE_AT,RELIEVE_MAN,NOTES,CONT_ADDR_DETAIL from T_CONT_BLACKLIST
+    <where>
+        <if test="contName != null and contName != ''">
+          and CONT_NAME = #{contName}
+        </if>
+      <if test="contIacNo != null and contIacNo != ''">
+        and CONT_IAC_NO = #{contIacNo}
+      </if>
+      <if test="contTaxNo != null and contTaxNo != ''">
+        and CONT_TAX_NO = #{contTaxNo}
+      </if>
+      <if test="contOrgNo != null and contOrgNo != ''">
+        and CONT_ORG_NO = #{contOrgNo}
+      </if>
+      <if test="accessLevel != null and accessLevel != ''">
+        and ACCESS_LEVEL = #{accessLevel}
+      </if>
+        and IS_RELIEVE = 1
+    </where>
+  </select>
+
+  <!--用于验证黑名单承包商-->
+  <select id="vaildationBlackList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select BLACKLIST_ID,CONT_NAME,CONT_IAC_NO,CONT_TAX_NO,CONT_ORG_NO,CORPORATE,CONT_REG_CAPTIAL,LINKMAN,
+    LINK_MOBILE,LINK_PHONE,LINK_COMPANY,COM_TYPE,SETUP_TIME,CONT_BANK,CONT_ACCOUNT,LINK_FAX,
+    LINK_MAIL,CONT_SITE_URL,ACCESS_LEVEL,BLACK_REASON,BLACK_AT,BLACK_MAN,IS_RELIEVE,RELIEVE_REASON,
+    RELIEVE_AT,RELIEVE_MAN,NOTES,CONT_ADDR_DETAIL from T_CONT_BLACKLIST
+    <where>
+      <if test="contName != null and contName != ''">
+        or CONT_NAME = #{contName}
+      </if>
+      <if test="contIacNo != null and contIacNo != ''">
+        or CONT_IAC_NO = #{contIacNo}
+      </if>
+      <if test="contTaxNo != null and contTaxNo != ''">
+        or CONT_TAX_NO = #{contTaxNo}
+      </if>
+      <if test="contOrgNo != null and contOrgNo != ''">
+        or CONT_ORG_NO = #{contOrgNo}
+      </if>
+      and IS_RELIEVE = 1
+    </where>
+  </select>
+
+  <!--根据黑名单id删除-->
+  <delete id="deleteByBlackListId" parameterType="java.lang.String" >
+    delete from T_CONT_BLACKLIST where BLACKLIST_ID = #{blackListId}
+  </delete>
+</mapper>

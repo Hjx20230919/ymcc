@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizSettleDetailDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizSettleDetailDto">
+    <result column="DETAIL_ID" jdbcType="VARCHAR" property="detailId" />
+    <result column="DETAIL_NAME" jdbcType="VARCHAR" property="detailName" />
+    <result column="DETAIL_MODEL" jdbcType="VARCHAR" property="detailModel" />
+    <result column="DETAIL_UNIT" jdbcType="VARCHAR" property="detailUnit" />
+    <result column="DETAIL_TOTAL" jdbcType="INTEGER" property="detailTotal" />
+    <result column="DETAIL_PRICE" jdbcType="DOUBLE" property="detailPrice" />
+    <result column="DETAIL_MONEY" jdbcType="DOUBLE" property="detailMoney" />
+    <result column="DETAIL_RATE" jdbcType="INTEGER" property="detailRate" />
+    <result column="DETAIL_TAX" jdbcType="DOUBLE" property="detailTax" />
+    <result column="SETTLE_ID" jdbcType="VARCHAR" property="settleId" />
+  </resultMap>
+
+  <!--查询结算附件-->
+  <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_BIZ_SETTLEDETAIL TBS
+    <where>
+      <if test="settleId!=null and settleId!=''">
+        AND TBS.SETTLE_ID = #{settleId}
+      </if>
+
+    </where>
+  </select>
+
+
+</mapper>

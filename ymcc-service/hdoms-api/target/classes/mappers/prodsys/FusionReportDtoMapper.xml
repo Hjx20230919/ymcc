@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.FusionReportDtoMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.ContractTypeAnalysisDto">
+        <result column="CONTRACT_TYPE" jdbcType="VARCHAR" property="contractType" />
+        <result column="LAST_AMOUNT" jdbcType="DOUBLE" property="lastAmount" />
+        <result column="CURRENT_AMOUNT" jdbcType="DOUBLE" property="currentAmount" />
+        <result column="GROWTH" jdbcType="DOUBLE" property="growth" />
+        <result column="GROWTH_RATIO" jdbcType="FLOAT" property="growthRatio" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.domain.prodsys.ClientDeptAnalysisDto">
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="SUBDEPT_NAME" jdbcType="VARCHAR" property="subDeptName" />
+        <result column="LAST_AMOUNT" jdbcType="DOUBLE" property="lastAmount" />
+        <result column="CURRENT_AMOUNT" jdbcType="DOUBLE" property="currentAmount" />
+        <result column="GROWTH" jdbcType="DOUBLE" property="growth" />
+        <result column="GROWTH_RATIO" jdbcType="FLOAT" property="growthRatio" />
+    </resultMap>
+
+    <resultMap id="BizAnalysisResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizAnalysisDto">
+        <result column="Biz_ITEM" jdbcType="VARCHAR" property="bizItem" />
+        <result column="LAST_AMOUNT" jdbcType="DOUBLE" property="lastAmount" />
+        <result column="CURRENT_AMOUNT" jdbcType="DOUBLE" property="currentAmount" />
+        <result column="GROWTH" jdbcType="DOUBLE" property="growth" />
+        <result column="GROWTH_RATIO" jdbcType="FLOAT" property="growthRatio" />
+    </resultMap>
+
+<!--    <select id="selectListContractTypeAnalysisOne" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+<!--        SELECT-->
+<!--        (-->
+<!--        CASE-->
+<!--        WHEN t.CONTRACT_TYPE = 'RELATED' THEN-->
+<!--        '关联交易'-->
+<!--        WHEN t.CONTRACT_TYPE = 'UNRELATED' THEN-->
+<!--        '非关联交易'-->
+<!--        WHEN t.CONTRACT_TYPE = 'NZ' THEN-->
+<!--        '内部责任书'-->
+<!--        ELSE-->
+<!--        '未知'-->
+<!--        END-->
+<!--        ) AS CONTRACT_TYPE,-->
+<!--        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT-->
+<!--        FROM-->
+<!--            T_BIZ_PROJECT t-->
+<!--        <where>-->
+<!--            t.CONTRACT_TYPE IN ('RELATED', 'UNRELATED', 'NZ')-->
+<!--            AND NOT EXISTS (-->
+<!--            SELECT-->
+<!--            1-->
+<!--            FROM-->
+<!--            t_biz_deal tbd-->
+<!--            WHERE-->
+<!--            t.DEAL_ID = tbd.deal_id-->
+<!--            AND tbd.deal_type = 'TH'-->
+<!--            )-->
+
+<!--            <if test="yearMonthStart!=null and yearMonthStart != ''">-->
+<!--                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m') &gt;= #{yearMonthStart}-->
+<!--            </if>-->
+<!--            <if test="yearMonthEnd!=null and yearMonthEnd != ''">-->
+<!--                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd}-->
+<!--            </if>-->
+
+<!--        </where>-->
+<!--        GROUP BY t.CONTRACT_TYPE-->
+
+<!--    </select>-->
+
+    <select id="selectListContractTypeAnalysisOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        (
+        CASE
+        WHEN t.CONTRACT_TYPE = 'RELATED' THEN
+        '关联交易'
+        WHEN t.CONTRACT_TYPE = 'UNRELATED' THEN
+        '非关联交易'
+        ELSE
+        '未知'
+        END
+        ) AS CONTRACT_TYPE,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+        FROM
+        V_DEAL_CUR_PRJ t
+        <where>
+            t.CONTRACT_TYPE IN ('RELATED', 'UNRELATED')
+            AND T.DEAL_TYPE IN ('XS', 'XX')
+
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+
+        </where>
+        GROUP BY t.CONTRACT_TYPE
+
+    </select>
+
+<!--    <select id="selectListContractTypeAnalysisTwo" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+<!--        SELECT-->
+<!--            '划拨/指令性' AS CONTRACT_TYPE,-->
+<!--            IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT-->
+<!--        FROM-->
+<!--            T_BIZ_PROJECT t-->
+<!--        <where>-->
+<!--	        t.CONTRACT_TYPE IN ('INSTRUCTION', 'TRANSFER')-->
+<!--            AND NOT EXISTS (-->
+<!--            SELECT-->
+<!--            1-->
+<!--            FROM-->
+<!--            t_biz_deal tbd-->
+<!--            WHERE-->
+<!--            t.DEAL_ID = tbd.deal_id-->
+<!--            AND tbd.deal_type = 'TH'-->
+<!--            )-->
+<!--            <if test="yearMonthStart!=null and yearMonthStart != ''">-->
+<!--                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m') &gt;= #{yearMonthStart}-->
+<!--            </if>-->
+<!--            <if test="yearMonthEnd!=null and yearMonthEnd != ''">-->
+<!--                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd}-->
+<!--            </if>-->
+
+<!--        </where>-->
+<!--    </select>-->
+
+    <select id="selectListContractTypeAnalysisTwo" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        '划拨/指令性' AS CONTRACT_TYPE,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+        FROM
+        V_DEAL_CUR_PRJ t
+        <where>
+            t.DEAL_TYPE = 'INSTRUCTION'
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+
+        </where>
+    </select>
+
+<!--    <select id="selectListContractTypeAnalysisThree" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+<!--        SELECT-->
+<!--            '三万元以下' AS CONTRACT_TYPE,-->
+<!--            IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT-->
+<!--        FROM-->
+<!--            T_BIZ_PROJECT t-->
+<!--        <where>-->
+<!--            1=1-->
+<!--            AND ((t.CONTRACT_TYPE != 'TH' AND EXISTS (-->
+<!--            SELECT-->
+<!--            1-->
+<!--            FROM-->
+<!--            t_biz_deal tbd-->
+<!--            WHERE-->
+<!--            t.DEAL_ID = tbd.deal_id-->
+<!--            AND tbd.deal_type = 'TH'-->
+<!--            )) or t.CONTRACT_TYPE = 'TH')-->
+<!--            <if test="yearMonthStart!=null and yearMonthStart != ''">-->
+<!--                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m') &gt;= #{yearMonthStart}-->
+<!--            </if>-->
+<!--            <if test="yearMonthEnd!=null and yearMonthEnd != ''">-->
+<!--                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd}-->
+<!--            </if>-->
+
+<!--        </where>-->
+<!--    </select>-->
+
+    <select id="selectListContractTypeAnalysisThree" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        '三万以下' AS CONTRACT_TYPE,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+        FROM
+        V_DEAL_CUR_PRJ t
+        <where>
+            t.DEAL_TYPE = 'TH'
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="selectListContractTypeAnalysisNZ" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        '内部责任书' AS CONTRACT_TYPE,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+        FROM
+        V_DEAL_CUR_PRJ t
+        <where>
+            t.DEAL_TYPE = 'NZ'
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+
+        </where>
+    </select>
+
+<!--    <select id="selectListClientDeptAnalysis" parameterType="java.util.Map" resultMap="BaseResultMap2">-->
+<!--        SELECT-->
+<!--        IFNULL(sum(p.CONTRACT_PRICE), 0) CURRENT_AMOUNT,-->
+<!--        IFNULL(c.parent_name, '未知') DEPT_NAME-->
+<!--        FROM-->
+<!--        T_BIZ_PROJECT p-->
+<!--        LEFT JOIN t_biz_contractor c ON p.CLIENT_ID = c.CONT_ID-->
+<!--        <where>-->
+<!--            1=1-->
+<!--            <if test="yearMonthStart!=null and yearMonthStart != ''">-->
+<!--                AND DATE_FORMAT(p.CREATE_DATE, '%Y%m') &gt;= #{yearMonthStart}-->
+<!--            </if>-->
+<!--            <if test="yearMonthEnd!=null and yearMonthEnd != ''">-->
+<!--                AND DATE_FORMAT(p.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        GROUP BY-->
+<!--        c.parent_name-->
+<!--    </select>-->
+
+    <select id="selectListClientDeptAnalysis" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT
+        SUM(V.CONTRACT_PRICE) CURRENT_AMOUNT,
+        V.parent_name DEPT_NAME
+        FROM
+        (
+        SELECT
+        IFNULL(p.CONTRACT_PRICE, 0) CONTRACT_PRICE,
+        (CASE WHEN p.parent_name IS NULL OR p.parent_name = '' THEN '未知' ELSE p.parent_name END) parent_name
+        FROM
+        V_DEAL_CUR_PRJ p
+        <where>
+            1=1
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(p.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(p.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+        ) V
+        GROUP BY
+        V.parent_name
+    </select>
+
+<!--    <select id="selectListClientSubDeptAnalysis" parameterType="java.util.Map" resultMap="BaseResultMap2">-->
+<!--        SELECT-->
+<!--        IFNULL(sum(p.CONTRACT_PRICE), 0) CURRENT_AMOUNT,-->
+<!--        IFNULL(c.parent_name, '未知') DEPT_NAME,-->
+<!--        c.CONT_NAME SUBDEPT_NAME-->
+<!--        FROM-->
+<!--        T_BIZ_PROJECT p-->
+<!--        LEFT JOIN t_biz_contractor c ON p.CLIENT_ID = c.CONT_ID-->
+<!--        <where>-->
+<!--            1=1-->
+<!--            <if test="yearMonthStart!=null and yearMonthStart != ''">-->
+<!--                AND DATE_FORMAT(p.CREATE_DATE, '%Y%m') &gt;= #{yearMonthStart}-->
+<!--            </if>-->
+<!--            <if test="yearMonthEnd!=null and yearMonthEnd != ''">-->
+<!--                AND DATE_FORMAT(p.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd}-->
+<!--            </if>-->
+<!--            <if test="parentName!=null and parentName != ''">-->
+<!--                AND c.parent_name = #{parentName}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        GROUP BY-->
+<!--        c.parent_name, c.CONT_NAME-->
+<!--    </select>-->
+
+    <select id="selectListClientSubDeptAnalysis" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT
+        IFNULL(sum(p.CONTRACT_PRICE), 0) CURRENT_AMOUNT,
+        IFNULL(p.parent_name, '未知') DEPT_NAME,
+        IFNULL(p.CONT_NAME, '未知') SUBDEPT_NAME
+        FROM
+        V_DEAL_CUR_PRJ p
+        <where>
+            1=1
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(p.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(p.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+            <if test="parentName!=null and parentName != ''">
+                AND p.parent_name = #{parentName}
+            </if>
+        </where>
+        GROUP BY
+        p.parent_name, p.CONT_NAME
+    </select>
+
+<!--    <select id="selectListMarketAreaAnalysis"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">-->
+<!--        SELECT IFNULL(SUM(v.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, v.WORK_ZONE as BIZ_ITEM from (-->
+<!--        SELECT s.CONTRACT_PRICE, '川渝地区（页岩气）' AS WORK_ZONE-->
+<!--        FROM T_BIZ_PROJECT s-->
+<!--        WHERE DATE_FORMAT(s.CREATE_DATE, '%Y%m') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd} and s.WORK_ZONE = 'SC_CQ_ZONE' and s.WORK_TYPE = 'SHALE_GAS'-->
+<!--        UNION-->
+<!--        SELECT s.CONTRACT_PRICE, '川渝地区（非页岩气）' AS WORK_ZONE-->
+<!--        FROM T_BIZ_PROJECT s-->
+<!--        WHERE DATE_FORMAT(s.CREATE_DATE, '%Y%m') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd} and s.WORK_ZONE = 'SC_CQ_ZONE' and s.WORK_TYPE != 'SHALE_GAS'-->
+<!--        UNION-->
+<!--        SELECT s.CONTRACT_PRICE,-->
+<!--        (CASE-->
+<!--        WHEN s.WORK_ZONE = 'TLM_ZONE' THEN '塔里木地区'-->
+<!--        WHEN s.WORK_ZONE = 'XJ_ZONE' THEN '新疆地区'-->
+<!--        WHEN s.WORK_ZONE = 'CQ_ZONE' THEN '长庆地区'-->
+<!--        WHEN s.WORK_ZONE = 'HW_ZONE' THEN '海外地区'-->
+<!--        WHEN s.WORK_ZONE = 'HS_ZONE' THEN '海上地区'-->
+<!--        WHEN s.WORK_ZONE = 'BF_ZONE' THEN '北方地区'-->
+<!--        ELSE '未知' END) as WORK_ZONE-->
+<!--        FROM T_BIZ_PROJECT s-->
+<!--        WHERE DATE_FORMAT(s.CREATE_DATE, '%Y%m') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd} and s.WORK_ZONE != 'SC_CQ_ZONE'-->
+<!--        ) v-->
+<!--        GROUP BY v.WORK_ZONE-->
+<!--    </select>-->
+
+    <select id="selectListMarketAreaAnalysis"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(v.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, v.WORK_ZONE as BIZ_ITEM from (
+        SELECT s.CONTRACT_PRICE,
+        (CASE
+        WHEN s.WORK_ZONE = 'SC_CQ_ZONE' THEN '川渝地区'
+        WHEN s.WORK_ZONE = 'TLM_ZONE' THEN '塔里木地区'
+        WHEN s.WORK_ZONE = 'XJ_ZONE' THEN '新疆地区'
+        WHEN s.WORK_ZONE = 'CQ_ZONE' THEN '长庆地区'
+        WHEN s.WORK_ZONE = 'HW_ZONE' THEN '海外地区'
+        WHEN s.WORK_ZONE = 'HS_ZONE' THEN '海上地区'
+        WHEN s.WORK_ZONE = 'BF_ZONE' THEN '北方地区'
+        ELSE '其他' END) as WORK_ZONE
+        FROM V_DEAL_CUR_PRJ s
+        WHERE DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+        ) v
+        GROUP BY v.WORK_ZONE
+    </select>
+
+    <select id="selectListMarketAreaWorktypeCydqYyq"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.WORK_TYPE1 as BIZ_ITEM
+        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd} and s.WORK_ZONE = 'SC_CQ_ZONE' and s.WORK_TYPE = 'SHALE_GAS'
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+    <select id="selectListMarketAreaWorktypeCydqFyyq"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.WORK_TYPE1 as BIZ_ITEM
+        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd} and s.WORK_ZONE = 'SC_CQ_ZONE' and s.WORK_TYPE != 'SHALE_GAS'
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+    <select id="selectListMarketAreaWorktypeFcydq"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.WORK_TYPE1 as BIZ_ITEM
+        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd} and s.WORK_ZONE = #{workZone}
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+    <select id="selectListMarketAreaWorktype"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.WORK_TYPE1 as BIZ_ITEM
+        FROM V_DEAL_CUR_PRJ s, T_BIZ_PROJECT p, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE (s.DEAL_ID = p.deal_id or s.DEAL_ID = p.CONTRACT_ID)
+        AND p.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd} and s.WORK_ZONE = #{workZone}
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+    <select id="selectListMarketAreaServtypeCydqYyq"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.SERV_TYPE as BIZ_ITEM
+        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd} and s.WORK_ZONE = 'SC_CQ_ZONE' and s.WORK_TYPE = 'SHALE_GAS'
+        AND w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="selectListMarketAreaServtypeCydqFyyq"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.SERV_TYPE as BIZ_ITEM
+        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd} and s.WORK_ZONE = 'SC_CQ_ZONE' and s.WORK_TYPE != 'SHALE_GAS'
+        AND w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="selectListMarketAreaServtypeFcydq"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.SERV_TYPE as BIZ_ITEM
+        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd} and s.WORK_ZONE = #{workZone}
+        AND w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="selectListMarketAreaServtype"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.SERV_TYPE as BIZ_ITEM
+        FROM V_DEAL_CUR_PRJ s, T_BIZ_PROJECT p, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE (s.DEAL_ID = p.deal_id or s.DEAL_ID = p.CONTRACT_ID)
+        AND p.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd} and s.WORK_ZONE = #{workZone}
+        AND w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="selectListClasWorkType1"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(sum(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.WORK_TYPE1 as BIZ_ITEM
+        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE  s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+<!--    <select id="selectListClasWorkType2"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">-->
+<!--        SELECT IFNULL(sum(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.WORK_TYPE2 as BIZ_ITEM-->
+<!--        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w-->
+<!--        WHERE  s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID-->
+<!--        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd}-->
+<!--        AND w.WORK_TYPE1 = #{workType1}-->
+<!--        GROUP BY w.WORK_TYPE2-->
+<!--    </select>-->
+
+    <select id="selectListClasWorkType2"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(sum(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.WORK_TYPE2 as BIZ_ITEM
+        FROM V_DEAL_CUR_PRJ s, T_BIZ_PROJECT p, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE (s.DEAL_ID = p.deal_id or s.DEAL_ID=p.CONTRACT_ID)
+        AND p.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+        AND w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.WORK_TYPE2
+    </select>
+
+<!--    <select id="selectListClasServType"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">-->
+<!--        SELECT IFNULL(sum(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.SERV_TYPE as BIZ_ITEM-->
+<!--        FROM T_BIZ_PROJECT s, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w-->
+<!--        WHERE  s.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID-->
+<!--        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m') &lt;= #{yearMonthEnd}-->
+<!--        AND w.WORK_TYPE1 = #{workType1} AND w.WORK_TYPE2 = #{workType2}-->
+<!--        GROUP BY w.SERV_TYPE-->
+<!--    </select>-->
+
+    <select id="selectListClasServType"  parameterType="java.util.Map" resultMap="BizAnalysisResultMap">
+        SELECT IFNULL(sum(s.CONTRACT_PRICE), 0) as CURRENT_AMOUNT, w.SERV_TYPE as BIZ_ITEM
+        FROM V_DEAL_CUR_PRJ s, T_BIZ_PROJECT p, T_BIZ_PROJECT_WORK pw, T_BIZ_WORK_TABLE w
+        WHERE (s.DEAL_ID = p.deal_id or s.DEAL_ID=p.CONTRACT_ID)
+        AND p.CONTRACT_ID = pw.CONTRACT_ID and pw.CLAS_ID = w.CLAS_ID
+        AND DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') >= #{yearMonthStart} and DATE_FORMAT(s.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+        AND w.WORK_TYPE1 = #{workType1} AND w.WORK_TYPE2 = #{workType2}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="selectListContractorDept" resultType="java.lang.String">
+        select distinct (case when bc.parent_name is null or bc.parent_name = '' then '未知' else bc.parent_name end) dept_name from T_BIZ_CONTRACTOR bc
+    </select>
+
+</mapper>

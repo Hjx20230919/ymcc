@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContCreditSetMapper">
+
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContCreditSetDto">
+    <result column="SET_ID" jdbcType="VARCHAR" property="setId" />
+    <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId" />
+    <result column="SET_CREATE_AT" jdbcType="TIMESTAMP" property="setCreateAt" />
+    <result column="SET_CREATE_REASON" jdbcType="VARCHAR" property="setCreateReason" />
+    <result column="SET_STATE" jdbcType="VARCHAR" property="setState" />
+    <result column="SET_STATE_AT" jdbcType="TIMESTAMP" property="setStateAt" />
+    <result column="SET_FILL_TIME" jdbcType="TIMESTAMP" property="setFillTime" />
+    <result column="SET_CODE" jdbcType="VARCHAR" property="setCode" />
+
+  </resultMap>
+
+  <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.contractor.CreditSetAuditPo">
+    <result column="SET_ID" jdbcType="VARCHAR" property="setId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="LINK_MOBILE" jdbcType="VARCHAR" property="linkMobile" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="SET_STATE" jdbcType="VARCHAR" property="setState" />
+    <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+  </resultMap>
+
+  <select id="selectContCreditSet" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM T_CONT_CREDIT_SET TCCS
+
+    <where>
+      <if test="acceId!=null and acceId!=''">
+        and TCCS.ACCE_ID=#{acceId}
+      </if>
+
+      <if test="accessId!=null and accessId!=''">
+        and TCCS.ACCE_ID=#{accessId}
+      </if>
+
+      <if test="overdue!=null and overdue!=''">
+        and TCCS.SET_FILL_TIME &lt;NOW() and TCCS.SET_STATE='fillin'
+      </if>
+
+      <if test="acceIds!=null and acceIds.size() > 0">
+        AND TCCS.ACCE_ID in
+        <foreach collection="acceIds" item="acceId" open="(" close=")" separator=",">
+          #{acceId, jdbcType=VARCHAR }
+        </foreach>
+      </if>
+
+
+    </where>
+
+    ORDER BY TCCS.SET_CREATE_AT DESC
+
+  </select>
+
+
+  <select id="selectAuditContCreditSet" parameterType="java.util.Map" resultMap="BaseResultMap2">
+    SELECT
+    TCC.CONT_NAME,TCC.LINK_MOBILE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCCS.SET_STATE,TCP.PROJ_CONTENT,TCC.CREATE_AT,
+    TSD.DEPT_NAME,TSU.USER_NAME,TCCS.SET_ID,TCCS.ACCE_ID
+    FROM T_CONT_CREDIT_SET TCCS
+    INNER JOIN (
+    SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TCCS.SET_ID FROM T_CONT_CREDIT_SET TCCS
+    INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TCCS.SET_ID
+    INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+    WHERE TCCS.SET_STATE='auditing'
+    AND TBCM.CHECK_STATE='PENDING'
+    GROUP BY TCCS.SET_ID ) A
+    ON TCCS.SET_ID=A.SET_ID
+    INNER JOIN (
+    SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+    INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+    INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+    WHERE TSU.USER_ID=#{userId}
+    AND TBCM.CHECK_STATE='PENDING'
+    GROUP BY TBCS.CHECK_OBJ_ID
+    ) B ON A.STEP_NO=B.STEP_NO
+    AND A.SET_ID=B.CHECK_OBJ_ID
+    LEFT JOIN T_CONT_ACCESS TCA ON TCCS.ACCE_ID=TCA.ACCE_ID
+    LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID=TCA.CONT_ID
+    LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+    LEFT JOIN T_SYS_DEPT TSD ON TCP.OWNER_DEPT_ID=TSD.DEPT_ID
+    LEFT JOIN T_SYS_USER TSU ON TCP.OWNER_ID=TSU.USER_ID
+    <where>
+      <if test="contName!=null and contName!=''">
+        and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+      </if>
+      <if test="contentType!=null and contentType!=''">
+        and TCP.CONTENT  like CONCAT('%',#{contentType},'%')
+      </if>
+      <if test="userName!=null and userName!=''">
+        and TSU.USER_NAME like CONCAT('%',#{userName},'%')
+      </if>
+      <if test="deptName!=null and deptName!=''">
+        and TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+      </if>
+      <if test="contState!=null and contState!=''">
+        and TCC.CONT_STATE=#{contState}
+      </if>
+      <if test="accessDateStart!=null and accessDateStart!=''">
+        and TCC.CREATE_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+      </if>
+
+      <if test="accessDateEnd!=null and accessDateEnd!=''">
+        and TCC.CREATE_AT &lt;=str_to_date(#{accessDateEnd},'%Y-%m-%d %H:%i:%s')
+      </if>
+    </where>
+
+  </select>
+
+
+
+  <select id="selectOverdueCreditCount" parameterType="java.util.Map" resultType="map">
+    SELECT
+    SUM(CASE WHEN DATEDIFF(tcc.CREDIT_VALID_END,DATE_FORMAT(NOW(), '%Y-%m-%d'))&lt;=90
+      AND DATEDIFF(DATE_FORMAT(tcc.CREDIT_VALID_END, '%Y-%m-%d'),DATE_FORMAT(NOW(), '%Y-%m-%d'))>0
+    THEN 1 ELSE 0 END) alarmCount,
+    SUM(CASE WHEN tcc.CREDIT_VALID_END &lt;=NOW()
+    THEN 1 ELSE 0 END) overdueCount
+
+    FROM T_CONT_ACCESS tca INNER JOIN (
+
+    SELECT ACCE_ID,MIN(CREDIT_VALID_END) CREDIT_VALID_END FROM T_CONT_CREDIT
+     WHERE CREDIT_VALID_END IS NOT NULL AND CREDIT_STATE='valid' GROUP BY ACCE_ID
+
+    ) tcc ON tca.ACCE_ID=tcc.ACCE_ID
+
+  </select>
+
+</mapper>

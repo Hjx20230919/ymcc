@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.SysUserDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.SysUserDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="USER_ACCOUNT" jdbcType="VARCHAR" property="userAccount" />
+    <result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword" />
+    <result column="USER_SALT" jdbcType="VARCHAR" property="userSalt" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+    <result column="USER_MAIL" jdbcType="VARCHAR" property="userMail" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="USER_ROLE" jdbcType="VARCHAR" property="userRole" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="ENABLED" jdbcType="VARCHAR" property="enabled" />
+      <result column="SYS_MODULE" jdbcType="VARCHAR" property="sysModule" />
+      <result column="DATA_SCOPE" jdbcType="VARCHAR" property="dataScope" />
+      <result column="ENTRUST_USER_ID" jdbcType="VARCHAR" property="entrustUserId" />
+  </resultMap>
+
+    <!--查询用户-->
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT T_SYS_USER.*,TSD.DEPT_NAME FROM T_SYS_USER
+        LEFT JOIN T_SYS_DEPT TSD ON  T_SYS_USER.DEPT_ID=TSD.DEPT_ID
+        <where>
+            <if test="userId!=null and userId!=''">
+                AND T_SYS_USER.USER_ID = #{userId}
+            </if>
+            <if test="userAccount!=null and userAccount!=''">
+                AND T_SYS_USER.USER_ACCOUNT = #{userAccount}
+            </if>
+            <if test="userPhone!=null and userPhone!=''">
+                AND T_SYS_USER.USER_PHONE = #{userPhone}
+            </if>
+            <if test="userName!=null and userName!=''">
+                <bind name="userNameBind" value="'%'+userName+'%'" />
+                AND T_SYS_USER.USER_NAME LIKE   CONCAT('%',#{userNameBind},'%')
+            </if>
+            <if test="userRole!=null and userRole!=''">
+                AND T_SYS_USER.USER_ROLE = #{userRole}
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                AND TSD.DEPT_NAME = #{deptName}
+            </if>
+            <if test="deptId!=null and deptId!=''">
+                AND T_SYS_USER.DEPT_ID = #{deptId}
+            </if>
+            <if test="openId!=null and openId!=''">
+                AND T_SYS_USER.WXOPENID = #{openId}
+            </if>
+            <if test="entrustUserId!=null and entrustUserId!=''">
+                AND T_SYS_USER.ENTRUST_USER_ID = #{entrustUserId}
+            </if>
+
+            <if test="userMail!=null and userMail!=''">
+                AND T_SYS_USER.USER_MAIL like CONCAT(#{userMail},'%')
+            </if>
+        </where>
+        order by T_SYS_USER.UPDATE_AT desc
+    </select>
+
+    <!--查询用户-->
+    <select id="selectList2" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM T_SYS_USER WHERE USER_NAME=#{userName}
+    </select>
+
+    <!--如果处于 合同 结算 步骤审核人中 则不能再被删除-->
+    <select id="selectCountBusiness" parameterType="java.util.Map" resultType="java.lang.Integer">
+
+      SELECT COUNT(1) FROM (
+         SELECT TBD.deal_id FROM T_SYS_USER TSU
+                INNER JOIN T_BIZ_DEAL TBD ON TBD.USER_ID=TSU.USER_ID AND TSU.USER_ID=#{userId}
+         UNION ALL
+
+         SELECT TBS.settle_id FROM T_SYS_USER TSU
+               INNER JOIN T_BIZ_SETTLEMENT TBS ON  TBS.USER_ID=TSU.USER_ID AND TSU.USER_ID=#{userId}
+
+         UNION ALL
+         SELECT TBCS.step_id FROM T_SYS_USER TSU
+               INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.STEP_CREATE_USER=TSU.USER_ID  AND TSU.USER_ID=#{userId}
+
+         UNION ALL
+         SELECT TBCM.man_id FROM T_SYS_USER TSU
+               INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCM.USER_ID=TSU.USER_ID    AND TSU.USER_ID=#{userId}
+       ) a
+
+
+    </select>
+
+    <select id="selectUserByContId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select tsu.* from T_CONT_ACCESS tca left join T_SYS_USER tsu on tca.OWNER_ID = tsu.USER_ID
+        where tca.CONT_ID = #{contId}
+    </select>
+
+    <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select tsu.* from  T_SYS_USER tsu
+        where tsu.USER_NAME = #{userName}
+    </select>
+
+    <!--查询未用户为关联角色的所有用户-->
+    <select id="selectUserNotRole" resultMap="BaseResultMap">
+        select * from T_SYS_USER tsu where not EXISTS (select * from T_SYS_USER_ROLES tsur where tsur.USER_ID = tsu.USER_ID)
+    </select>
+</mapper>

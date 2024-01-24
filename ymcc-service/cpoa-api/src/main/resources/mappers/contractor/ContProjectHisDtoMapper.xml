@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.ContProjectHisDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.ContProjectHisDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="PROJ_CONT_CODE" jdbcType="VARCHAR" property="projContCode" />
+    <result column="PROJ_CONT_NAME" jdbcType="VARCHAR" property="projContName" />
+    <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType" />
+    <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent" />
+    <result column="PROJ_AT" jdbcType="TIMESTAMP" property="projAt" />
+    <result column="PROJ_USER" jdbcType="VARCHAR" property="projUser" />
+    <result column="PROJ_STATE" jdbcType="VARCHAR" property="projState" />
+    <result column="PROJ_STATE_AT" jdbcType="TIMESTAMP" property="projStateAt" />
+    <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="PROJ_APPLY_REASON" jdbcType="LONGVARCHAR" property="projApplyReason" />
+  </resultMap>
+</mapper>

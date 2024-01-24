@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.FusionReportV2DtoMapper">
+
+    <resultMap id="RptMarketAreaVO" type="cn.com.cnpc.cpoa.vo.prodsys.report.RptMarketAreaVO">
+        <result column="WORK_ZONE" jdbcType="VARCHAR" property="workZone" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="LAST_AMOUNT" jdbcType="DOUBLE" property="lastAmount" />
+        <result column="CURRENT_AMOUNT" jdbcType="DOUBLE" property="currentAmount" />
+        <result column="GROWTH" jdbcType="DOUBLE" property="growth" />
+        <result column="GROWTH_RATIO" jdbcType="FLOAT" property="growthRatio" />
+    </resultMap>
+
+    <resultMap id="RptClasTypeVO" type="cn.com.cnpc.cpoa.vo.prodsys.report.RptClasTypeVO">
+        <result column="WORK_ZONE" jdbcType="VARCHAR" property="workZone" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="LAST_AMOUNT" jdbcType="DOUBLE" property="lastAmount" />
+        <result column="CURRENT_AMOUNT" jdbcType="DOUBLE" property="currentAmount" />
+        <result column="GROWTH" jdbcType="DOUBLE" property="growth" />
+        <result column="GROWTH_RATIO" jdbcType="FLOAT" property="growthRatio" />
+        <result column="CLAS_TYPE" jdbcType="VARCHAR" property="clasType" />
+    </resultMap>
+
+    <resultMap id="RptContractTypeVO" type="cn.com.cnpc.cpoa.vo.prodsys.report.RptContractTypeVO">
+        <result column="TYPE1" jdbcType="VARCHAR" property="typeName1" />
+        <result column="TYPE2" jdbcType="VARCHAR" property="typeName2" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="LAST_AMOUNT" jdbcType="DOUBLE" property="lastAmount" />
+        <result column="CURRENT_AMOUNT" jdbcType="DOUBLE" property="currentAmount" />
+        <result column="GROWTH" jdbcType="DOUBLE" property="growth" />
+        <result column="GROWTH_RATIO" jdbcType="FLOAT" property="growthRatio" />
+    </resultMap>
+
+    <resultMap id="RptClientDeptVO" type="cn.com.cnpc.cpoa.vo.prodsys.report.RptClientDeptVO">
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="LAST_AMOUNT" jdbcType="DOUBLE" property="lastAmount" />
+        <result column="CURRENT_AMOUNT" jdbcType="DOUBLE" property="currentAmount" />
+        <result column="GROWTH" jdbcType="DOUBLE" property="growth" />
+        <result column="GROWTH_RATIO" jdbcType="FLOAT" property="growthRatio" />
+    </resultMap>
+
+    <resultMap id="RptClientSubDeptVO" type="cn.com.cnpc.cpoa.vo.prodsys.report.RptClientSubDeptVO">
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="SUB_DEPT_NAME" jdbcType="VARCHAR" property="subDeptName" />
+        <result column="CLAS_TYPE" jdbcType="VARCHAR" property="clasType" />
+        <result column="LAST_AMOUNT" jdbcType="DOUBLE" property="lastAmount" />
+        <result column="CURRENT_AMOUNT" jdbcType="DOUBLE" property="currentAmount" />
+        <result column="GROWTH" jdbcType="DOUBLE" property="growth" />
+        <result column="GROWTH_RATIO" jdbcType="FLOAT" property="growthRatio" />
+    </resultMap>
+
+
+    <select id="queryRptMarketArea" parameterType="java.util.Map" resultMap="RptMarketAreaVO">
+    SELECT
+        (
+            CASE
+            WHEN t.work_zone = 'SC_CQ_ZONE' THEN
+                '川渝地区'
+            WHEN t.work_zone = 'CQ_ZONE' THEN
+                '长庆地区'
+            WHEN t.work_zone = 'TLM_ZONE'
+            OR t.work_zone = 'XJ_ZONE' THEN
+                '新疆地区'
+            WHEN t.work_zone = 'HS_ZONE' THEN
+                '海上地区'
+            WHEN t.work_zone = 'HW_ZONE' THEN
+                '海外地区'
+            WHEN t.work_zone = 'BF_ZONE'
+            OR t.work_zone IS NULL THEN
+                '其他地区'
+            END
+        ) AS work_zone,
+        IFNULL(
+            (
+                CASE
+                WHEN t.parent_name IS NULL
+                OR t.parent_name = '' THEN
+                    '其他'
+                ELSE
+                    t.parent_name
+                END
+            ),
+            '其他'
+        ) AS dept_name,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+    FROM
+        V_DEAL_CUR_PRJ t
+    <where>
+        <if test="yearMonthStart!=null and yearMonthStart != ''">
+            AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+        </if>
+        <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+            AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+        </if>
+    </where>
+    GROUP BY
+        t.work_zone,
+        t.parent_name
+    </select>
+
+    <select id="queryRptMarketAreaLast" parameterType="java.util.Map" resultMap="RptMarketAreaVO">
+        SELECT
+        (
+        CASE
+        WHEN t.work_zone = 'SC_CQ_ZONE' THEN
+        '川渝地区'
+        WHEN t.work_zone = 'CQ_ZONE' THEN
+        '长庆地区'
+        WHEN t.work_zone = 'TLM_ZONE'
+        OR t.work_zone = 'XJ_ZONE' THEN
+        '新疆地区'
+        WHEN t.work_zone = 'HS_ZONE' THEN
+        '海上地区'
+        WHEN t.work_zone = 'HW_ZONE' THEN
+        '海外地区'
+        WHEN t.work_zone = 'BF_ZONE'
+        OR t.work_zone IS NULL THEN
+        '其他地区'
+        END
+        ) AS work_zone,
+        IFNULL(
+        (
+        CASE
+        WHEN t.parent_name IS NULL
+        OR t.parent_name = '' THEN
+        '其他'
+        ELSE
+        t.parent_name
+        END
+        ),
+        '其他'
+        ) AS dept_name,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS LAST_AMOUNT
+        FROM
+        V_DEAL_LAST_PRJ t
+        <where>
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+        GROUP BY
+        t.work_zone,
+        t.parent_name
+    </select>
+
+    <select id="queryRptClasType" parameterType="java.util.Map" resultMap="RptClasTypeVO">
+    SELECT
+        IFNULL(t.deal_biz, 'QHSE') AS clas_type,
+        (
+            CASE
+            WHEN t.work_zone = 'SC_CQ_ZONE' THEN
+                '川渝地区'
+            WHEN t.work_zone = 'CQ_ZONE' THEN
+                '长庆地区'
+            WHEN t.work_zone = 'TLM_ZONE'
+            OR t.work_zone = 'XJ_ZONE' THEN
+                '新疆地区'
+            WHEN t.work_zone = 'HS_ZONE' THEN
+                '海上地区'
+            WHEN t.work_zone = 'HW_ZONE' THEN
+                '海外地区'
+            WHEN t.work_zone = 'BF_ZONE'
+            OR t.work_zone IS NULL THEN
+                '其他地区'
+            END
+        ) AS work_zone,
+        IFNULL(
+            (
+                CASE
+                WHEN t.parent_name IS NULL
+                OR t.parent_name = '' THEN
+                    '其他'
+                ELSE
+                    t.parent_name
+                END
+            ),
+            '其他'
+        ) AS dept_name,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+    FROM
+        V_DEAL_CUR_PRJ t
+    <where>
+        <if test="yearMonthStart!=null and yearMonthStart != ''">
+            AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+        </if>
+        <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+            AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+        </if>
+    </where>
+    GROUP BY
+        t.deal_biz,
+        t.work_zone,
+        t.parent_name
+    </select>
+
+    <select id="queryRptClasTypeLast" parameterType="java.util.Map" resultMap="RptClasTypeVO">
+        SELECT
+        IFNULL(t.deal_biz, 'QHSE') AS clas_type,
+        (
+        CASE
+        WHEN t.work_zone = 'SC_CQ_ZONE' THEN
+        '川渝地区'
+        WHEN t.work_zone = 'CQ_ZONE' THEN
+        '长庆地区'
+        WHEN t.work_zone = 'TLM_ZONE'
+        OR t.work_zone = 'XJ_ZONE' THEN
+        '新疆地区'
+        WHEN t.work_zone = 'HS_ZONE' THEN
+        '海上地区'
+        WHEN t.work_zone = 'HW_ZONE' THEN
+        '海外地区'
+        WHEN t.work_zone = 'BF_ZONE'
+        OR t.work_zone IS NULL THEN
+        '其他地区'
+        END
+        ) AS work_zone,
+        IFNULL(
+        (
+        CASE
+        WHEN t.parent_name IS NULL
+        OR t.parent_name = '' THEN
+        '其他'
+        ELSE
+        t.parent_name
+        END
+        ),
+        '其他'
+        ) AS dept_name,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS LAST_AMOUNT
+        FROM
+        V_DEAL_LAST_PRJ t
+        <where>
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+        GROUP BY
+        t.deal_biz,
+        t.work_zone,
+        t.parent_name
+    </select>
+
+    <select id="queryRptContractType" parameterType="java.util.Map" resultMap="RptContractTypeVO">
+    SELECT
+        (
+            CASE
+            WHEN t.DEAL_TYPE = 'XS'
+            OR t.DEAL_TYPE = 'XX' THEN
+                '合同'
+            WHEN t.DEAL_TYPE = 'NZ' THEN
+                '内责书'
+            WHEN t.DEAL_TYPE = 'INSTRUCTION'
+            AND t.contract_type = 'TRANSFER' THEN
+                '划拨'
+            WHEN t.DEAL_TYPE = 'INSTRUCTION'
+            AND t.contract_type = 'INSTRUCTION' THEN
+                '指令性'
+            WHEN t.deal_type = 'TH' THEN
+                '三万以下'
+            WHEN t.deal_type = 'HD' THEN
+                '宏大'
+            ELSE
+                '其他'
+            END
+        ) AS type1,
+        (
+            CASE
+            WHEN t.contract_type = 'RELATED' THEN
+                '关联交易'
+            WHEN t.contract_type = 'UNRELATED' THEN
+                '非关联交易'
+            ELSE
+                '其他'
+            END
+        ) type2,
+        IFNULL(
+            (
+                CASE
+                WHEN t.parent_name IS NULL
+                OR t.parent_name = '' THEN
+                    '其他'
+                ELSE
+                    t.parent_name
+                END
+            ),
+            '其他'
+        ) AS dept_name,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+    FROM
+        V_DEAL_CUR_PRJ t
+        <where>
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+    GROUP BY
+        t.DEAL_TYPE,
+        t.contract_type,
+        t.parent_name
+    </select>
+
+    <select id="queryRptContractTypeLast" parameterType="java.util.Map" resultMap="RptContractTypeVO">
+        SELECT
+        (
+        CASE
+        WHEN t.DEAL_TYPE = 'XS'
+        OR t.DEAL_TYPE = 'XX' THEN
+        '合同'
+        WHEN t.DEAL_TYPE = 'NZ' THEN
+        '内责书'
+        WHEN t.DEAL_TYPE = 'INSTRUCTION'
+        AND t.contract_type = 'TRANSFER' THEN
+        '划拨'
+        WHEN t.DEAL_TYPE = 'INSTRUCTION'
+        AND t.contract_type = 'INSTRUCTION' THEN
+        '指令性'
+        WHEN t.deal_type = 'TH' THEN
+        '三万以下'
+        WHEN t.deal_type = 'HD' THEN
+        '宏大'
+        ELSE
+        '其他'
+        END
+        ) AS type1,
+        (
+        CASE
+        WHEN t.contract_type = 'RELATED' THEN
+        '关联交易'
+        WHEN t.contract_type = 'UNRELATED' THEN
+        '非关联交易'
+        ELSE
+        '其他'
+        END
+        ) type2,
+        IFNULL(
+        (
+        CASE
+        WHEN t.parent_name IS NULL
+        OR t.parent_name = '' THEN
+        '其他'
+        ELSE
+        t.parent_name
+        END
+        ),
+        '其他'
+        ) AS dept_name,
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS LAST_AMOUNT
+        FROM
+        V_DEAL_LAST_PRJ t
+        <where>
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+        GROUP BY
+        t.DEAL_TYPE,
+        t.contract_type,
+        t.parent_name
+    </select>
+
+    <select id="queryRptClientDept" parameterType="java.util.Map" resultMap="RptClientDeptVO">
+        SELECT
+        IFNULL(
+            (
+                CASE
+                WHEN t.parent_name = ''
+                OR t.parent_name IS NULL THEN
+                    '其他'
+                ELSE
+                    t.parent_name
+                END
+            ),
+            '其他'
+        ) AS DEPT_NAME,
+        IFNULL(sum(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+    FROM
+        V_DEAL_CUR_PRJ t
+        <where>
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+    GROUP BY
+        t.parent_name
+    </select>
+
+    <select id="queryRptClientDeptLast" parameterType="java.util.Map" resultMap="RptClientDeptVO">
+        SELECT
+        IFNULL(
+        (
+        CASE
+        WHEN t.parent_name = ''
+        OR t.parent_name IS NULL THEN
+        '其他'
+        ELSE
+        t.parent_name
+        END
+        ),
+        '其他'
+        ) AS DEPT_NAME,
+        IFNULL(sum(t.CONTRACT_PRICE), 0) AS LAST_AMOUNT
+        FROM
+        V_DEAL_LAST_PRJ t
+        <where>
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+        GROUP BY
+        t.parent_name
+    </select>
+
+    <select id="queryRptClientSubDept" parameterType="java.util.Map" resultMap="RptClientSubDeptVO">
+    SELECT
+        IFNULL(
+            (
+                CASE
+                WHEN t.parent_name = ''
+                OR t.parent_name IS NULL THEN
+                    '其他'
+                ELSE
+                    t.parent_name
+                END
+            ),
+            '其他'
+        ) AS DEPT_NAME,
+        IFNULL(
+            (
+                CASE
+                WHEN t.CONT_NAME = ''
+                OR t.CONT_NAME IS NULL THEN
+                    '其他'
+                ELSE
+                    t.CONT_NAME
+                END
+            ),
+            '其他'
+        ) AS SUB_DEPT_NAME,
+        IFNULL(t.deal_biz, 'QHSE咨询') AS clas_type,
+        IFNULL(sum(t.CONTRACT_PRICE), 0) AS CURRENT_AMOUNT
+    FROM
+        V_DEAL_CUR_PRJ t
+        <where>
+            <if test="deptName!=null and deptName != ''">
+                AND t.parent_name = #{deptName}
+            </if>
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+    GROUP BY
+        t.parent_name,
+        t.CONT_NAME,
+        t.deal_biz
+    </select>
+
+    <select id="queryRptClientSubDeptLast" parameterType="java.util.Map" resultMap="RptClientSubDeptVO">
+        SELECT
+        IFNULL(
+        (
+        CASE
+        WHEN t.parent_name = ''
+        OR t.parent_name IS NULL THEN
+        '其他'
+        ELSE
+        t.parent_name
+        END
+        ),
+        '其他'
+        ) AS DEPT_NAME,
+        IFNULL(
+        (
+        CASE
+        WHEN t.CONT_NAME = ''
+        OR t.CONT_NAME IS NULL THEN
+        '其他'
+        ELSE
+        t.CONT_NAME
+        END
+        ),
+        '其他'
+        ) AS SUB_DEPT_NAME,
+        IFNULL(t.deal_biz, 'QHSE咨询') AS clas_type,
+        IFNULL(sum(t.CONTRACT_PRICE), 0) AS LAST_AMOUNT
+        FROM
+        V_DEAL_LAST_PRJ t
+        <where>
+            <if test="deptName!=null and deptName != ''">
+                AND t.parent_name = #{deptName}
+            </if>
+            <if test="yearMonthStart!=null and yearMonthStart != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &gt;= #{yearMonthStart}
+            </if>
+            <if test="yearMonthEnd!=null and yearMonthEnd != ''">
+                AND DATE_FORMAT(t.CREATE_DATE, '%Y%m%d') &lt;= #{yearMonthEnd}
+            </if>
+        </where>
+        GROUP BY
+        t.parent_name,
+        t.CONT_NAME,
+        t.deal_biz
+    </select>
+
+</mapper>

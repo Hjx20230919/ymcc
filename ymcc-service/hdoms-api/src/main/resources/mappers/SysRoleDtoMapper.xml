@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.SysRoleDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.SysRoleDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="DATA_SCOPE" jdbcType="VARCHAR" property="dataScope" />
+  </resultMap>
+
+  <!--查询所有角色-->
+  <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select ROLE_ID,NAME,TYPE,NOTES,DATA_SCOPE from T_SYS_ROLE
+    <where>
+      <if test="name != null and name != '' ">
+        and NAME = #{name}
+      </if>
+    </where>
+  </select>
+
+  <!--删除角色-->
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from T_SYS_ROLE where ROLE_ID = #{id} and TYPE != '0'
+  </delete>
+
+  <select id="selectUserRole" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select tnr.* from T_SYS_ROLE tnr
+    left join T_SYS_USER_ROLES tnur
+    on tnr.role_id=tnur.role_id
+    <where>
+      <if test="userId!=null and userId!=''">
+        and tnur.user_id=#{userId}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectRole" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select tnr.* from T_SYS_ROLE tnr
+    <where>
+      <if test="name!=null and name!=''">
+        and tnr.NAME like CONCAT('%',#{name},'%')
+      </if>
+
+      <if test="cName!=null and cName!=''">
+        and tnr.NAME = #{cName}
+      </if>
+
+      <if test="roleId!=null and roleId!=''">
+        and tnr.role_id=#{roleId}
+      </if>
+    </where>
+  </select>
+</mapper>

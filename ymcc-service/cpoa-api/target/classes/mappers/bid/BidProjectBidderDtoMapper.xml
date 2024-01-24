@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidProjectBidderDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidProjectBidderDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="PROJECT_BIDDER_ID" jdbcType="VARCHAR" property="projectBidderId" />
+    <result column="BID_PROJ_ID" jdbcType="VARCHAR" property="bidProjId" />
+    <result column="COMPETITOR_ID" jdbcType="VARCHAR" property="competitorId" />
+    <result column="RESERVE1" jdbcType="VARCHAR" property="reserve1" />
+    <result column="RESERVE2" jdbcType="VARCHAR" property="reserve2" />
+    <result column="RESERVE3" jdbcType="VARCHAR" property="reserve3" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+</mapper>

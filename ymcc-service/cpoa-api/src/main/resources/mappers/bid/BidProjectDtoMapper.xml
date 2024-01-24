@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidProjectDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidProjectDto">
+        <result column="BID_PROJ_ID" jdbcType="VARCHAR" property="bidProjId"/>
+        <result column="BIDDING_ID" jdbcType="VARCHAR" property="biddingId"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="CREATE_ID" jdbcType="VARCHAR" property="createId"/>
+        <result column="IS_BORROW_UKEY" jdbcType="INTEGER" property="isBorrowUkey"/>
+        <result column="UKEY_TYPE" jdbcType="VARCHAR" property="ukeyType"/>
+        <result column="IS_RETURN" jdbcType="VARCHAR" property="isReturn"/>
+        <result column="PAYMENT_METHOD" jdbcType="VARCHAR" property="paymentMethod"/>
+        <result column="RETURN_UKEY_AT" jdbcType="TIMESTAMP" property="returnUkeyAt"/>
+        <result column="GET_BID_DOC_END_AT" jdbcType="TIMESTAMP" property="getBidDocEndAt"/>
+        <result column="IS_GET_BID_DOC" jdbcType="CHAR" property="isGetBidDoc"/>
+        <result column="GET_BID_DOC_ACTUAL_AT" jdbcType="CHAR" property="getBidDocActualAt"/>
+        <result column="GUARANTEE_AMOUNT" jdbcType="DECIMAL" property="guaranteeAmount"/>
+        <result column="GA_END_AT" jdbcType="TIMESTAMP" property="gaEndAt"/>
+        <result column="IS_GUARANTEE_AMOUNT" jdbcType="CHAR" property="isGuaranteeAmount"/>
+        <result column="GA_ACTUAL_AT" jdbcType="CHAR" property="gaActualAt"/>
+        <result column="UPLOAD_PLAN_AT" jdbcType="TIMESTAMP" property="uploadPlanAt"/>
+        <result column="IS_UPLOAD_PLAN" jdbcType="CHAR" property="isUploadPlan"/>
+        <result column="UPLOAD_ACTUAL_AT" jdbcType="CHAR" property="uploadActualAt"/>
+        <result column="POST_BID_DOC_END_AT" jdbcType="TIMESTAMP" property="postBidDocEndAt"/>
+        <result column="IS_POST_BID_DOC" jdbcType="CHAR" property="isPostBidDoc"/>
+        <result column="POST_BID_DOC_ACTAUL_AT" jdbcType="CHAR" property="postBidDocActaulAt"/>
+        <result column="IS_BID" jdbcType="INTEGER" property="isBid"/>
+        <result column="UPLOAD_BID_NOTICE_AT" jdbcType="TIMESTAMP" property="uploadBidNoticeAt"/>
+        <result column="UN_BID_DESC" jdbcType="VARCHAR" property="unBidDesc"/>
+        <result column="BID_PROJ_DESC" jdbcType="VARCHAR" property="bidProjDesc"/>
+        <result column="PROJ_STATUS" jdbcType="VARCHAR" property="projStatus"/>
+        <result column="RESERVE1" jdbcType="VARCHAR" property="reserve1"/>
+        <result column="RESERVE2" jdbcType="VARCHAR" property="reserve2"/>
+        <result column="RESERVE3" jdbcType="VARCHAR" property="reserve3"/>
+        <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
+    </resultMap>
+
+    <resultMap id="BidProjectPo" type="cn.com.cnpc.cpoa.po.bid.BidProjectPo">
+        <result column="BID_PROJ_ID" jdbcType="VARCHAR" property="bidProjId"/>
+        <result column="BIDDING_ID" jdbcType="VARCHAR" property="biddingId"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="CREATE_ID" jdbcType="VARCHAR" property="createId"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="IS_BORROW_UKEY" jdbcType="INTEGER" property="isBorrowUkey"/>
+        <result column="UKEY_TYPE" jdbcType="VARCHAR" property="ukeyType"/>
+        <result column="IS_RETURN" jdbcType="VARCHAR" property="isReturn"/>
+        <result column="PAYMENT_METHOD" jdbcType="VARCHAR" property="paymentMethod"/>
+        <result column="RETURN_UKEY_AT" jdbcType="VARCHAR" property="returnUkeyAt"/>
+        <result column="GET_BID_DOC_END_AT" jdbcType="VARCHAR" property="getBidDocEndAt"/>
+        <result column="IS_GET_BID_DOC" jdbcType="CHAR" property="isGetBidDoc"/>
+        <result column="GET_BID_DOC_ACTUAL_AT" jdbcType="VARCHAR" property="getBidDocActualAt"/>
+        <result column="GUARANTEE_AMOUNT" jdbcType="DECIMAL" property="guaranteeAmount"/>
+        <result column="GA_END_AT" jdbcType="VARCHAR" property="gaEndAt"/>
+        <result column="IS_GUARANTEE_AMOUNT" jdbcType="CHAR" property="isGuaranteeAmount"/>
+        <result column="GA_ACTUAL_AT" jdbcType="CHAR" property="gaActualAt"/>
+        <result column="UPLOAD_PLAN_AT" jdbcType="VARCHAR" property="uploadPlanAt"/>
+        <result column="IS_UPLOAD_PLAN" jdbcType="CHAR" property="isUploadPlan"/>
+        <result column="UPLOAD_ACTUAL_AT" jdbcType="VARCHAR" property="uploadActualAt"/>
+        <result column="POST_BID_DOC_END_AT" jdbcType="VARCHAR" property="postBidDocEndAt"/>
+        <result column="IS_POST_BID_DOC" jdbcType="CHAR" property="isPostBidDoc"/>
+        <result column="POST_BID_DOC_ACTAUL_AT" jdbcType="VARCHAR" property="postBidDocActaulAt"/>
+        <result column="IS_BID" jdbcType="INTEGER" property="isBid"/>
+        <result column="UPLOAD_BID_NOTICE_AT" jdbcType="VARCHAR" property="uploadBidNoticeAt"/>
+        <result column="UN_BID_DESC" jdbcType="VARCHAR" property="unBidDesc"/>
+        <result column="BID_PROJ_DESC" jdbcType="VARCHAR" property="bidProjDesc"/>
+        <result column="PROJ_STATUS" jdbcType="VARCHAR" property="projStatus"/>
+        <result column="RESERVE1" jdbcType="VARCHAR" property="reserve1"/>
+        <result column="RESERVE2" jdbcType="VARCHAR" property="reserve2"/>
+        <result column="RESERVE3" jdbcType="VARCHAR" property="reserve3"/>
+        <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
+        <result column="PROJ_NO" jdbcType="VARCHAR" property="projNo"/>
+        <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName"/>
+        <result column="BID_OPEN_AT" jdbcType="VARCHAR" property="bidOpenAt"/>
+        <result column="PUBLISH_AT" jdbcType="VARCHAR" property="publishAt"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="OBJ_TYPE" jdbcType="VARCHAR" property="objType"/>
+        <result column="CERTI_BORROW_ID" jdbcType="VARCHAR" property="certiBorrowId"/>
+        <result column="objId" jdbcType="VARCHAR" property="objId"/>
+        <result column="BID_AMOUNT" jdbcType="INTEGER" property="bidAmount"/>
+        <result column="bidName" jdbcType="VARCHAR" property="bidName"/>
+        <result column="BORROW_MAN" jdbcType="VARCHAR" property="borrowMan"/>
+        <result column="BORROW_REASON" jdbcType="VARCHAR" property="borrowReason"/>
+        <result column="PAY_COMPANY" jdbcType="VARCHAR" property="payCompany"/>
+    </resultMap>
+
+
+    <select id="selectBidProjectByMap" parameterType="java.util.Map" resultMap="BidProjectPo">
+        SELECT
+        tbp.*,
+        tbd.PROJ_NO,
+        tbd.PROJ_NAME,
+        tbd.BID_OPEN_AT,
+        tbd.PUBLISH_AT,
+        tbd.BID_AMOUNT,
+        tsd.DEPT_NAME,
+        tsu.USER_NAME,
+        tbpd.bidName
+        FROM
+        T_BID_PROJECT tbp
+        LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+        LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbp.DEPT_ID
+        LEFT JOIN T_SYS_USER tsu ON tsu.USER_ID = tbp.CREATE_ID
+        LEFT JOIN (select tbpd.BID_PROJ_ID,GROUP_CONCAT(tbc.COMP_NAME) bidName from  T_BID_PROJECT_BIDDER tbpd left join T_BID_COMPETITOR tbc on tbpd.COMPETITOR_ID = tbc.COMPETITOR_ID GROUP BY tbpd.BID_PROJ_ID) tbpd ON tbp.BID_PROJ_ID = tbpd.BID_PROJ_ID
+        <where>
+            <if test="projNo != null and projNo != ''">
+                and tbd.PROJ_NO like CONCAT('%',#{projNo},'%')
+            </if>
+            <if test="projName != null and projName != ''">
+                and tbd.PROJ_NAME like CONCAT('%',#{projName},'%')
+            </if>
+            <if test="bidOpenAtStart != null and bidOpenAtStart != ''">
+                and tbd.BID_OPEN_AT &gt;= #{bidOpenAtStart}
+            </if>
+            <if test="bidOpenAtEnd != null and bidOpenAtEnd != ''">
+                and tbd.BID_OPEN_AT &lt;= #{bidOpenAtEnd}
+            </if>
+            <if test="publishAtStart != null and publishAtStart != ''">
+                and tbd.PUBLISH_AT &gt;= #{publishAtStart}
+            </if>
+            <if test="publishAtEnd != null and publishAtEnd != ''">
+                and tbd.PUBLISH_AT &lt;= #{publishAtEnd}
+            </if>
+            <if test="projStatus != null and projStatus != ''">
+                and tbp.PROJ_STATUS = #{projStatus}
+            </if>
+            <if test="deptId != null and deptId != ''">
+                and tbp.DEPT_ID = #{deptId}
+            </if>
+            <if test="isBid != null and isBid != ''">
+                and tbp.IS_BID = #{isBid}
+            </if>
+            <if test="bidProjId != null and bidProjId != ''">
+                and tbp.BID_PROJ_ID = #{bidProjId}
+            </if>
+            <if test="bidProjId != null and bidProjId != ''">
+                and tbp.BID_PROJ_ID = #{bidProjId}
+            </if>
+            <if test="bidName != null and bidName != ''">
+                and tbpd.bidName like CONCAT('%',#{bidName},'%')
+            </if>
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND tbp.DEPT_ID=#{dataScopeDept}
+            </if>
+
+           <!-- <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND t.USER_ID = #{dataScopeSelf}
+            </if>-->
+
+        </where>
+        ORDER BY tbd.PUBLISH_AT DESC
+    </select>
+
+    <select id="selectActivitiBidProject" parameterType="java.util.Map" resultMap="BidProjectPo">
+        SELECT pro.*,
+               'bidProject'    OBJ_TYPE,
+               pro.BID_PROJ_ID objId
+        FROM (
+                 SELECT tbp.*,
+                        tbd.PROJ_NO,
+                        tbd.PROJ_NAME,
+                        tbd.BID_OPEN_AT,
+                        tbd.PUBLISH_AT,
+                        tsd.DEPT_NAME
+                 FROM T_BID_PROJECT tbp
+                          LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+                          LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbp.DEPT_ID
+             ) pro
+                 INNER JOIN (
+            SELECT min(bcs.STEP_NO) STEP_NO,
+                   bcs.CHECK_OBJ_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'bidProject'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) A ON A.CHECK_OBJ_ID = pro.BID_PROJ_ID
+                 INNER JOIN (
+            SELECT ANY_VALUE(
+                           MIN(bcs.STEP_NO))   STEP_NO,
+                   ANY_VALUE(bcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+                   ANY_VALUE(bcs.STEP_ID)      STEP_ID,
+                   ANY_VALUE(bcm.MAN_ID)       MAN_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.USER_ID = #{userId}
+              AND bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'bidProject'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) B ON B.CHECK_OBJ_ID = A.CHECK_OBJ_ID
+            AND B.STEP_NO = A.STEP_NO
+    </select>
+
+    <select id="selectStopBidProject" parameterType="java.util.Map" resultMap="BidProjectPo">
+        SELECT pro.*,
+               'stopBidProject'    OBJ_TYPE,
+               pro.BID_PROJ_ID objId
+        FROM (
+                 SELECT tbp.*,
+                        tbd.PROJ_NO,
+                        tbd.PROJ_NAME,
+                        tbd.BID_OPEN_AT,
+                        tbd.PUBLISH_AT,
+                        tsd.DEPT_NAME
+                 FROM T_BID_PROJECT tbp
+                          LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+                          LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbp.DEPT_ID
+             ) pro
+                 INNER JOIN (
+            SELECT min(bcs.STEP_NO) STEP_NO,
+                   bcs.CHECK_OBJ_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'stopBidProject'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) A ON A.CHECK_OBJ_ID = pro.BID_PROJ_ID
+                 INNER JOIN (
+            SELECT ANY_VALUE(
+                           MIN(bcs.STEP_NO))   STEP_NO,
+                   ANY_VALUE(bcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+                   ANY_VALUE(bcs.STEP_ID)      STEP_ID,
+                   ANY_VALUE(bcm.MAN_ID)       MAN_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.USER_ID = #{userId}
+              AND bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'stopBidProject'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) B ON B.CHECK_OBJ_ID = A.CHECK_OBJ_ID
+            AND B.STEP_NO = A.STEP_NO
+    </select>
+
+    <!--查询流程中事项-->
+    <select id="selectActivitiItemBidProject" parameterType="java.util.Map" resultMap="BidProjectPo">
+        SELECT tbp.*,
+               tbd.PROJ_NO,
+               tbd.PROJ_NAME,
+               tbd.BID_OPEN_AT,
+               tbd.PUBLISH_AT,
+               tsd.DEPT_NAME,
+               'bidProject'    OBJ_TYPE,
+               ''              CERTI_BORROW_ID,
+               tbp.BID_PROJ_ID objId
+        FROM T_BID_PROJECT tbp
+                 LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+                 LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbp.DEPT_ID
+        WHERE tbp.PROJ_STATUS IN ('Back', 'BidAuditin')
+        UNION ALL
+        SELECT tbp.*,
+               tsd.DEPT_NAME,
+               tbcb.CERTI_BORROW_ID,
+               'certiBorrow'        OBJ_TYPE,
+               tbcb.CERTI_BORROW_ID objId
+        FROM T_BID_CERTI_BORROW tbcb
+                 LEFT JOIN (
+            SELECT tbp.*,
+                   tbd.PROJ_NO,
+                   tbd.PROJ_NAME,
+                   tbd.BID_OPEN_AT,
+                   tbd.PUBLISH_AT
+            FROM T_BID_PROJECT tbp
+                     LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+        ) tbp ON tbp.BID_PROJ_ID = tbcb.BID_PROJ_ID
+                 LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbcb.DEPT_ID
+    </select>
+
+    <!--查询待办事项事项-->
+    <select id="selectAuditingBidProject" parameterType="java.util.Map" resultMap="BidProjectPo">
+        SELECT pro.*,
+               'bidProject'    OBJ_TYPE,
+               ''              CERTI_BORROW_ID,
+               pro.BID_PROJ_ID objId
+        FROM (
+                 SELECT tbp.*,
+                        tbd.PROJ_NO,
+                        tbd.PROJ_NAME,
+                        tbd.BID_OPEN_AT,
+                        tbd.PUBLISH_AT,
+                        tsd.DEPT_NAME
+                 FROM T_BID_PROJECT tbp
+                          LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+                          LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbp.DEPT_ID
+                 WHERE tbp.PROJ_STATUS = 'BidAuditin'
+             ) pro
+                 INNER JOIN (
+            SELECT min(bcs.STEP_NO) STEP_NO,
+                   bcs.CHECK_OBJ_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'bidProject'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) A ON A.CHECK_OBJ_ID = pro.BID_PROJ_ID
+                 INNER JOIN (
+            SELECT ANY_VALUE(
+                           MIN(bcs.STEP_NO))   STEP_NO,
+                   ANY_VALUE(bcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+                   ANY_VALUE(bcs.STEP_ID)      STEP_ID,
+                   ANY_VALUE(bcm.MAN_ID)       MAN_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.USER_ID = #{userId}
+              AND bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'bidProject'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) B ON B.CHECK_OBJ_ID = A.CHECK_OBJ_ID
+            AND B.STEP_NO = A.STEP_NO
+        UNION ALL
+        SELECT pro.*,
+               'certiBorrow'       OBJ_TYPE,
+               pro.CERTI_BORROW_ID objId
+        FROM (
+                 SELECT tbp.*,
+                        tsd.DEPT_NAME,
+                        tbcb.CERTI_BORROW_ID
+                 FROM T_BID_CERTI_BORROW tbcb
+                          LEFT JOIN (
+                     SELECT tbp.*,
+                            tbd.PROJ_NO,
+                            tbd.PROJ_NAME,
+                            tbd.BID_OPEN_AT,
+                            tbd.PUBLISH_AT
+                     FROM T_BID_PROJECT tbp
+                              LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+                 ) tbp ON tbp.BID_PROJ_ID = tbcb.BID_PROJ_ID
+                          LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbcb.DEPT_ID
+             ) pro
+                 INNER JOIN (
+            SELECT min(bcs.STEP_NO) STEP_NO,
+                   bcs.CHECK_OBJ_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'certiBorrow'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) A ON A.CHECK_OBJ_ID = pro.CERTI_BORROW_ID
+                 INNER JOIN (
+            SELECT ANY_VALUE(MIN(bcs.STEP_NO)) STEP_NO,
+                   ANY_VALUE(bcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+                   ANY_VALUE(bcs.STEP_ID)      STEP_ID,
+                   ANY_VALUE(bcm.MAN_ID)       MAN_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.USER_ID = #{userId}
+              AND bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'certiBorrow'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) B ON B.CHECK_OBJ_ID = A.CHECK_OBJ_ID
+            AND B.STEP_NO = A.STEP_NO
+    </select>
+
+    <!--查询投标资料审批-->
+    <select id="selectActivitiBidTender" parameterType="java.util.Map" resultMap="BidProjectPo">
+        SELECT pro.*,
+               'certiBorrow' OBJ_TYPE,
+               pro.CERTI_BORROW_ID objId
+        FROM (
+                 SELECT tbp.*,
+                        tsd.DEPT_NAME,
+                        tbcb.CERTI_BORROW_ID,
+                        tbcb.BORROW_MAN,
+                        tbcb.BORROW_REASON
+                 FROM T_BID_CERTI_BORROW tbcb
+                          LEFT JOIN (
+                     SELECT tbp.*,
+                            tbd.PROJ_NO,
+                            tbd.PROJ_NAME,
+                            tbd.BID_OPEN_AT,
+                            tbd.PUBLISH_AT
+                     FROM T_BID_PROJECT tbp
+                              LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+                 ) tbp ON tbp.BID_PROJ_ID = tbcb.BID_PROJ_ID
+                          LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbcb.DEPT_ID
+             ) pro
+                 INNER JOIN (
+            SELECT min(bcs.STEP_NO) STEP_NO,
+                   bcs.CHECK_OBJ_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'certiBorrow'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) A ON A.CHECK_OBJ_ID = pro.CERTI_BORROW_ID
+                 INNER JOIN (
+            SELECT ANY_VALUE(MIN(bcs.STEP_NO)) STEP_NO,
+                   ANY_VALUE(bcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+                   ANY_VALUE(bcs.STEP_ID)      STEP_ID,
+                   ANY_VALUE(bcm.MAN_ID)       MAN_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.USER_ID = #{userId}
+
+              AND bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'certiBorrow'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) B ON B.CHECK_OBJ_ID = A.CHECK_OBJ_ID
+            AND B.STEP_NO = A.STEP_NO
+    </select>
+
+    <select id="selectActivitiPersonnel" parameterType="java.util.Map" resultMap="BidProjectPo">
+        SELECT pro.*,
+               'personnelFile' OBJ_TYPE,
+               pro.CERTI_BORROW_ID objId
+        FROM (
+                 SELECT tbp.*,
+                        tsd.DEPT_NAME,
+                        tbcb.CERTI_BORROW_ID
+                 FROM T_BID_CERTI_BORROW tbcb
+                          LEFT JOIN (
+                     SELECT tbp.*,
+                            tbd.PROJ_NO,
+                            tbd.PROJ_NAME,
+                            tbd.BID_OPEN_AT,
+                            tbd.PUBLISH_AT
+                     FROM T_BID_PROJECT tbp
+                              LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+                 ) tbp ON tbp.BID_PROJ_ID = tbcb.BID_PROJ_ID
+                          LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbcb.DEPT_ID
+             ) pro
+                 INNER JOIN (
+            SELECT min(bcs.STEP_NO) STEP_NO,
+                   bcs.CHECK_OBJ_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'personnelFile'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) A ON A.CHECK_OBJ_ID = pro.CERTI_BORROW_ID
+                 INNER JOIN (
+            SELECT ANY_VALUE(MIN(bcs.STEP_NO)) STEP_NO,
+                   ANY_VALUE(bcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+                   ANY_VALUE(bcs.STEP_ID)      STEP_ID,
+                   ANY_VALUE(bcm.MAN_ID)       MAN_ID
+            FROM T_BIZ_CHECK_STEP bcs
+                     LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+            WHERE bcm.USER_ID = #{userId}
+
+              AND bcm.CHECK_STATE = 'PENDING'
+              AND bcs.CHECK_OBJ_TYPE = 'personnelFile'
+            GROUP BY bcs.CHECK_OBJ_ID
+        ) B ON B.CHECK_OBJ_ID = A.CHECK_OBJ_ID
+            AND B.STEP_NO = A.STEP_NO
+    </select>
+</mapper>

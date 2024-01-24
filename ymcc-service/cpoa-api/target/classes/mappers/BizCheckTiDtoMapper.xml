@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizCheckTiDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizCheckTiDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="ITME_ID" jdbcType="VARCHAR" property="itmeId"/>
+        <result column="CHECK_NO" jdbcType="VARCHAR" property="checkNo"/>
+        <result column="CHECK_NAME" jdbcType="VARCHAR" property="checkName"/>
+        <result column="CHECK_DEPT" jdbcType="VARCHAR" property="checkDept"/>
+        <result column="TMPL_ID" jdbcType="VARCHAR" property="tmplId"/>
+        <result column="ITME_RULE" jdbcType="VARCHAR" property="itmeRule"/>
+
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+
+    <select id="selectOwnerCheckTi" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+      T_BIZ_CHECK_TI.CHECK_NO,
+      T_SYS_DEPT.DEPT_NAME,
+      T_BIZ_CHECK_TI.CHECK_NAME,
+      CASE WHEN T_BIZ_CHECK_TI.ITME_RULE='user' THEN
+        T_BIZ_CHECK_TI.CHECK_MAN
+      ELSE
+        T_SYS_USER.USER_ID
+      END USER_ID,
+      CASE WHEN T_BIZ_CHECK_TI.ITME_RULE='user' THEN
+	    IFNULL((SELECT USER_NAME FROM T_SYS_USER WHERE USER_ID=CHECK_MAN),'待指定')
+      ELSE
+        T_SYS_USER.USER_NAME
+      END USER_NAME
+    FROM T_BIZ_CHECK_TI
+      LEFT JOIN T_BIZ_CHECK_TM  ON T_BIZ_CHECK_TI.TMPL_ID=T_BIZ_CHECK_TM.TMPL_ID
+      LEFT JOIN T_SYS_DEPT  ON T_BIZ_CHECK_TI.CHECK_DEPT = T_SYS_DEPT.DEPT_ID
+      LEFT JOIN T_SYS_USER ON T_SYS_USER.USER_ID = T_SYS_DEPT.DEPT_MANAGER
+    WHERE  T_BIZ_CHECK_TM.TMPL_CODE=#{tmplCode}
+    ORDER BY T_BIZ_CHECK_TI.CHECK_NO
+  </select>
+
+
+    <select id="selectCheckTi" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM T_BIZ_CHECK_TI
+        <where>
+            <if test="tmplId!=null and tmplId!=''">
+                AND T_BIZ_CHECK_TI.TMPL_ID=#{tmplId}
+            </if>
+        </where>
+
+        ORDER BY T_BIZ_CHECK_TI.CHECK_NO
+    </select>
+
+    <select id="selectCheckTiDetails" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        T_BIZ_CHECK_TI.CHECK_NO,
+        T_SYS_DEPT.DEPT_NAME,
+        T_BIZ_CHECK_TI.CHECK_NAME,
+        CASE WHEN T_BIZ_CHECK_TI.ITME_RULE='user' THEN
+        T_BIZ_CHECK_TI.CHECK_MAN
+        ELSE
+        T_SYS_USER.USER_ID
+        END USER_ID,
+        CASE WHEN T_BIZ_CHECK_TI.ITME_RULE='user' THEN
+        IFNULL((SELECT USER_NAME FROM T_SYS_USER WHERE USER_ID=CHECK_MAN),'待指定')
+        ELSE
+        T_SYS_USER.USER_NAME
+        END USER_NAME,
+        T_BIZ_CHECK_TI.CHECK_NO,
+        T_BIZ_CHECK_TI.ITME_RULE,
+        T_BIZ_CHECK_TI.CHECK_DEPT
+
+        FROM T_BIZ_CHECK_TI
+        LEFT JOIN T_BIZ_CHECK_TM  ON T_BIZ_CHECK_TI.TMPL_ID=T_BIZ_CHECK_TM.TMPL_ID
+        LEFT JOIN T_SYS_DEPT  ON T_BIZ_CHECK_TI.CHECK_DEPT = T_SYS_DEPT.DEPT_ID
+        LEFT JOIN T_SYS_USER ON T_SYS_USER.USER_ID = T_SYS_DEPT.DEPT_MANAGER
+        <where>
+
+            <if test="tmplId!=null and tmplId!=''">
+                AND T_BIZ_CHECK_TI.TMPL_ID=#{tmplId}
+            </if>
+
+        </where>
+        ORDER BY T_BIZ_CHECK_TI.CHECK_NO
+    </select>
+
+
+</mapper>

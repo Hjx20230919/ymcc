@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.project.ProjChangeLogDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.project.ProjChangeLogDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="CHG_LOG_ID" jdbcType="VARCHAR" property="chgLogId" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="CHG_OBJ_ID" jdbcType="VARCHAR" property="chgObjId" />
+    <result column="CHG_OBJ_TYPE" jdbcType="VARCHAR" property="chgObjType" />
+    <result column="CHG_OBJ_CTX" jdbcType="VARCHAR" property="chgObjCtx" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectAllByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from T_PROJ_CHANGE_LOG t
+    <where>
+      <if test="chgObjType != null and chgObjType != ''">
+        and t.CHG_OBJ_TYPE = #{chgObjType}
+      </if>
+      <if test="chgObjId != null and chgObjId != ''">
+        and t.CHG_OBJ_ID = #{chgObjId}
+      </if>
+    </where>
+  </select>
+</mapper>

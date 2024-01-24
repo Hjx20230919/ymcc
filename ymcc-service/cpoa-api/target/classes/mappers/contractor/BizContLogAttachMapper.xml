@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContLogAttachMapper">
+
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContLogAttachDto">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="ATTACH_ID" jdbcType="VARCHAR" property="attachId" />
+    <result column="LOG_ID" jdbcType="VARCHAR" property="logId" />
+  </resultMap>
+
+
+  <!--查询-->
+  <select id="getContLogAttachDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_CONT_LOG_ATTACH TCLA
+
+    <where>
+      <if test="logId!=null and logId!=''">
+        and TCLA.LOG_ID=#{logId}
+      </if>
+    </where>
+
+  </select>
+
+
+</mapper>

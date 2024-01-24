@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizStatisticsMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.po.StatisticsOnePo">
+
+        <result column="dealType" jdbcType="VARCHAR" property="dealType"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="dealValue" jdbcType="DOUBLE" property="dealValue"/>
+        <result column="dealSettle" jdbcType="DOUBLE" property="dealSettle"/>
+        <result column="receivables" jdbcType="DOUBLE" property="receivables"/>
+        <result column="revenueShare" jdbcType="VARCHAR" property="revenueShare"/>
+        <result column="dealSettleNow" jdbcType="VARCHAR" property="dealSettleNow"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.StatisticsTwoPo">
+
+        <result column="deptName" jdbcType="VARCHAR" property="deptName"/>
+        <result column="xsCount" jdbcType="VARCHAR" property="xsCount"/>
+        <result column="xsValue" jdbcType="VARCHAR" property="xsValue"/>
+        <result column="xsSettleNow" jdbcType="VARCHAR" property="xsSettleNow"/>
+        <result column="nzCount" jdbcType="VARCHAR" property="nzCount"/>
+        <result column="nzValue" jdbcType="VARCHAR" property="nzValue"/>
+        <result column="nzSettleNow" jdbcType="VARCHAR" property="nzSettleNow"/>
+        <result column="thCount" jdbcType="VARCHAR" property="thCount"/>
+        <result column="thValue" jdbcType="VARCHAR" property="thValue"/>
+        <result column="thSettleNow" jdbcType="VARCHAR" property="thSettleNow"/>
+        <result column="xxCount" jdbcType="VARCHAR" property="xxCount"/>
+        <result column="xxValue" jdbcType="VARCHAR" property="xxValue"/>
+        <result column="xxSettleNow" jdbcType="VARCHAR" property="xxSettleNow"/>
+        <result column="dealCount" jdbcType="VARCHAR" property="dealCount"/>
+        <result column="dealValue" jdbcType="VARCHAR" property="dealValue"/>
+        <result column="dealSettleNow" jdbcType="VARCHAR" property="dealSettleNow"/>
+        <result column="deptId" jdbcType="VARCHAR" property="deptId"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap3" type="cn.com.cnpc.cpoa.po.StatisticsThreePo">
+        <result column="year" jdbcType="VARCHAR" property="year"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="dealValue" jdbcType="DOUBLE" property="dealValue"/>
+        <result column="settleNow" jdbcType="DOUBLE" property="settleNow"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap4" type="cn.com.cnpc.cpoa.po.StatisticsFourPo">
+
+        <result column="year" jdbcType="VARCHAR" property="year"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="dealValue" jdbcType="DOUBLE" property="dealValue"/>
+        <result column="dealSettle" jdbcType="DOUBLE" property="dealSettle"/>
+        <result column="dealSettleNow" jdbcType="DOUBLE" property="dealSettleNow"/>
+        <result column="receivables" jdbcType="DOUBLE" property="receivables"/>
+        <result column="revenueShare" jdbcType="DOUBLE" property="revenueShare"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap5" type="cn.com.cnpc.cpoa.po.StatisticsFivePo">
+
+        <result column="deal_type" jdbcType="VARCHAR" property="dealType"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="deal_value" jdbcType="DOUBLE" property="dealValue"/>
+        <result column="deal_settle" jdbcType="DOUBLE" property="dealSettle"/>
+
+    </resultMap>
+    <resultMap id="BaseResultMap6" type="cn.com.cnpc.cpoa.vo.StatisticsDetailVo">
+
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType"/>
+        <result column="DEAL_STATUS" jdbcType="VARCHAR" property="dealStatus"/>
+        <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus"/>
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEAL_VALUE" jdbcType="VARCHAR" property="dealValue"/>
+        <result column="SETTLE_NOW" jdbcType="DOUBLE" property="settleNow"/>
+        <result column="SETTLE_HIS" jdbcType="DOUBLE" property="settleHis"/>
+        <result column="DEAL_SETTLEMENT" jdbcType="DOUBLE" property="dealSettlement"/>
+        <result column="DEAL_START" jdbcType="DATE" property="dealStart"/>
+        <result column="DEAL_END" jdbcType="DATE" property="dealEnd"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap7" type="cn.com.cnpc.cpoa.vo.StatisticsDetailThreeVo">
+
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType"/>
+        <result column="DEAL_STATUS" jdbcType="VARCHAR" property="dealStatus"/>
+        <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus"/>
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEAL_VALUE" jdbcType="VARCHAR" property="dealValue"/>
+        <result column="SETTLE_NOW" jdbcType="DOUBLE" property="settleNow"/>
+        <result column="SETTLE_HIS" jdbcType="DOUBLE" property="settleHis"/>
+        <result column="DEAL_SETTLEMENT" jdbcType="DOUBLE" property="dealSettlement"/>
+        <result column="DEAL_START" jdbcType="DATE" property="dealStart"/>
+        <result column="DEAL_END" jdbcType="DATE" property="dealEnd"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="dealSignSettle" jdbcType="DOUBLE" property="dealSignSettle"/>
+
+    </resultMap>
+    <!--查看报表1-->
+    <select id="selectListOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT *,ROUND(
+        ROUND(
+        IFNULL(
+        dealSettle / dealValue,
+        0
+        ),
+        4
+        ) * 100,
+        2
+        ) AS revenueShare FROM (
+        SELECT ds.DEAL_TYPE dealType,COUNT(*) AS COUNT,SUM(ds.DEAL_VALUE) AS dealValue,
+        SUM(ds.往年结算+ds.本年结算) AS dealSettle,SUM(ds.本年结算) AS dealSettleNow,
+        SUM(ds.DEAL_VALUE-ds.往年结算-ds.本年结算) AS receivables
+        FROM V_DEAL_STTLE ds
+        <where>
+
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND ds.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND ds.USER_ID = #{dataScopeSelf}
+            </if>
+
+            <if test="dealYear!=null and dealYear=='currentYear'.toString()">
+                AND ds.合同历史='本年合同'
+            </if>
+            <if test="dealYear!=null and dealYear=='lastYear'.toString()">
+                AND ds.合同历史='跨年合同'
+            </if>
+            <if test="dealSignTimeStart!=null and dealSignTimeStart!=''">
+                AND ds.DEAL_SIGN_TIME >= str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="dealSignTimeEnd!=null and dealSignTimeEnd!=''">
+                AND ds.DEAL_SIGN_TIME &lt;= str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+
+
+            AND ds.DEAL_INCOME = #{dealIncome}
+        </where>
+        GROUP BY ds.DEAL_TYPE) a
+
+    </select>
+
+
+    <!--查看报表2-->
+    <select id="selectListTwo" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT
+        O.DEPT_Name deptName,
+        O.DEPT_ID deptId,
+        O.xsCount,
+        O.xsValue,
+        O.xsSettle,
+        O.xsSettleNow,
+        O.xsReceivables,
+        ROUND(
+        ROUND(
+        IFNULL(
+        O.xsSettle/O.xsValue,
+        0
+        ),
+        4
+        ) * 100,
+        2
+        ) AS xsRevenueShare,
+
+
+        O.nzCount,
+        O.nzValue,
+        O.nzSettle,
+        O.nzSettleNow,
+        O.nzReceivables,
+        ROUND(
+        ROUND(
+        IFNULL(
+        O.nzSettle/O.nzValue,
+        0
+        ),
+        4
+        ) * 100,
+        2
+        ) AS nzRevenueShare,
+
+        O.thCount,
+        O.thValue,
+        O.thSettle,
+        O.thSettleNow,
+        O.thReceivables,
+        ROUND(
+        ROUND(
+        IFNULL(
+        O.thSettle/O.thValue,
+        0
+        ),
+        4
+        ) * 100,
+        2
+        ) AS thRevenueShare,
+
+        O.xxCount,
+        O.xxValue,
+        O.xxSettle,
+        O.xxSettleNow,
+        O.xxReceivables,
+        ROUND(
+        ROUND(
+        IFNULL(
+        O.xxSettle/O.xxValue,
+        0
+        ),
+        4
+        ) * 100,
+        2
+        ) AS xxRevenueShare,
+
+        O.dealCount,
+        O.dealValue,
+        O.dealSettle,
+        O.dealSettleNow,
+        O.receivables,
+        ROUND(
+        ROUND(
+        IFNULL(
+        O.dealSettle/O.dealValue,
+        0
+        ),
+        4
+        ) * 100,
+        2
+        ) AS revenueShare
+        FROM
+        (
+        SELECT
+        ds.DEPT_ID,
+        TSD.DEPT_NAME,
+        SUM(IF(ds.DEAL_TYPE = 'XS', 1, 0)) AS xsCount,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'XS',
+        ds.DEAL_VALUE,
+        0
+        )
+        ) AS xsValue,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'XS',
+        ds.往年结算 + ds.本年结算,
+        0
+        )
+        ) AS xsSettle,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'XS',
+        ds.本年结算,
+        0
+        )
+        ) AS xsSettleNow,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'XS',
+        ds.DEAL_VALUE-ds.往年结算-ds.本年结算,
+        0
+        )
+        ) AS xsReceivables ,
+
+        SUM(
+        IF(ds.DEAL_TYPE = 'NZ', 1, 0)
+        ) AS nzCount,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'NZ',
+        ds.DEAL_VALUE,
+        0
+        )
+        ) AS nzValue,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'NZ',
+        ds.往年结算+ds.本年结算,
+        0
+        )
+        ) AS nzSettle,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'NZ',
+        ds.本年结算,
+        0
+        )
+        ) AS nzSettleNow,
+
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'NZ',
+        ds.DEAL_VALUE-ds.往年结算-ds.本年结算,
+        0
+        )
+        ) AS nzReceivables,
+
+        SUM(
+        IF(ds.DEAL_TYPE = 'TH', 1, 0)
+        ) AS thCount,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'TH',
+        ds.DEAL_VALUE,
+        0
+        )
+        ) AS thValue,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'TH',
+        ds.往年结算+ds.本年结算,
+        0
+        )
+        ) AS thSettle,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'TH',
+        ds.本年结算,
+        0
+        )
+        ) AS thSettleNow,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'TH',
+        ds.DEAL_VALUE-ds.往年结算-ds.本年结算,
+        0
+        )
+        ) AS thReceivables,
+
+
+        SUM(
+        IF(ds.DEAL_TYPE = 'XX', 1, 0)
+        ) AS xxCount,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'XX',
+        ds.DEAL_VALUE,
+        0
+        )
+        ) AS xxValue,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'XX',
+        ds.往年结算+ds.本年结算,
+        0
+        )
+        ) AS xxSettle,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'XX',
+        ds.本年结算,
+        0
+        )
+        ) AS xxSettleNow,
+        SUM(
+        IF(
+        ds.DEAL_TYPE = 'XX',
+        ds.DEAL_VALUE-ds.往年结算-ds.本年结算,
+        0
+        )
+        ) AS xxReceivables,
+
+        SUM(1) AS dealCount,
+        SUM(ds.DEAL_VALUE) AS dealValue,
+        IFNULL(
+        SUM(ds.往年结算+ds.本年结算),
+        0
+        ) AS dealSettle,
+        IFNULL(
+        SUM(ds.本年结算),
+        0
+        ) AS dealSettleNow,
+        IFNULL(
+        SUM(ds.DEAL_VALUE-ds.往年结算-ds.本年结算),
+        0
+        ) AS receivables
+        FROM
+        V_DEAL_STTLE ds
+        LEFT JOIN T_SYS_DEPT TSD
+        ON TSD.DEPT_ID = ds.DEPT_ID
+        <where>
+
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND ds.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND ds.USER_ID = #{dataScopeSelf}
+            </if>
+
+            <if test="dealYear!=null and dealYear=='currentYear'.toString()">
+                AND ds.合同历史='本年合同'
+            </if>
+            <if test="dealYear!=null and dealYear=='lastYear'.toString()">
+                AND ds.合同历史='跨年合同'
+            </if>
+
+            <if test="dealSignTimeStart!=null and dealSignTimeStart!='' and dealSignTimeStart!='null'.toString()">
+                AND ds.DEAL_SIGN_TIME >= str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="dealSignTimeEnd!=null and dealSignTimeEnd!='' and dealSignTimeEnd!='null'.toString() ">
+                AND ds.DEAL_SIGN_TIME &lt;= str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            AND ds.DEAL_INCOME = #{dealIncome}
+        </where>
+        GROUP BY ds.DEPT_ID,TSD.DEPT_NAME
+
+        ) O
+
+    </select>
+
+    <!--查看报表3-->
+    <select id="selectListThree" parameterType="java.util.Map" resultMap="BaseResultMap3">
+        SELECT
+        ds.签定年 AS year,
+        COUNT(*) AS count,
+        SUM(ds.DEAL_VALUE) AS dealValue,
+        SUM(ds.签定年结算) AS settleNow
+        FROM V_DEAL_STTLE ds
+        WHERE ds.DEAL_INCOME = #{dealIncome}
+        <if test="dataScopeDept!=null and dataScopeDept!=''">
+            AND ds.DEPT_ID=#{dataScopeDept}
+        </if>
+
+        <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+            AND ds.USER_ID = #{dataScopeSelf}
+        </if>
+        GROUP BY ds.签定年
+
+    </select>
+
+    <!--查看报表4-->
+    <select id="selectListFour" parameterType="java.util.Map" resultMap="BaseResultMap4">
+        SELECT a.年份 YEAR,a.合同数量 COUNT ,a.合同金额 dealValue,a.累计结算金额 dealSettle,
+        a.本年结算金额 dealSettleNow,(a.合同金额-a.累计结算金额) receivables, ROUND(
+        ROUND(
+        IFNULL(
+        a.累计结算金额/a.合同金额,
+        0
+        ),
+        4
+        ) * 100,
+        2
+        ) AS revenueShare FROM (
+        SELECT
+        ds.签定年 AS 年份,
+        COUNT(*) AS 合同数量,
+        SUM(ds.DEAL_VALUE) AS 合同金额,
+        SUM(ds.往年结算+ds.本年结算) AS 累计结算金额,
+        SUM(ds.本年结算) AS 本年结算金额
+
+        FROM V_DEAL_STTLE ds
+        WHERE ds.DEAL_INCOME = #{dealIncome}
+        <if test="dataScopeDept!=null and dataScopeDept!=''">
+            AND ds.DEPT_ID=#{dataScopeDept}
+        </if>
+
+        <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+            AND ds.USER_ID = #{dataScopeSelf}
+        </if>
+        AND ds.合同历史 = '跨年合同'
+        GROUP BY ds.签定年
+        ) a
+
+    </select>
+
+    <!--查看报表5-->
+    <select id="selectListFive" parameterType="java.util.Map" resultMap="BaseResultMap5">
+        SELECT
+        ds.deal_type ,
+        COUNT(*) AS count,
+        SUM(ds.DEAL_VALUE) AS deal_value,
+        SUM(ds.往年结算+ds.本年结算) AS deal_settle
+        FROM V_DEAL_STTLE ds
+        WHERE ds.DEAL_INCOME = #{dealIncome}
+        <if test="dataScopeDept!=null and dataScopeDept!=''">
+            AND ds.DEPT_ID=#{dataScopeDept}
+        </if>
+
+        <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+            AND ds.USER_ID = #{dataScopeSelf}
+        </if>
+
+        AND ds.DEAL_SIGN_TIME BETWEEN str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s') AND
+        str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+        GROUP BY ds.DEAL_TYPE
+    </select>
+
+    <!--查看3报表详情-->
+    <select id="selectListDetailThree" parameterType="java.util.Map" resultMap="BaseResultMap7">
+        SELECT b.DEAL_ID, b.DEAL_NAME,b.DEAL_TYPE,b.DEAL_STATUS,
+        b.DEAL_INCOME,b.DEPT_ID,c.DEPT_NAME,b.USER_ID,
+        d.USER_NAME,b.DEAL_VALUE,a.本年结算 SETTLE_NOW,a.签定年结算 dealSignSettle,
+        a.往年结算 SETTLE_HIS,b.DEAL_SETTLEMENT,b.DEAL_START,b.DEAL_END,e.CONT_NAME,C1.SETTLE_STATUS,b.DEAL_NO FROM
+        V_DEAL_STTLE a
+        INNER JOIN T_BIZ_DEAL b ON a.DEAL_ID=b.DEAL_ID
+        LEFT JOIN T_SYS_DEPT c ON a.DEPT_ID=c.DEPT_ID
+        LEFT JOIN T_SYS_USER d ON a.USER_ID=d.USER_ID
+        LEFT JOIN T_BIZ_CONTRACTOR e ON e.CONT_ID=a.CONTRACT_ID
+        LEFT JOIN (
+
+        SELECT T1.DEAL_ID,T1.SETTLE_STATUS FROM `T_BIZ_SETTLEMENT` T1 INNER JOIN (
+
+        SELECT MAX(T2.CREATE_TIME) CREATE_TIME,T2.DEAL_ID FROM T_BIZ_SETTLEMENT T2 GROUP BY T2.DEAL_ID
+        ) T3 ON T1.DEAL_ID=T3.DEAL_ID AND T1.CREATE_TIME=T3.CREATE_TIME
+
+        ) C1 ON a.DEAL_ID=C1.DEAL_ID
+        <where>
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND a.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND a.USER_ID = #{dataScopeSelf}
+            </if>
+
+            <!--报表查询-->
+            <if test="dealIncome!=null and dealIncome!=''">
+                AND a.DEAL_INCOME= #{dealIncome}
+            </if>
+            <if test="year!=null and year!=''">
+                AND a.签定年= #{year}
+            </if>
+
+        </where>
+    </select>
+
+    <!--查看4报表详情-->
+    <select id="selectListDetailFour" parameterType="java.util.Map" resultMap="BaseResultMap6">
+        SELECT b.DEAL_ID, b.DEAL_NAME,b.DEAL_TYPE,b.DEAL_STATUS,
+        b.DEAL_INCOME,b.DEPT_ID,c.DEPT_NAME,b.USER_ID,
+        d.USER_NAME,b.DEAL_VALUE,a.本年结算 SETTLE_NOW,
+        a.往年结算 SETTLE_HIS,b.DEAL_SETTLEMENT,b.DEAL_START,b.DEAL_END,e.CONT_NAME,C1.SETTLE_STATUS,b.DEAL_NO FROM
+        V_DEAL_STTLE a
+        INNER JOIN T_BIZ_DEAL b ON a.DEAL_ID=b.DEAL_ID
+        LEFT JOIN T_SYS_DEPT c ON a.DEPT_ID=c.DEPT_ID
+        LEFT JOIN T_SYS_USER d ON a.USER_ID=d.USER_ID
+        LEFT JOIN T_BIZ_CONTRACTOR e ON e.CONT_ID=a.CONTRACT_ID
+        LEFT JOIN (
+
+        SELECT T1.DEAL_ID,T1.SETTLE_STATUS FROM `T_BIZ_SETTLEMENT` T1 INNER JOIN (
+
+        SELECT MAX(T2.CREATE_TIME) CREATE_TIME,T2.DEAL_ID FROM T_BIZ_SETTLEMENT T2 GROUP BY T2.DEAL_ID
+        ) T3 ON T1.DEAL_ID=T3.DEAL_ID AND T1.CREATE_TIME=T3.CREATE_TIME
+
+        ) C1 ON a.DEAL_ID=C1.DEAL_ID
+        <where>
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND a.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND a.USER_ID = #{dataScopeSelf}
+            </if>
+
+            <!--报表查询-->
+            <if test="dealIncome!=null and dealIncome!=''">
+                AND a.DEAL_INCOME= #{dealIncome}
+            </if>
+            <if test="year!=null and year!=''">
+                AND a.签定年= #{year}
+            </if>
+            AND a.合同历史='跨年合同'
+
+        </where>
+    </select>
+
+
+    <!--查看5报表详情-->
+    <select id="selectListDetailFive" parameterType="java.util.Map" resultMap="BaseResultMap6">
+        SELECT b.DEAL_ID, b.DEAL_NAME,b.DEAL_TYPE,b.DEAL_STATUS,
+        b.DEAL_INCOME,b.DEPT_ID,c.DEPT_NAME,b.USER_ID,
+        d.USER_NAME,b.DEAL_VALUE,a.本年结算 SETTLE_NOW,
+        a.往年结算 SETTLE_HIS,b.DEAL_SETTLEMENT,b.DEAL_START,b.DEAL_END,e.CONT_NAME,C1.SETTLE_STATUS,b.DEAL_NO FROM
+        V_DEAL_STTLE a
+        INNER JOIN T_BIZ_DEAL b ON a.DEAL_ID=b.DEAL_ID
+        LEFT JOIN T_SYS_DEPT c ON a.DEPT_ID=c.DEPT_ID
+        LEFT JOIN T_SYS_USER d ON a.USER_ID=d.USER_ID
+        LEFT JOIN T_BIZ_CONTRACTOR e ON e.CONT_ID=a.CONTRACT_ID
+        LEFT JOIN (
+
+        SELECT T1.DEAL_ID,T1.SETTLE_STATUS FROM `T_BIZ_SETTLEMENT` T1 INNER JOIN (
+
+        SELECT MAX(T2.CREATE_TIME) CREATE_TIME,T2.DEAL_ID FROM T_BIZ_SETTLEMENT T2 GROUP BY T2.DEAL_ID
+        ) T3 ON T1.DEAL_ID=T3.DEAL_ID AND T1.CREATE_TIME=T3.CREATE_TIME
+
+        ) C1 ON a.DEAL_ID=C1.DEAL_ID
+        <where>
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND a.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND a.USER_ID = #{dataScopeSelf}
+            </if>
+
+            <if test="dealType!=null and dealType!=''">
+                AND a.DEAL_TYPE= #{dealType}
+            </if>
+
+            <if test="dealIncome!=null and dealIncome!=''">
+                AND a.DEAL_INCOME= #{dealIncome}
+            </if>
+            <if test="dealSignTimeStart!=null and dealSignTimeStart!=''and dealSignTimeStart!='null'.toString()">
+                AND b.DEAL_SIGN_TIME >= str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="dealSignTimeEnd!=null and dealSignTimeEnd!=''and dealSignTimeEnd!='null'.toString()">
+                AND b.DEAL_SIGN_TIME &lt;= str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+    </select>
+
+</mapper>

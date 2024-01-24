@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="punchout_form" method="post" action="https://openapi.alipaydev.com/gateway.do?alipay_sdk=alipay-easysdk-java-2.1.2&app_id=2021000121681841&charset=UTF-8&format=json&method=alipay.trade.page.pay&notify_url=http%3A%2Flocalhost%3A6002%2Ftest&return_url=http%3A%2F%2Flocalhost%3A6002%2Fpay.success.html&sign=hvj6KpZhpX33jxM%2FvzQRAay3qFWQxSKP0tNyNg0EEA7ziHHlcgtNQYS%2BMpHb9y7RgFQx5AJk6mxU9i0AGYBjKqJT8rhWZfACmZ%2BY3Quvb9i17Xbis0qahCD%2FlVMXPy50ubBwjiiq962iETH9CEizbx8Zf3F2s%2BKisoyHULne%2BeMjCkBvJc3%2BhzEIZHrXYVDVzUombKEZADUKtPDP0cdXZoCtb8eEHacQ%2Fk3uRUbeOWdGnrpEhrE8JoIYNcUCgVFbw7RE8B%2Br6GP7DiIl9n%2B49SaImLnxeGJxhZCLmfNOTIeyNex4CPZ%2FVxcQFcG31rx3iYydlTD4HAOvRKLSfrBI%2Fg%3D%3D&sign_type=RSA2&timestamp=2022-11-03+17%3A10%3A06&version=1.0">
+    <input type="hidden" name="biz_content" value="{&quot;out_trade_no&quot;:&quot;22220011325&quot;,&quot;total_amount&quot;:&quot;100.00&quot;,&quot;subject&quot;:&quot;ymlql&quot;,&quot;product_code&quot;:&quot;FAST_INSTANT_TRADE_PAY&quot;}">
+    <input type="submit" value="立即支付" style="display:none" >
+</form>
+<script>document.forms[0].submit();</script>
+</body>
+</html>

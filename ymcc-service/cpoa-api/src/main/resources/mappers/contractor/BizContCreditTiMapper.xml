@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContCreditTiMapper">
+
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContCreditTiDto">
+    <result column="ITEM_ID" jdbcType="VARCHAR" property="itemId" />
+    <result column="ITEM_NO" jdbcType="VARCHAR" property="itemNo" />
+    <result column="ITEM_PROJ_NAME" jdbcType="VARCHAR" property="itemProjName" />
+    <result column="ITEM_MUST" jdbcType="VARCHAR" property="itemMust" />
+    <result column="TMPL_ID" jdbcType="VARCHAR" property="tmplId" />
+    <result column="ACCESS_TYPE" jdbcType="VARCHAR" property="accessType" />
+  </resultMap>
+
+
+  <!--查询-->
+  <select id="selectContCreditDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_CONT_CREDIT_TI TCCT
+    <where>
+
+      <if test="acceId!=null and acceId!=''">
+        and TCCT.ITEM_ID not in (
+        select ITEM_ID from T_CONT_CREDIT WHERE  ACCE_ID=#{acceId} AND ITEM_ID IS NOT NULL
+        )
+      </if>
+
+      <if test="itemMust!=null and itemMust!=''">
+        and TCCT.ITEM_MUST=#{itemMust}
+      </if>
+    </where>
+    ORDER BY ITEM_NO
+  </select>
+
+
+
+
+
+</mapper>

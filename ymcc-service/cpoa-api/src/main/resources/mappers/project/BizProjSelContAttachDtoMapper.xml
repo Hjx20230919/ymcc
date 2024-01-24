@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.project.BizProjSelContAttachDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.project.BizProjSelContAttachDto">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SEL_CONT_ID" jdbcType="VARCHAR" property="selContId" />
+    <result column="ATTACH_ID" jdbcType="VARCHAR" property="attachId" />
+  </resultMap>
+
+    <!--查询附件-->
+    <select id="selectProjSelContAttachDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT *  FROM T_PROJ_SEL_CONT_ATTACH TPSCA
+
+        <where>
+          <if test="selContId!=null and selContId!=''">
+              and TPSCA.SEL_CONT_ID=#{selContId}
+          </if>
+
+        </where>
+    </select>
+
+
+
+
+</mapper>

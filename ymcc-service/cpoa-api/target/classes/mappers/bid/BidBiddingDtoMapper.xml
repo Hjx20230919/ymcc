@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidBiddingDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidBiddingDto">
+    <result column="BIDDING_ID" jdbcType="VARCHAR" property="biddingId" />
+    <result column="PROJ_NO" jdbcType="VARCHAR" property="projNo" />
+    <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName" />
+    <result column="NOTICE_NAME" jdbcType="VARCHAR" property="noticeName" />
+    <result column="PUBLISH_AT" jdbcType="TIMESTAMP" property="publishAt" />
+    <result column="BIDDING_CONDITIONS" jdbcType="VARCHAR" property="biddingConditions" />
+    <result column="PROJ_DESC" jdbcType="VARCHAR" property="projDesc" />
+    <result column="BIDDER_QUALIFICATION" jdbcType="VARCHAR" property="bidderQualification" />
+    <result column="BIDDER_DOC_INFO" jdbcType="VARCHAR" property="bidderDocInfo" />
+    <result column="POST_BID_DOC_INFO" jdbcType="VARCHAR" property="postBidDocInfo" />
+    <result column="PUBLISH_MEDIA" jdbcType="VARCHAR" property="publishMedia" />
+    <result column="LINK_INFO" jdbcType="VARCHAR" property="linkInfo" />
+    <result column="OTHER_INFO" jdbcType="VARCHAR" property="otherInfo" />
+    <result column="BIDDER_FILE_AMOUNT" jdbcType="REAL" property="bidderFileAmount" />
+    <result column="GET_BID_DOC_START_AT" jdbcType="TIMESTAMP" property="getBidDocStartAt" />
+    <result column="GET_BID_DOC_END_AT" jdbcType="TIMESTAMP" property="getBidDocEndAt" />
+    <result column="GUARANTEE_AMOUNT" jdbcType="DECIMAL" property="guaranteeAmount" />
+    <result column="GA_ACTUAL_AT" jdbcType="TIMESTAMP" property="gaActualAt" />
+    <result column="POST_BID_DOC_END_AT" jdbcType="TIMESTAMP" property="postBidDocEndAt" />
+    <result column="BID_AMOUNT" jdbcType="REAL" property="bidAmount" />
+    <result column="BID_OPEN_AT" jdbcType="TIMESTAMP" property="bidOpenAt" />
+    <result column="CONTACT_METHOD" jdbcType="VARCHAR" property="contactMethod" />
+    <result column="SOURCE_URL" jdbcType="VARCHAR" property="sourceUrl" />
+    <result column="CRAWL_AT" jdbcType="TIMESTAMP" property="crawlAt" />
+    <result column="CRAWL_METHOD" jdbcType="VARCHAR" property="crawlMethod" />
+    <result column="BIDDING_STATUS" jdbcType="VARCHAR" property="biddingStatus" />
+    <result column="KEY_WORD" jdbcType="VARCHAR" property="keyWord" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="RESERVE1" jdbcType="VARCHAR" property="reserve1" />
+    <result column="RESERVE2" jdbcType="VARCHAR" property="reserve2" />
+    <result column="RESERVE3" jdbcType="VARCHAR" property="reserve3" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="SOURCE_HTML" jdbcType="LONGVARCHAR" property="sourceHtml" />
+  </resultMap>
+
+  <resultMap id="BidBiddingPo" type="cn.com.cnpc.cpoa.po.bid.BidBiddingPo">
+    <result column="BIDDING_ID" jdbcType="VARCHAR" property="biddingId" />
+    <result column="PROJ_NO" jdbcType="VARCHAR" property="projNo" />
+    <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName" />
+    <result column="NOTICE_NAME" jdbcType="VARCHAR" property="noticeName" />
+    <result column="PUBLISH_AT" jdbcType="VARCHAR" property="publishAt" />
+    <result column="BIDDING_CONDITIONS" jdbcType="VARCHAR" property="biddingConditions" />
+    <result column="PROJ_DESC" jdbcType="VARCHAR" property="projDesc" />
+    <result column="BIDDER_QUALIFICATION" jdbcType="VARCHAR" property="bidderQualification" />
+    <result column="BIDDER_DOC_INFO" jdbcType="VARCHAR" property="bidderDocInfo" />
+    <result column="POST_BID_DOC_INFO" jdbcType="VARCHAR" property="postBidDocInfo" />
+    <result column="PUBLISH_MEDIA" jdbcType="VARCHAR" property="publishMedia" />
+    <result column="LINK_INFO" jdbcType="VARCHAR" property="linkInfo" />
+    <result column="OTHER_INFO" jdbcType="VARCHAR" property="otherInfo" />
+    <result column="BIDDER_FILE_AMOUNT" jdbcType="REAL" property="bidderFileAmount" />
+    <result column="GET_BID_DOC_START_AT" jdbcType="VARCHAR" property="getBidDocStartAt" />
+    <result column="GET_BID_DOC_END_AT" jdbcType="VARCHAR" property="getBidDocEndAt" />
+    <result column="GUARANTEE_AMOUNT" jdbcType="DECIMAL" property="guaranteeAmount" />
+    <result column="GA_ACTUAL_AT" jdbcType="VARCHAR" property="gaActualAt" />
+    <result column="POST_BID_DOC_END_AT" jdbcType="VARCHAR" property="postBidDocEndAt" />
+    <result column="BID_AMOUNT" jdbcType="REAL" property="bidAmount" />
+    <result column="BID_OPEN_AT" jdbcType="VARCHAR" property="bidOpenAt" />
+    <result column="CONTACT_METHOD" jdbcType="VARCHAR" property="contactMethod" />
+    <result column="SOURCE_URL" jdbcType="VARCHAR" property="sourceUrl" />
+    <result column="CRAWL_AT" jdbcType="VARCHAR" property="crawlAt" />
+    <result column="CRAWL_METHOD" jdbcType="VARCHAR" property="crawlMethod" />
+    <result column="BIDDING_STATUS" jdbcType="VARCHAR" property="biddingStatus" />
+    <result column="KEY_WORD" jdbcType="VARCHAR" property="keyWord" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="RESERVE1" jdbcType="VARCHAR" property="reserve1" />
+    <result column="RESERVE2" jdbcType="VARCHAR" property="reserve2" />
+    <result column="RESERVE3" jdbcType="VARCHAR" property="reserve3" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="MAN_ID" jdbcType="VARCHAR" property="manId" />
+    <result column="STEP_ID" jdbcType="VARCHAR" property="stepId" />
+    <result column="SOURCE_HTML" jdbcType="LONGVARCHAR" property="sourceHtml" />
+    <result column="DEPT_NAME" jdbcType="LONGVARCHAR" property="deptName" />
+  </resultMap>
+
+  <!--查询已有的招标名称-->
+  <select id="selectProjNo" resultType="java.lang.String">
+    select PROJ_NO from T_BID_BIDDING GROUP BY PROJ_NO
+  </select>
+
+  <select id="selectBidding" parameterType="java.util.Map" resultMap="BidBiddingPo">
+    SELECT
+    BIDDING_ID,
+    PROJ_NO,
+    PROJ_NAME,
+    NOTICE_NAME,
+    PUBLISH_AT,
+    BIDDING_CONDITIONS,
+    PROJ_DESC,
+    BIDDER_QUALIFICATION,
+    BIDDER_DOC_INFO,
+    POST_BID_DOC_INFO,
+    PUBLISH_MEDIA,
+    LINK_INFO,
+    OTHER_INFO,
+    BIDDER_FILE_AMOUNT,
+    GET_BID_DOC_START_AT,
+    GET_BID_DOC_END_AT,
+    GUARANTEE_AMOUNT,
+    GA_ACTUAL_AT,
+    POST_BID_DOC_END_AT,
+    BID_AMOUNT,
+    BID_OPEN_AT,
+    CONTACT_METHOD,
+    SOURCE_HTML,
+    SOURCE_URL,
+    CRAWL_AT,
+    BIDDING_STATUS,
+    KEY_WORD,
+    tbb.DEPT_ID,
+    RESERVE1,
+    RESERVE2,
+    RESERVE3,
+    NOTES,
+    tsd.DEPT_NAME,
+    CRAWL_METHOD
+    FROM
+    T_BID_BIDDING tbb
+    LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tbb.DEPT_ID
+    <where>
+      <if test="publishStartAt !=null and publishStartAt != ''">
+        and tbb.PUBLISH_AT &gt;= #{publishStartAt}
+      </if>
+      <if test="publishEndAt !=null and publishEndAt != ''">
+        and tbb.PUBLISH_AT &lt;= #{publishEndAt}
+      </if>
+      <if test="bidOpenStartAt !=null and bidOpenStartAt != ''">
+        and tbb.BID_OPEN_AT &gt;= #{bidOpenStartAt}
+      </if>
+      <if test="bidOpenEndtAt !=null and bidOpenEndtAt != ''">
+        and tbb.BID_OPEN_AT &lt;= #{bidOpenEndtAt}
+      </if>
+      <if test="projNo !=null and projNo != ''">
+        and tbb.PROJ_NO like CONCAT('%',#{projNo},'%')
+      </if>
+      <if test="projName !=null and projName != ''">
+        and tbb.PROJ_NAME like CONCAT('%',#{projName},'%')
+      </if>
+      <if test="keyWord !=null and keyWord != ''">
+        and tbb.KEY_WORD like CONCAT('%',#{keyWord},'%')
+      </if>
+      <if test="biddingStatus !=null and biddingStatus != ''">
+        and tbb.BIDDING_STATUS = #{biddingStatus}
+      </if>
+      <if test="biddingId !=null and biddingId != ''">
+        and tbb.BIDDING_ID = #{biddingId}
+      </if>
+      <if test="bidAmountStart !=null and bidAmountStart != ''">
+        and tbb.BID_AMOUNT &gt;= #{bidAmountStart}
+      </if>
+      <if test="bidAmountEnd !=null and bidAmountEnd != ''">
+        and tbb.BID_AMOUNT &lt;= #{bidAmountEnd}
+      </if>
+    </where>
+    ORDER BY tbb.PUBLISH_AT DESC
+  </select>
+
+  <select id="selectAuditBIdding" parameterType="java.util.Map" resultMap="BidBiddingPo">
+    SELECT
+      bd.*,
+      bcs.STEP_ID,
+      bcm.MAN_ID
+    FROM
+        T_BIZ_CHECK_STEP bcs
+        LEFT JOIN T_BID_BIDDING bd ON bcs.CHECK_OBJ_ID = bd.BIDDING_ID
+        LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+    WHERE bcs.CHECK_OBJ_TYPE = 'bidding' and bcm.CHECK_STATE = 'PENDING' and bcm.USER_ID = #{userId}
+  </select>
+</mapper>

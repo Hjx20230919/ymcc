@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.SysLogDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.SysLogDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="LOG_ID" jdbcType="VARCHAR" property="logId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="LOG_TIME" jdbcType="TIMESTAMP" property="logTime" />
+    <result column="LOG_MODULE" jdbcType="VARCHAR" property="logModule" />
+    <result column="LOG_OBJECT" jdbcType="VARCHAR" property="logObject" />
+    <result column="LOG_TYPE" jdbcType="VARCHAR" property="logType" />
+    <result column="LOG_CONTENT" jdbcType="LONGVARCHAR" property="logContent" />
+    <result column="USER_NAME" jdbcType="LONGVARCHAR" property="userName" />
+  </resultMap>
+
+  <!--查询用户-->
+  <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT TSL.*,TSU.USER_NAME FROM T_SYS_LOG TSL
+    LEFT JOIN T_SYS_USER TSU ON TSL.USER_ID=TSU.USER_ID
+    <where>
+      <if test="logTimeStart!=null and logTimeStart!=''">
+        AND TSL.LOG_TIME &lt;=str_to_date(#{logTimeStart},'%Y-%m-%d %H:%i:%s')
+      </if>
+      <if test="logTimeEnd!=null and logTimeEnd!=''">
+        AND TSL.LOG_TIME >=str_to_date(#{logTimeEnd},'%Y-%m-%d %H:%i:%s')
+      </if>
+
+      <if test="logType!=null and logType!=''">
+        AND TSL.LOG_TYPE = #{logType}
+      </if>
+      <if test="logModule!=null and logModule!=''">
+        AND TSL.LOG_MODULE = #{logModule}
+      </if>
+      <if test="logContent!=null and logContent!=''">
+        AND TSL.LOG_CONTENT LIKE CONCAT('%',#{logContent},'%')
+      </if>
+      <if test="userName!=null and userName!=''">
+        AND  TSU.USER_NAME LIKE CONCAT('%',#{userName},'%')
+      </if>
+    </where>
+    order by TSL.LOG_TIME desc
+  </select>
+
+
+</mapper>

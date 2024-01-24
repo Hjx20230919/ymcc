@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizCheckTmDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizCheckTmDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="TMPL_ID" jdbcType="VARCHAR" property="tmplId" />
+    <result column="TMPL_NAME" jdbcType="VARCHAR" property="tmplName" />
+    <result column="TMPL_CODE" jdbcType="VARCHAR" property="tmplCode" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="TMPL_NO" jdbcType="INTEGER" property="tmplNo" />
+  </resultMap>
+
+
+  <select id="selectCheckTm" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM T_BIZ_CHECK_TM
+    <where>
+      <if test="tmplId!=null and tmplId!=''">
+        AND T_BIZ_CHECK_TM.TMPL_ID=#{tmplId}
+      </if>
+    </where>
+
+    ORDER BY T_BIZ_CHECK_TM.TMPL_NO
+  </select>
+
+
+</mapper>

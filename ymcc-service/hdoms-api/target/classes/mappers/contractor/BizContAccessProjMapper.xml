@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContAccessProjMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContAccessProjDto">
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId"/>
+        <result column="CONT_ID" jdbcType="VARCHAR" property="contId"/>
+        <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName"/>
+        <result column="ACCE_LIMIT_TIME" jdbcType="TIMESTAMP" property="acceLimitTime"/>
+        <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.contractor.ContAccessProjPo">
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId"/>
+        <result column="CONT_ID" jdbcType="VARCHAR" property="contId"/>
+        <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName"/>
+        <result column="ACCE_LIMIT_TIME" jdbcType="TIMESTAMP" property="acceLimitTime"/>
+        <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent"/>
+        <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType"/>
+    </resultMap>
+
+
+    <!--查询-->
+    <select id="getContAccessProjList" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM T_CONT_ACCESS_PROJ
+        <where>
+            <if test="contId!=null and contId!=''">
+                and CONT_ID=#{contId}
+            </if>
+        </where>
+    </select>
+
+
+    <!--查询-->
+    <select id="getContAccessProjPo" parameterType="string" resultMap="BaseResultMap2">
+        SELECT *,CAP.PROJ_CONTENT FROM T_CONT_ACCESS_PROJ TCAP
+        LEFT JOIN (
+        SELECT CONT_ID,GROUP_CONCAT(TCP.PROJ_CONTENT) PROJ_CONTENT
+        FROM T_CONT_PROJECT TCP
+        INNER JOIN T_CONT_ACCESS TCA ON TCP.PROJ_ID=TCA.PROJ_ID
+        WHERE TCP.PROJ_STATE='down'
+        GROUP BY TCA.CONT_ID
+        ) CAP ON TCAP.CONT_ID=CAP.CONT_ID
+
+        <where>
+            <if test="contId!=null and contId!=''">
+                and TCAP.CONT_ID=#{contId}
+            </if>
+            <if test="projAccessType!=null and projAccessType!=''">
+                and TCAP.PROJ_ACCESS_TYPE=#{projAccessType}
+            </if>
+        </where>
+    </select>
+
+    <!--查询-->
+    <select id="getContAccessProjPoAcceId" parameterType="string" resultMap="BaseResultMap2">
+        SELECT *,CAP.PROJ_CONTENT FROM T_CONT_ACCESS_PROJ TCAP
+        LEFT JOIN (
+        SELECT ACCE_ID,GROUP_CONCAT(TCP.PROJ_CONTENT) PROJ_CONTENT
+        FROM T_CONT_PROJECT TCP
+        INNER JOIN T_CONT_ACCESS TCA ON TCP.PROJ_ID=TCA.PROJ_ID
+        WHERE TCP.PROJ_STATE='down'
+        GROUP BY TCA.ACCE_ID
+        ) CAP ON TCAP.ACCE_ID=CAP.ACCE_ID
+
+        <where>
+            <if test="acceId!=null and acceId!=''">
+                and TCAP.ACCE_ID=#{acceId}
+            </if>
+            <if test="projAccessType!=null and projAccessType!=''">
+                and TCAP.PROJ_ACCESS_TYPE=#{projAccessType}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectContAccessProj" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from T_CONT_ACCESS_PROJ tcap
+        <where>
+            <if test="acceId != null and acceId !=''">
+                and tcap.ACCE_ID = #{acceId}
+            </if>
+            <if test="contId != null and contId !=''">
+                and tcap.CONT_ID = #{contId}
+            </if>
+        </where>
+    </select>
+</mapper>

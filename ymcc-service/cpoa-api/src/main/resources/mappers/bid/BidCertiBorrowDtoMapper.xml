@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidCertiBorrowDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidCertiBorrowDto">
+    <result column="CERTI_BORROW_ID" jdbcType="VARCHAR" property="certiBorrowId" />
+    <result column="BID_PROJ_ID" jdbcType="VARCHAR" property="bidProjId" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="BORROW_MAN" jdbcType="VARCHAR" property="borrowMan" />
+    <result column="BORROW_REASON" jdbcType="VARCHAR" property="borrowReason" />
+    <result column="BORROW_START_AT" jdbcType="TIMESTAMP" property="borrowStartAt" />
+    <result column="BORROW_END_AT" jdbcType="TIMESTAMP" property="borrowEndAt" />
+    <result column="WATERMARK_CONTENT" jdbcType="VARCHAR" property="watermarkContent" />
+    <result column="CHECK_MAN" jdbcType="VARCHAR" property="checkMan" />
+    <result column="CHECK_STATUS" jdbcType="VARCHAR" property="checkStatus" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="BidCertiBorrowPo" type="cn.com.cnpc.cpoa.po.bid.BidCertiBorrowPo">
+    <result column="CERTI_BORROW_ID" jdbcType="VARCHAR" property="certiBorrowId" />
+    <result column="BID_PROJ_ID" jdbcType="VARCHAR" property="bidProjId" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="BORROW_MAN" jdbcType="VARCHAR" property="borrowMan" />
+    <result column="BORROW_REASON" jdbcType="VARCHAR" property="borrowReason" />
+    <result column="BORROW_START_AT" jdbcType="TIMESTAMP" property="borrowStartAt" />
+    <result column="BORROW_END_AT" jdbcType="TIMESTAMP" property="borrowEndAt" />
+    <result column="WATERMARK_CONTENT" jdbcType="VARCHAR" property="watermarkContent" />
+    <result column="CERTI_BORROW_STATUS" jdbcType="VARCHAR" property="certiBorrowStatus" />
+    <result column="CHECK_MAN" jdbcType="VARCHAR" property="checkMan" />
+    <result column="CHECK_STATUS" jdbcType="VARCHAR" property="checkStatus" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="objId" jdbcType="VARCHAR" property="objId" />
+    <result column="objType" jdbcType="VARCHAR" property="objType" />
+  </resultMap>
+
+  <select id="selectByBidProjId" parameterType="java.lang.String" resultMap="BidCertiBorrowPo">
+    SELECT
+      *
+    FROM
+      T_BID_CERTI_BORROW tbcb
+    WHERE
+      tbcb.BID_PROJ_ID = #{bidProjId}
+  </select>
+
+  <select id="selectCertiBorrow" parameterType="java.util.Map" resultMap="BidCertiBorrowPo">
+    SELECT
+      tbcb.*,
+      tbcb.CERTI_BORROW_ID objId,
+      'certiBorrow' objType
+    FROM
+      T_BID_CERTI_BORROW tbcb
+    <where>
+        and tbcb.BID_PROJ_ID is null
+        <if test="deptId != null and deptId != ''" >
+          and tbcb.DEPT_ID = #{deptId}
+        </if>
+    </where>
+  </select>
+
+</mapper>

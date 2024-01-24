@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.BizRptMonthDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizRptMonthDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="RPT_MONTH_ID" jdbcType="VARCHAR" property="rptMonthId" />
+        <result column="RPT_MONTH_NAME" jdbcType="VARCHAR" property="rptMonthName" />
+        <result column="START_AT" jdbcType="DATE" property="startAt" />
+        <result column="END_AT" jdbcType="DATE" property="endAt" />
+        <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
+        <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="CHECK_ID" jdbcType="VARCHAR" property="checkId" />
+        <result column="LINK_PHONE" jdbcType="VARCHAR" property="linkPhone" />
+        <result column="MARKET_DESC" jdbcType="VARCHAR" property="marketDesc" />
+        <result column="MARKET_Q" jdbcType="VARCHAR" property="marketQ" />
+        <result column="MARKET_PLAN" jdbcType="VARCHAR" property="marketPlan" />
+        <result column="XQ_HJ" jdbcType="DECIMAL" property="xqHj" />
+        <result column="XQ_GN_CJNB" jdbcType="DECIMAL" property="xqGnCjnb" />
+        <result column="XQ_GN_JTNB_GL_CY" jdbcType="DECIMAL" property="xqGnJtnbGlCy" />
+        <result column="XQ_GN_JTNB_GL_CQ" jdbcType="DECIMAL" property="xqGnJtnbGlCq" />
+        <result column="XQ_GN_JTNB_FGL_CY" jdbcType="DECIMAL" property="xqGnJtnbFglCy" />
+        <result column="XQ_GN_JTNB_FGL_CQ" jdbcType="DECIMAL" property="xqGnJtnbFglCq" />
+        <result column="XQ_GN_JTNB_FGL_TLM" jdbcType="DECIMAL" property="xqGnJtnbFglTlm" />
+        <result column="XQ_GN_JTNB_FGL_QT" jdbcType="DECIMAL" property="xqGnJtnbFglQt" />
+        <result column="XQ_GN_JTWB_GNFCB" jdbcType="DECIMAL" property="xqGnJtwbGnfcb" />
+        <result column="XQ_GN_JTWB_QT" jdbcType="DECIMAL" property="xqGnJtwbQt" />
+        <result column="XQ_GW_JTNB" jdbcType="DECIMAL" property="xqGwJtnb" />
+        <result column="XQ_GW_JTWB" jdbcType="DECIMAL" property="xqGwJtwb" />
+        <result column="XQ_HJ2" jdbcType="DECIMAL" property="xqHj2" />
+        <result column="XQ_GN_CJNB2" jdbcType="DECIMAL" property="xqGnCjnb2" />
+        <result column="XQ_GN_JTNB_GL_CY2" jdbcType="DECIMAL" property="xqGnJtnbGlCy2" />
+        <result column="XQ_GN_JTNB_GL_CQ2" jdbcType="DECIMAL" property="xqGnJtnbGlCq2" />
+        <result column="XQ_GN_JTNB_FGL_CY2" jdbcType="DECIMAL" property="xqGnJtnbFglCy2" />
+        <result column="XQ_GN_JTNB_FGL_CQ2" jdbcType="DECIMAL" property="xqGnJtnbFglCq2" />
+        <result column="XQ_GN_JTNB_FGL_TLM2" jdbcType="DECIMAL" property="xqGnJtnbFglTlm2" />
+        <result column="XQ_GN_JTNB_FGL_QT2" jdbcType="DECIMAL" property="xqGnJtnbFglQt2" />
+        <result column="XQ_GN_JTWB_GNFCB2" jdbcType="DECIMAL" property="xqGnJtwbGnfcb2" />
+        <result column="XQ_GN_JTWB_QT2" jdbcType="DECIMAL" property="xqGnJtwbQt2" />
+        <result column="XQ_GW_JTNB2" jdbcType="DECIMAL" property="xqGwJtnb2" />
+        <result column="XQ_GW_JTWB2" jdbcType="DECIMAL" property="xqGwJtwb2" />
+        <result column="XQ_HJ3" jdbcType="DECIMAL" property="xqHj3" />
+        <result column="XQ_GN_CJNB3" jdbcType="DECIMAL" property="xqGnCjnb3" />
+        <result column="XQ_GN_JTNB_GL_CY3" jdbcType="DECIMAL" property="xqGnJtnbGlCy3" />
+        <result column="XQ_GN_JTNB_GL_CQ3" jdbcType="DECIMAL" property="xqGnJtnbGlCq3" />
+        <result column="XQ_GN_JTNB_FGL_CY3" jdbcType="DECIMAL" property="xqGnJtnbFglCy3" />
+        <result column="XQ_GN_JTNB_FGL_CQ3" jdbcType="DECIMAL" property="xqGnJtnbFglCq3" />
+        <result column="XQ_GN_JTNB_FGL_TLM3" jdbcType="DECIMAL" property="xqGnJtnbFglTlm3" />
+        <result column="XQ_GN_JTNB_FGL_QT3" jdbcType="DECIMAL" property="xqGnJtnbFglQt3" />
+        <result column="XQ_GN_JTWB_GNFCB3" jdbcType="DECIMAL" property="xqGnJtwbGnfcb3" />
+        <result column="XQ_GN_JTWB_QT3" jdbcType="DECIMAL" property="xqGnJtwbQt3" />
+        <result column="XQ_GW_JTNB3" jdbcType="DECIMAL" property="xqGwJtnb3" />
+        <result column="XQ_GW_JTWB3" jdbcType="DECIMAL" property="xqGwJtwb3" />
+        <result column="XQ_TBZJYY" jdbcType="VARCHAR" property="xqTbzjyy" />
+        <result column="QN_HJ" jdbcType="DECIMAL" property="qnHj" />
+        <result column="QN_GN_CJNB" jdbcType="DECIMAL" property="qnGnCjnb" />
+        <result column="QN_GN_JTNB_GL_CY" jdbcType="DECIMAL" property="qnGnJtnbGlCy" />
+        <result column="QN_GN_JTNB_GL_CQ" jdbcType="DECIMAL" property="qnGnJtnbGlCq" />
+        <result column="QN_GN_JTNB_FGL_CY" jdbcType="DECIMAL" property="qnGnJtnbFglCy" />
+        <result column="QN_GN_JTNB_FGL_CQ" jdbcType="DECIMAL" property="qnGnJtnbFglCq" />
+        <result column="QN_GN_JTNB_FGL_TLM" jdbcType="DECIMAL" property="qnGnJtnbFglTlm" />
+        <result column="QN_GN_JTNB_FGL_QT" jdbcType="DECIMAL" property="qnGnJtnbFglQt" />
+        <result column="QN_GN_JTWB_GNFCB" jdbcType="DECIMAL" property="qnGnJtwbGnfcb" />
+        <result column="QN_GN_JTWB_QT" jdbcType="DECIMAL" property="qnGnJtwbQt" />
+        <result column="QN_GW_JTNB" jdbcType="DECIMAL" property="qnGwJtnb" />
+        <result column="QN_GW_JTWB" jdbcType="DECIMAL" property="qnGwJtwb" />
+        <result column="QN_HJ2" jdbcType="DECIMAL" property="qnHj2" />
+        <result column="QN_GN_CJNB2" jdbcType="DECIMAL" property="qnGnCjnb2" />
+        <result column="QN_GN_JTNB_GL_CY2" jdbcType="DECIMAL" property="qnGnJtnbGlCy2" />
+        <result column="QN_GN_JTNB_GL_CQ2" jdbcType="DECIMAL" property="qnGnJtnbGlCq2" />
+        <result column="QN_GN_JTNB_FGL_CY2" jdbcType="DECIMAL" property="qnGnJtnbFglCy2" />
+        <result column="QN_GN_JTNB_FGL_CQ2" jdbcType="DECIMAL" property="qnGnJtnbFglCq2" />
+        <result column="QN_GN_JTNB_FGL_TLM2" jdbcType="DECIMAL" property="qnGnJtnbFglTlm2" />
+        <result column="QN_GN_JTNB_FGL_QT2" jdbcType="DECIMAL" property="qnGnJtnbFglQt2" />
+        <result column="QN_GN_JTWB_GNFCB2" jdbcType="DECIMAL" property="qnGnJtwbGnfcb2" />
+        <result column="QN_GN_JTWB_QT2" jdbcType="DECIMAL" property="qnGnJtwbQt2" />
+        <result column="QN_GW_JTNB2" jdbcType="DECIMAL" property="qnGwJtnb2" />
+        <result column="QN_GW_JTWB2" jdbcType="DECIMAL" property="qnGwJtwb2" />
+        <result column="QN_HJ3" jdbcType="DECIMAL" property="qnHj3" />
+        <result column="QN_GN_CJNB3" jdbcType="DECIMAL" property="qnGnCjnb3" />
+        <result column="QN_GN_JTNB_GL_CY3" jdbcType="DECIMAL" property="qnGnJtnbGlCy3" />
+        <result column="QN_GN_JTNB_GL_CQ3" jdbcType="DECIMAL" property="qnGnJtnbGlCq3" />
+        <result column="QN_GN_JTNB_FGL_CY3" jdbcType="DECIMAL" property="qnGnJtnbFglCy3" />
+        <result column="QN_GN_JTNB_FGL_CQ3" jdbcType="DECIMAL" property="qnGnJtnbFglCq3" />
+        <result column="QN_GN_JTNB_FGL_TLM3" jdbcType="DECIMAL" property="qnGnJtnbFglTlm3" />
+        <result column="QN_GN_JTNB_FGL_QT3" jdbcType="DECIMAL" property="qnGnJtnbFglQt3" />
+        <result column="QN_GN_JTWB_GNFCB3" jdbcType="DECIMAL" property="qnGnJtwbGnfcb3" />
+        <result column="QN_GN_JTWB_QT3" jdbcType="DECIMAL" property="qnGnJtwbQt3" />
+        <result column="QN_GW_JTNB3" jdbcType="DECIMAL" property="qnGwJtnb3" />
+        <result column="QN_GW_JTWB3" jdbcType="DECIMAL" property="qnGwJtwb3" />
+        <result column="QN_TBZJYY" jdbcType="VARCHAR" property="qnTbzjyy" />
+        <!--<result column="Column_84" jdbcType="CHAR" property="column84" />-->
+        <result column="CREATE_MAN_NAME" jdbcType="CHAR" property="createManName" />
+        <result column="CHECK_MAN_NAME" jdbcType="CHAR" property="checkManName" />
+    </resultMap>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TR.*, TSU.USER_NAME CREATE_MAN_NAME, TSU2.USER_NAME CHECK_MAN_NAME
+        FROM T_BIZ_RPT_MONTH TR
+        LEFT JOIN T_SYS_USER TSU ON TR.CREATE_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_USER TSU2 ON TR.CHECK_ID=TSU2.USER_ID
+        <where>
+            <if test="rptMonthName!=null and rptMonthName!=''">
+                AND TR.RPT_MONTH_NAME = #{rptMonthName}
+            </if>
+        </where>
+        ORDER BY TR.RPT_MONTH_NAME DESC
+    </select>
+
+</mapper>

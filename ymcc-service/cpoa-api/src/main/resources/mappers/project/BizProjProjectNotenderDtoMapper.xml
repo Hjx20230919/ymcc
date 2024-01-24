@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.project.BizProjProjectNotenderDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.project.BizProjProjectNotenderDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="NTENDER_ID" jdbcType="VARCHAR" property="ntenderId" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="NTENDER_SEL_CONT_TYPE" jdbcType="VARCHAR" property="ntenderSelContType" />
+    <result column="NTENDER_PROJ_TYPE" jdbcType="VARCHAR" property="ntenderProjType" />
+    <result column="NTENDER_PLAN_NO" jdbcType="VARCHAR" property="ntenderPlanNo" />
+    <result column="NTENDER_TYPE" jdbcType="VARCHAR" property="ntenderType" />
+    <result column="NTENDER_PURCHASE_TYPE" jdbcType="VARCHAR" property="ntenderPurchaseType" />
+    <result column="NTENDER_START_DATE" jdbcType="DATE" property="ntenderStartDate" />
+    <result column="NTENDER_END_DATE" jdbcType="DATE" property="ntenderEndDate" />
+    <result column="NTENDER_VALUTION_TYPE" jdbcType="VARCHAR" property="ntenderValutionType" />
+    <result column="NTENDER_GROUP" jdbcType="VARCHAR" property="ntenderGroup" />
+    <result column="NTENDER_SUMMARY" jdbcType="LONGVARCHAR" property="ntenderSummary" />
+    <result column="NTENDER_REASON" jdbcType="LONGVARCHAR" property="ntenderReason" />
+    <result column="NTENDER_SUPERVISE" jdbcType="LONGVARCHAR" property="ntenderSupervise" />
+  </resultMap>
+</mapper>

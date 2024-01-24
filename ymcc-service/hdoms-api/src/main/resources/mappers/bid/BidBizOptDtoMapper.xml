@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidBizOptDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidBizOptDto">
+    <result column="BIZ_OPT_ID" jdbcType="VARCHAR" property="bizOptId" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="BIZ_OPT_DESC" jdbcType="VARCHAR" property="bizOptDesc" />
+    <result column="NEXT_REMIND_AT" jdbcType="TIMESTAMP" property="nextRemindAt" />
+    <result column="REMIND_CTX" jdbcType="VARCHAR" property="remindCtx" />
+    <result column="BIZ_OPT_STATUS" jdbcType="VARCHAR" property="bizOptStatus" />
+    <result column="RESERVE1" jdbcType="VARCHAR" property="reserve1" />
+    <result column="RESERVE2" jdbcType="VARCHAR" property="reserve2" />
+    <result column="RESERVE3" jdbcType="VARCHAR" property="reserve3" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="OPT_NAME" jdbcType="VARCHAR" property="optName" />
+  </resultMap>
+
+  <resultMap id="BidBizOptPo" type="cn.com.cnpc.cpoa.po.bid.BidBizOptPo">
+    <result column="BIZ_OPT_ID" jdbcType="VARCHAR" property="bizOptId" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="BIZ_OPT_DESC" jdbcType="VARCHAR" property="bizOptDesc" />
+    <result column="NEXT_REMIND_AT" jdbcType="TIMESTAMP" property="nextRemindAt" />
+    <result column="REMIND_CTX" jdbcType="VARCHAR" property="remindCtx" />
+    <result column="BIZ_OPT_STATUS" jdbcType="VARCHAR" property="bizOptStatus" />
+    <result column="RESERVE1" jdbcType="VARCHAR" property="reserve1" />
+    <result column="RESERVE2" jdbcType="VARCHAR" property="reserve2" />
+    <result column="RESERVE3" jdbcType="VARCHAR" property="reserve3" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="OPT_NAME" jdbcType="VARCHAR" property="optName" />
+  </resultMap>
+
+  <select id="selectAllByMap" parameterType="java.util.Map" resultMap="BidBizOptPo">
+    SELECT bbo.BIZ_OPT_ID,bbo.OPT_NAME,bbo.DEPT_ID,bbo.CREATOR,bbo.CREATE_AT,bbo.CONT_NAME,bbo.BIZ_OPT_DESC,bbo.NEXT_REMIND_AT,bbo.REMIND_CTX,
+    CASE bbo.BIZ_OPT_STATUS WHEN 'Ongoing' THEN '进行中' WHEN 'Closed' THEN '关闭' END BIZ_OPT_STATUS,bbo.RESERVE1,bbo.RESERVE2,bbo.RESERVE3,bbo.NOTES,
+    tsd.DEPT_NAME FROM T_BID_BIZ_OPT bbo LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = bbo.DEPT_ID
+    <where>
+      <if test="contName != null and contName != ''">
+        and bbo.CONT_NAME like CONCAT('%',#{contName},'%')
+      </if>
+      <if test="deptId != null and deptId != ''">
+        and bbo.DEPT_ID = #{deptId}
+      </if>
+      <if test="creator != null and creator != ''">
+        and bbo.CREATOR like CONCAT('%',#{creator},'%')
+      </if>
+      <if test="createAtEnd != null and createAtEnd != ''">
+        and bbo.CREATE_AT &lt;= #{createAtEnd}
+      </if>
+      <if test="createAtStart != null and createAtStart != ''">
+        and bbo.CREATE_AT &lt;= #{createAtStart}
+      </if>
+      <if test="bizOptStatus != null and bizOptStatus != ''">
+        and bbo.BIZ_OPT_STATUS = #{bizOptStatus}
+      </if>
+    </where>
+    order by bbo.CREATE_AT desc
+  </select>
+</mapper>

@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.BizProjectDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizProjectDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId"/>
+        <result column="CLIENT_ID" jdbcType="VARCHAR" property="clientId"/>
+        <result column="CLIENT_NAME" jdbcType="VARCHAR" property="clientName"/>
+        <result column="APPLY_ID" jdbcType="VARCHAR" property="applyId"/>
+        <result column="CONTRACT_NAME" jdbcType="VARCHAR" property="contractName"/>
+        <result column="REFER_UNIT" jdbcType="VARCHAR" property="referUnit"/>
+        <result column="REFER_UNIT_NAME" jdbcType="VARCHAR" property="referUnitName"/>
+        <result column="MARKET_TYPE" jdbcType="VARCHAR" property="marketType"/>
+        <result column="COMPANY_TYPE" jdbcType="VARCHAR" property="companyType"/>
+        <result column="CONTRACT_TYPE" jdbcType="VARCHAR" property="contractType"/>
+        <result column="WORK_ZONE" jdbcType="VARCHAR" property="workZone"/>
+        <result column="WORK_TYPE" jdbcType="VARCHAR" property="workType"/>
+        <result column="CONTRACT_NUMBER" jdbcType="VARCHAR" property="contractNumber"/>
+        <result column="CONTRACT_DESC" jdbcType="VARCHAR" property="contractDesc"/>
+        <result column="RESPON_DEPART" jdbcType="VARCHAR" property="responDepart"/>
+        <result column="SUB_DEPT_NAME" jdbcType="VARCHAR" property="subDeptName"/>
+        <result column="CONTRACT_BEGIN_DATE" jdbcType="TIMESTAMP" property="contractBeginDate"/>
+        <result column="CONTRACT_PLAN_END_DATE" jdbcType="TIMESTAMP" property="contractPlanEndDate"/>
+        <result column="CONTRACT_END_DATE" jdbcType="TIMESTAMP" property="contractEndDate"/>
+        <result column="CONTRACT_PRICE" jdbcType="DOUBLE" property="contractPrice"/>
+        <result column="PAY_TYPE" jdbcType="VARCHAR" property="payType"/>
+        <result column="NOTIFY" jdbcType="VARCHAR" property="notify"/>
+        <result column="CONTRACT_STATE" jdbcType="VARCHAR" property="contractState"/>
+        <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser"/>
+        <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName"/>
+        <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="ROW_STATE" jdbcType="VARCHAR" property="rowState"/>
+        <result column="LOCKED_IF" jdbcType="INTEGER" property="lockedIf"/>
+        <result column="AUDIT_IF" jdbcType="INTEGER" property="auditIf"/>
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="SYNC_STATUS" jdbcType="INTEGER" property="syncStatus"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="DEAL_CONTRACT_ID" jdbcType="VARCHAR" property="dealContractId"/>
+        <result column="DEAL_CONTRACT_NAME" jdbcType="VARCHAR" property="dealContractName"/>
+        <result column="PRODSYS_STATUS" property="prodsysStatus"/>
+        <result column="PRODSYS_EXEC_DAYS" property="prodsysExecDays"/>
+        <result column="PRODSYS_PROGRESS" property="prodsysProgress"/>
+        <result column="PRODSYS_OVERDUE_STATUS" property="prodsysOverdueStatus"/>
+    </resultMap>
+
+    <resultMap id="UserDtoMap" type="cn.com.cnpc.cpoa.domain.SysUserDto">
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="USER_ACCOUNT" jdbcType="VARCHAR" property="userAccount" />
+        <result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword" />
+        <result column="USER_SALT" jdbcType="VARCHAR" property="userSalt" />
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+        <result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+        <result column="USER_MAIL" jdbcType="VARCHAR" property="userMail" />
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+        <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt" />
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+        <result column="USER_ROLE" jdbcType="VARCHAR" property="userRole" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="ENABLED" jdbcType="VARCHAR" property="enabled" />
+        <result column="ENTRUST_USER_ID" jdbcType="VARCHAR" property="entrustUserId" />
+    </resultMap>
+
+    <resultMap id="YearlyKpiSumResultMap" type="cn.com.cnpc.cpoa.vo.prodsys.BizProjectYearlySumVo">
+        <result column="YEAR" jdbcType="VARCHAR" property="year"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="TOTAL_KPI" jdbcType="DOUBLE" property="totalKpi"/>
+        <result column="DEAL" jdbcType="DOUBLE" property="deal"/>
+        <result column="NZ" jdbcType="DOUBLE" property="nz"/>
+        <result column="INSTRUCTION" jdbcType="DOUBLE" property="instruction"/>
+        <result column="TH" jdbcType="DOUBLE" property="th"/>
+        <result column="S1KPI" jdbcType="DOUBLE" property="s1Kpi"/>
+        <result column="S1REAL" jdbcType="DOUBLE" property="s1Real"/>
+        <result column="S1RATIO" jdbcType="DOUBLE" property="s1Ratio"/>
+        <result column="S2KPI" jdbcType="DOUBLE" property="s2Kpi"/>
+        <result column="S2REAL" jdbcType="DOUBLE" property="s2Real"/>
+        <result column="S2RATIO" jdbcType="DOUBLE" property="s2Ratio"/>
+        <result column="S3KPI" jdbcType="DOUBLE" property="s3Kpi"/>
+        <result column="S3REAL" jdbcType="DOUBLE" property="s3Real"/>
+        <result column="S3RATIO" jdbcType="DOUBLE" property="s3Ratio"/>
+        <result column="S4KPI" jdbcType="DOUBLE" property="s4Kpi"/>
+        <result column="S4REAL" jdbcType="DOUBLE" property="s4Real"/>
+        <result column="S4RATIO" jdbcType="DOUBLE" property="s4Ratio"/>
+    </resultMap>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TBP.*,
+        TBC.CONT_NAME CLIENT_NAME, TD.DEPT_NAME REFER_UNIT_NAME, TDS.SUB_DEPT_NAME, TBD.DEAL_NAME,
+        TSU.USER_NAME CREATE_USER_NAME, TD2.DEPT_NAME DEAL_CONTRACT_NAME
+        FROM T_BIZ_PROJECT TBP
+        LEFT JOIN T_BIZ_CONTRACTOR TBC ON TBP.CLIENT_ID = TBC.CONT_ID
+        LEFT JOIN T_SYS_DEPT TD ON TBP.REFER_UNIT = TD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TBP.CREATE_USER=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT_SUB TDS ON TBP.RESPON_DEPART = TDS.SUB_DEPT_ID
+        LEFT JOIN (SELECT D1.DEAL_ID, D1.DEAL_NAME FROM T_BIZ_DEAL D1) TBD ON TBP.DEAL_ID = TBD.DEAL_ID
+        LEFT JOIN T_SYS_DEPT TD2 ON TBP.DEAL_CONTRACT_ID = TD2.DEPT_ID
+        <where>
+            <if test="dealId!=null and dealId!=''">
+                AND TBP.DEAL_ID = #{dealId}
+            </if>
+            <if test="contractId!=null and contractId!=''">
+                AND TBP.CONTRACT_ID = #{contractId}
+            </if>
+            <if test="syncStatus!=null and syncStatus!=''">
+                AND TBP.SYNC_STATUS = #{syncStatus}
+            </if>
+            <if test="contractName!=null and contractName!=''">
+                AND TBP.CONTRACT_NAME like CONCAT('%',#{contractName},'%')
+            </if>
+            <if test="contractNumber!=null and contractNumber!=''">
+                AND TBP.CONTRACT_NUMBER like CONCAT('%',#{contractNumber},'%')
+            </if>
+            <if test="contractPriceMax!=null and contractPriceMax!=''">
+                AND TBP.CONTRACT_PRICE &lt;= #{contractPriceMax}
+            </if>
+            <if test="contractPriceMin!=null and contractPriceMin!=''">
+                AND TBP.CONTRACT_PRICE >= #{contractPriceMin}
+            </if>
+            <if test="clientId!=null and clientId!=''">
+                AND TBP.CLIENT_ID = #{clientId}
+            </if>
+            <if test="marketType!=null and marketType!=''">
+                AND TBP.MARKET_TYPE = #{marketType}
+            </if>
+            <if test="companyType!=null and companyType!=''">
+                AND TBP.COMPANY_TYPE = #{companyType}
+            </if>
+            <if test="contractType!=null and contractType!=''">
+                AND TBP.CONTRACT_TYPE = #{contractType}
+            </if>
+            <if test="workZone!=null and workZone!=''">
+                AND TBP.WORK_ZONE = #{workZone}
+            </if>
+            <if test="workType!=null and workType!=''">
+                AND TBP.WORK_TYPE = #{workType}
+            </if>
+            <if test="payType!=null and payType!=''">
+                AND TBP.PAY_TYPE = #{payType}
+            </if>
+            <if test="referUnit!=null and referUnit!=''">
+                AND TBP.REFER_UNIT = #{referUnit}
+            </if>
+            <if test="responDepart!=null and responDepart!=''">
+                AND TBP.RESPON_DEPART = #{responDepart}
+            </if>
+            <if test="contractBeginDate!=null and contractBeginDate!=''">
+                AND TBP.CONTRACT_BEGIN_DATE >= str_to_date(#{contractBeginDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="contractPlanEndDate!=null and contractPlanEndDate!=''">
+                AND TBP.CONTRACT_PLAN_END_DATE &lt;= str_to_date(#{contractPlanEndDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="syncStatus!=null and syncStatus!=''">
+                AND TBP.SYNC_STATUS = #{syncStatus}
+            </if>
+            <if test="dealName!=null and dealName!=''">
+                AND TBD.DEAL_NAME like CONCAT('%',#{dealName},'%')
+            </if>
+
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND (TBP.REFER_UNIT=#{dataScopeDept} or TSU.USER_ID = #{userId2})
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+
+            <if test="dealContractId!=null and dealContractId!=''">
+                AND TBP.DEAL_CONTRACT_ID = #{dealContractId}
+            </if>
+            <if test="clasType!=null and clasType!=''">
+                AND TBP.CLAS_TYPE = #{clasType}
+            </if>
+            <if test="createAtStart!=null and createAtStart!=''">
+                AND TBP.CREATE_DATE >= str_to_date(#{createAtStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="createAtEnd!=null and createAtEnd!=''">
+                AND TBP.CREATE_DATE &lt;= str_to_date(#{createAtEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+        ORDER BY TBP.CREATE_DATE DESC
+    </select>
+
+    <!--查询合同 编码-->
+    <select id="selectCurrentProjectNo" parameterType="java.util.Map" resultType="java.lang.String">
+    SELECT SUBSTRING_INDEX(TBP.`CONTRACT_NUMBER`,'-',-1)
+    FROM T_BIZ_PROJECT TBP
+    WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(TBP.`CONTRACT_NUMBER`,'-',-2),'-',1)=#{year}
+    AND SUBSTRING_INDEX(TBP.`CONTRACT_NUMBER`,'-',1)=#{contractType}
+    ORDER BY  CAST(SUBSTRING_INDEX(TBP.`CONTRACT_NUMBER`,'-',-1) AS SIGNED INTEGER) DESC LIMIT 1
+  </select>
+
+    <!--用户待审核-->
+    <select id="selectUserList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM (
+    SELECT * FROM (SELECT
+		TB.*,TSD.DEPT_NAME REFER_UNIT_NAME, TBC2.CONT_NAME CLIENT_NAME,TSU.USER_NAME CREATE_USER_NAME, TD2.DEPT_NAME DEAL_CONTRACT_NAME, A.STEP_NO,
+        TDS.SUB_DEPT_NAME
+        FROM T_BIZ_PROJECT TB
+		INNER JOIN (
+				SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBP.CONTRACT_ID FROM T_BIZ_PROJECT TBP
+				INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBP.CONTRACT_ID
+				INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+				WHERE
+				1 = 1
+                and (TBP.`CONTRACT_STATE` = 'unconfirmed' or TBP.`CONTRACT_STATE` = 'back')
+				AND TBCM.`CHECK_STATE`='PENDING'
+				GROUP BY TBP.CONTRACT_ID) A ON TB.CONTRACT_ID=A.CONTRACT_ID
+		INNER JOIN (
+				SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+				INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+				INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+				WHERE TSU.`USER_ID`=#{userId2}
+				AND TBCM.`CHECK_STATE`='PENDING'
+				GROUP BY TBCS.CHECK_OBJ_ID
+		) B ON A.STEP_NO=B.STEP_NO AND A.CONTRACT_ID=B.CHECK_OBJ_ID
+		LEFT JOIN T_SYS_DEPT TSD ON TB.REFER_UNIT=TSD.DEPT_ID
+		LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TB.CLIENT_ID = TBC2.CONT_ID
+		LEFT JOIN T_SYS_USER TSU ON TB.CREATE_USER = TSU.USER_ID
+		LEFT JOIN T_SYS_DEPT TD2 ON TB.DEAL_CONTRACT_ID = TD2.DEPT_ID
+        LEFT JOIN T_SYS_DEPT_SUB TDS ON TB.RESPON_DEPART = TDS.SUB_DEPT_ID
+        <where>
+            <if test="dealId!=null and dealId!=''">
+                AND TB.DEAL_ID = #{dealId}
+            </if>
+            <if test="contractId!=null and contractId!=''">
+                AND TB.CONTRACT_ID = #{contractId}
+            </if>
+            <if test="syncStatus!=null and syncStatus!=''">
+                AND TB.SYNC_STATUS = #{syncStatus}
+            </if>
+            <if test="contractName!=null and contractName!=''">
+                AND TB.CONTRACT_NAME like CONCAT('%',#{contractName},'%')
+            </if>
+            <if test="contractNumber!=null and contractNumber!=''">
+                AND TB.CONTRACT_NUMBER like CONCAT('%',#{contractNumber},'%')
+            </if>
+            <if test="contractPriceMax!=null and contractPriceMax!=''">
+                AND TB.CONTRACT_PRICE &lt;= #{contractPriceMax}
+            </if>
+            <if test="contractPriceMin!=null and contractPriceMin!=''">
+                AND TB.CONTRACT_PRICE >= #{contractPriceMin}
+            </if>
+            <if test="clientId!=null and clientId!=''">
+                AND TB.CLIENT_ID = #{clientId}
+            </if>
+            <if test="marketType!=null and marketType!=''">
+                AND TB.MARKET_TYPE = #{marketType}
+            </if>
+            <if test="companyType!=null and companyType!=''">
+                AND TB.COMPANY_TYPE = #{companyType}
+            </if>
+            <if test="contractType!=null and contractType!=''">
+                AND TB.CONTRACT_TYPE = #{contractType}
+            </if>
+            <if test="workZone!=null and workZone!=''">
+                AND TB.WORK_ZONE = #{workZone}
+            </if>
+            <if test="workType!=null and workType!=''">
+                AND TB.WORK_TYPE = #{workType}
+            </if>
+            <if test="payType!=null and payType!=''">
+                AND TB.PAY_TYPE = #{payType}
+            </if>
+            <if test="referUnit!=null and referUnit!=''">
+                AND TB.REFER_UNIT = #{referUnit}
+            </if>
+            <if test="responDepart!=null and responDepart!=''">
+                AND TB.RESPON_DEPART = #{responDepart}
+            </if>
+            <if test="contractBeginDate!=null and contractBeginDate!=''">
+                AND TB.CONTRACT_BEGIN_DATE >= str_to_date(#{contractBeginDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="contractPlanEndDate!=null and contractPlanEndDate!=''">
+                AND TB.CONTRACT_PLAN_END_DATE &lt;= str_to_date(#{contractPlanEndDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="syncStatus!=null and syncStatus!=''">
+                AND TB.SYNC_STATUS = #{syncStatus}
+            </if>
+
+            <!--<if test="dataScopeDept!=null and dataScopeDept!=''">-->
+                <!--AND (TB.REFER_UNIT=#{dataScopeDept} or TSU.USER_ID = #{userId2})-->
+            <!--</if>-->
+
+            <!--<if test="dataScopeSelf!=null and dataScopeSelf!=''">-->
+                <!--AND TSU.USER_ID = #{dataScopeSelf}-->
+            <!--</if>-->
+
+            <if test="dealContractId!=null and dealContractId!=''">
+                AND TB.DEAL_CONTRACT_ID = #{dealContractId}
+            </if>
+            <if test="clasType!=null and clasType!=''">
+                AND TB.CLAS_TYPE = #{clasType}
+            </if>
+        </where>
+    ) A
+    <if test="entrustUserId!=null and entrustUserId!=''">
+    UNION ALL
+    SELECT * FROM (SELECT
+        TB.*,TSD.DEPT_NAME REFER_UNIT_NAME, TBC2.CONT_NAME CLIENT_NAME,TSU.USER_NAME CREATE_USER_NAME, TD2.DEPT_NAME DEAL_CONTRACT_NAME, A.STEP_NO,
+        TDS.SUB_DEPT_NAME
+        FROM T_BIZ_PROJECT TB
+        INNER JOIN (
+                SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBP.CONTRACT_ID FROM T_BIZ_PROJECT TBP
+                INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBP.CONTRACT_ID
+                INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+                WHERE
+                1 = 1
+                and (TBP.`CONTRACT_STATE` = 'unconfirmed' or TBP.`CONTRACT_STATE` = 'back')
+                AND TBCM.`CHECK_STATE`='PENDING'
+                GROUP BY TBP.CONTRACT_ID) A ON TB.CONTRACT_ID=A.CONTRACT_ID
+        INNER JOIN (
+                SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+                INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+                INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+                WHERE TSU.`ENTRUST_USER_ID`=#{userId}
+                AND TBCM.`CHECK_STATE`='PENDING'
+                GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO AND A.CONTRACT_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TB.REFER_UNIT=TSD.DEPT_ID
+        LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TB.CLIENT_ID = TBC2.CONT_ID
+        LEFT JOIN T_SYS_USER TSU ON TB.CREATE_USER = TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TD2 ON TB.DEAL_CONTRACT_ID = TD2.DEPT_ID
+        LEFT JOIN T_SYS_DEPT_SUB TDS ON TB.RESPON_DEPART = TDS.SUB_DEPT_ID
+        <where>
+            <if test="dealId!=null and dealId!=''">
+                AND TB.DEAL_ID = #{dealId}
+            </if>
+            <if test="contractId!=null and contractId!=''">
+                AND TB.CONTRACT_ID = #{contractId}
+            </if>
+            <if test="syncStatus!=null and syncStatus!=''">
+                AND TB.SYNC_STATUS = #{syncStatus}
+            </if>
+            <if test="contractName!=null and contractName!=''">
+                AND TB.CONTRACT_NAME like CONCAT('%',#{contractName},'%')
+            </if>
+            <if test="contractNumber!=null and contractNumber!=''">
+                AND TB.CONTRACT_NUMBER like CONCAT('%',#{contractNumber},'%')
+            </if>
+            <if test="contractPriceMax!=null and contractPriceMax!=''">
+                AND TB.CONTRACT_PRICE &lt;= #{contractPriceMax}
+            </if>
+            <if test="contractPriceMin!=null and contractPriceMin!=''">
+                AND TB.CONTRACT_PRICE >= #{contractPriceMin}
+            </if>
+            <if test="clientId!=null and clientId!=''">
+                AND TB.CLIENT_ID = #{clientId}
+            </if>
+            <if test="marketType!=null and marketType!=''">
+                AND TB.MARKET_TYPE = #{marketType}
+            </if>
+            <if test="companyType!=null and companyType!=''">
+                AND TB.COMPANY_TYPE = #{companyType}
+            </if>
+            <if test="contractType!=null and contractType!=''">
+                AND TB.CONTRACT_TYPE = #{contractType}
+            </if>
+            <if test="workZone!=null and workZone!=''">
+                AND TB.WORK_ZONE = #{workZone}
+            </if>
+            <if test="workType!=null and workType!=''">
+                AND TB.WORK_TYPE = #{workType}
+            </if>
+            <if test="payType!=null and payType!=''">
+                AND TB.PAY_TYPE = #{payType}
+            </if>
+            <if test="referUnit!=null and referUnit!=''">
+                AND TB.REFER_UNIT = #{referUnit}
+            </if>
+            <if test="responDepart!=null and responDepart!=''">
+                AND TB.RESPON_DEPART = #{responDepart}
+            </if>
+            <if test="contractBeginDate!=null and contractBeginDate!=''">
+                AND TB.CONTRACT_BEGIN_DATE >= str_to_date(#{contractBeginDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="contractPlanEndDate!=null and contractPlanEndDate!=''">
+                AND TB.CONTRACT_PLAN_END_DATE &lt;= str_to_date(#{contractPlanEndDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="syncStatus!=null and syncStatus!=''">
+                AND TB.SYNC_STATUS = #{syncStatus}
+            </if>
+
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND (TB.REFER_UNIT=#{dataScopeDept} or TSU.USER_ID = #{userId2})
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+
+            <if test="dealContractId!=null and dealContractId!=''">
+                AND TB.DEAL_CONTRACT_ID = #{dealContractId}
+            </if>
+            <if test="clasType!=null and clasType!=''">
+                AND TB.CLAS_TYPE = #{clasType}
+            </if>
+        </where>
+    ) A1
+    </if>
+    ) T1 ORDER BY T1.CREATE_DATE DESC
+    </select>
+
+    <!--查询当前审核人-->
+    <select id="selectUserNameList" parameterType="java.util.Map" resultMap="UserDtoMap">
+       SELECT B.USER_NAME,B.USER_ID FROM (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBD.CONTRACT_ID FROM T_BIZ_PROJECT TBD
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBD.CONTRACT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+        WHERE 1=1
+        and (TBD.`CONTRACT_STATE` = 'unconfirmed' or TBD.`CONTRACT_STATE` = 'back')
+        AND TBCM.`CHECK_STATE`='PENDING'
+        AND TBD.DEAL_ID=#{contractId}
+        GROUP BY TBD.CONTRACT_ID) A
+         INNER JOIN  (
+              SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID,TSU.`USER_ID`,TSU.`USER_NAME` FROM T_BIZ_CHECK_STEP TBCS
+              INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+              INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+              WHERE  TBCM.`CHECK_STATE`='PENDING'
+              AND TBCS.CHECK_OBJ_ID=#{contractId}
+              GROUP BY TBCS.CHECK_OBJ_ID,TSU.`USER_ID`,TSU.`USER_NAME`
+            ) B ON A.STEP_NO=B.STEP_NO
+            AND A.CONTRACT_ID=B.CHECK_OBJ_ID
+    </select>
+
+    <!--用户已审核-->
+    <select id="selectAuditedList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TBP.*,
+        TBC.CONT_NAME CLIENT_NAME, TD.DEPT_NAME REFER_UNIT_NAME, TDS.SUB_DEPT_NAME, TBD.DEAL_NAME,
+        TSU.USER_NAME CREATE_USER_NAME, TD2.DEPT_NAME DEAL_CONTRACT_NAME
+        FROM (
+            SELECT TB1.*,TB2.CHECK_TIME FROM T_BIZ_PROJECT TB1 inner join (
+                SELECT TBD.CONTRACT_ID,TBCM.CHECK_TIME FROM `T_BIZ_PROJECT` TBD
+                INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBD.CONTRACT_ID=TBCS.`CHECK_OBJ_ID`
+                INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+                WHERE TBCM.`USER_ID`=#{userId2} AND TBCM.`CHECK_STATE`='PENDED'
+            ) TB2 ON TB1.CONTRACT_ID=TB2.CONTRACT_ID
+        ) TBP
+        LEFT JOIN T_BIZ_CONTRACTOR TBC ON TBP.CLIENT_ID = TBC.CONT_ID
+        LEFT JOIN T_SYS_DEPT TD ON TBP.REFER_UNIT = TD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TBP.CREATE_USER=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT_SUB TDS ON TBP.RESPON_DEPART = TDS.SUB_DEPT_ID
+        LEFT JOIN (SELECT D1.DEAL_ID, D1.DEAL_NAME FROM T_BIZ_DEAL D1
+        UNION ALL SELECT D2.DEAL_ID, D2.DEAL_NAME FROM T_BIZ_DEAL_PS D2) TBD ON TBP.DEAL_ID = TBD.DEAL_ID
+        LEFT JOIN T_SYS_DEPT TD2 ON TBP.DEAL_CONTRACT_ID = TD2.DEPT_ID
+        <where>
+            <if test="dealId!=null and dealId!=''">
+                AND TBP.DEAL_ID = #{dealId}
+            </if>
+            <if test="contractId!=null and contractId!=''">
+                AND TBP.CONTRACT_ID = #{contractId}
+            </if>
+            <if test="syncStatus!=null and syncStatus!=''">
+                AND TBP.SYNC_STATUS = #{syncStatus}
+            </if>
+            <if test="contractName!=null and contractName!=''">
+                AND TBP.CONTRACT_NAME like CONCAT('%',#{contractName},'%')
+            </if>
+            <if test="contractNumber!=null and contractNumber!=''">
+                AND TBP.CONTRACT_NUMBER like CONCAT('%',#{contractNumber},'%')
+            </if>
+            <if test="contractPriceMax!=null and contractPriceMax!=''">
+                AND TBP.CONTRACT_PRICE &lt;= #{contractPriceMax}
+            </if>
+            <if test="contractPriceMin!=null and contractPriceMin!=''">
+                AND TBP.CONTRACT_PRICE >= #{contractPriceMin}
+            </if>
+            <if test="clientId!=null and clientId!=''">
+                AND TBP.CLIENT_ID = #{clientId}
+            </if>
+            <if test="marketType!=null and marketType!=''">
+                AND TBP.MARKET_TYPE = #{marketType}
+            </if>
+            <if test="companyType!=null and companyType!=''">
+                AND TBP.COMPANY_TYPE = #{companyType}
+            </if>
+            <if test="contractType!=null and contractType!=''">
+                AND TBP.CONTRACT_TYPE = #{contractType}
+            </if>
+            <if test="workZone!=null and workZone!=''">
+                AND TBP.WORK_ZONE = #{workZone}
+            </if>
+            <if test="workType!=null and workType!=''">
+                AND TBP.WORK_TYPE = #{workType}
+            </if>
+            <if test="payType!=null and payType!=''">
+                AND TBP.PAY_TYPE = #{payType}
+            </if>
+            <if test="referUnit!=null and referUnit!=''">
+                AND TBP.REFER_UNIT = #{referUnit}
+            </if>
+            <if test="responDepart!=null and responDepart!=''">
+                AND TBP.RESPON_DEPART = #{responDepart}
+            </if>
+            <if test="contractBeginDate!=null and contractBeginDate!=''">
+                AND TBP.CONTRACT_BEGIN_DATE >= str_to_date(#{contractBeginDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="contractPlanEndDate!=null and contractPlanEndDate!=''">
+                AND TBP.CONTRACT_PLAN_END_DATE &lt;= str_to_date(#{contractPlanEndDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="syncStatus!=null and syncStatus!=''">
+                AND TBP.SYNC_STATUS = #{syncStatus}
+            </if>
+            <if test="dealName!=null and dealName!=''">
+                AND TBD.DEAL_NAME like CONCAT('%',#{dealName},'%')
+            </if>
+
+            <!--<if test="dataScopeDept!=null and dataScopeDept!=''">-->
+                <!--AND (TBP.REFER_UNIT=#{dataScopeDept} or TSU.USER_ID = #{userId2})-->
+            <!--</if>-->
+
+            <!--<if test="dataScopeSelf!=null and dataScopeSelf!=''">-->
+                <!--AND TSU.USER_ID = #{dataScopeSelf}-->
+            <!--</if>-->
+
+            <if test="dealContractId!=null and dealContractId!=''">
+                AND TBP.DEAL_CONTRACT_ID = #{dealContractId}
+            </if>
+            <if test="clasType!=null and clasType!=''">
+                AND TBP.CLAS_TYPE = #{clasType}
+            </if>
+        </where>
+        ORDER BY TBP.CHECK_TIME DESC
+    </select>
+
+    <!--mobile audit count-->
+    <select id="selectAuditCount" parameterType="java.util.Map" resultType="String">
+        SELECT COUNT(1) FROM (
+
+        SELECT 1 FROM (SELECT 1
+        FROM T_BIZ_PROJECT TB
+        INNER JOIN (
+            SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBD.CONTRACT_ID FROM T_BIZ_PROJECT TBD
+            INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBD.CONTRACT_ID
+            INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+            WHERE
+            (TBD.`CONTRACT_STATE`='unconfirmed' or TBD.`CONTRACT_STATE`='back')
+            AND TBCM.`CHECK_STATE`='PENDING'
+            GROUP BY TBD.CONTRACT_ID) A
+        ON TB.CONTRACT_ID=A.CONTRACT_ID
+        INNER JOIN (
+            SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+            INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+            INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+            WHERE TSU.`USER_ID`=#{userId}
+            AND TBCM.`CHECK_STATE`='PENDING'
+            GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+          AND A.CONTRACT_ID=B.CHECK_OBJ_ID
+        ) a
+        <if test="entrustUserId!=null and entrustUserId!=''">
+            UNION ALL
+            SELECT 1 FROM (SELECT 1
+            FROM T_BIZ_PROJECT TB
+            INNER JOIN (
+                SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBD.CONTRACT_ID FROM T_BIZ_PROJECT TBD
+                INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBD.CONTRACT_ID
+                INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+                WHERE
+                (TBD.`CONTRACT_STATE`='unconfirmed' or TBD.`CONTRACT_STATE`='back')
+                AND TBCM.`CHECK_STATE`='PENDING'
+                GROUP BY TBD.CONTRACT_ID) A
+            ON TB.CONTRACT_ID=A.CONTRACT_ID
+            INNER JOIN (
+                SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+                INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+                INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+                WHERE TSU.`ENTRUST_USER_ID`=#{userId}
+                AND TBCM.`CHECK_STATE`='PENDING'
+                GROUP BY TBCS.CHECK_OBJ_ID
+                ) B ON A.STEP_NO=B.STEP_NO
+            AND A.CONTRACT_ID=B.CHECK_OBJ_ID
+            ) b
+        </if>
+        )c
+    </select>
+
+<!--    <select id="sumBySeason" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+<!--        SELECT TD.DEPT_ID DEAL_CONTRACT_ID, TD.DEPT_NAME DEAL_CONTRACT_NAME, IFNULL(SUM(TBP.CONTRACT_PRICE), 0) CONTRACT_PRICE FROM v_labor_score_dept TD-->
+<!--        INNER JOIN T_BIZ_PROJECT TBP ON TD.DEPT_ID = TBP.DEAL_CONTRACT_ID-->
+<!--        <where>-->
+<!--            <if test="year!=null and year!=''">-->
+<!--                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{year}-->
+<!--            </if>-->
+<!--            <if test="season!=null and season!=''">-->
+<!--                AND CEIL(DATE_FORMAT(TBP.CREATE_DATE, '%m') / 3) = #{season}-->
+<!--            </if>-->
+<!--            <if test="dateStart!=null and dateStart!=''">-->
+<!--                AND TBP.CREATE_DATE >= str_to_date(#{dateStart},'%Y-%m-%d')-->
+<!--            </if>-->
+<!--            <if test="dateEnd!=null and dateEnd!=''">-->
+<!--                AND TBP.CREATE_DATE &lt;= str_to_date(#{dateEnd},'%Y-%m-%d')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        GROUP BY TD.DEPT_ID, TD.DEPT_NAME-->
+<!--    </select>-->
+
+    <select id="sumBySeason" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TD.DEPT_ID DEAL_CONTRACT_ID, TD.DEPT_NAME DEAL_CONTRACT_NAME, IFNULL(SUM(TBP.CONTRACT_PRICE), 0) CONTRACT_PRICE FROM V_LABOR_SCORE_DEPT TD
+        INNER JOIN T_BIZ_PROJECT TBP ON TD.DEPT_ID = TBP.DEAL_CONTRACT_ID
+        <where>
+            <if test="year!=null and year!=''">
+                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{year}
+            </if>
+            <if test="season!=null and season!=''">
+                AND CEIL(DATE_FORMAT(TBP.CREATE_DATE, '%m') / 3) = #{season}
+            </if>
+            <if test="dateStart!=null and dateStart!=''">
+                AND TBP.CREATE_DATE >= str_to_date(#{dateStart},'%Y-%m-%d')
+            </if>
+            <if test="dateEnd!=null and dateEnd!=''">
+                AND TBP.CREATE_DATE &lt;= str_to_date(#{dateEnd},'%Y-%m-%d')
+            </if>
+        </where>
+        GROUP BY TD.DEPT_ID, TD.DEPT_NAME
+    </select>
+
+    <select id="top3BySeason" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM (
+            SELECT TD.DEPT_ID DEAL_CONTRACT_ID, TD.DEPT_NAME DEAL_CONTRACT_NAME, TBP.CONTRACT_PRICE
+            FROM V_LABOR_SCORE_DEPT TD
+            INNER JOIN T_BIZ_PROJECT TBP ON TD.DEPT_ID = TBP.DEAL_CONTRACT_ID
+            WHERE 1 = 1
+            AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{year}
+            AND CEIL(DATE_FORMAT(TBP.CREATE_DATE, '%m') / 3) = #{season}
+            ORDER BY TBP.CONTRACT_PRICE DESC
+        ) v LIMIT 3
+    </select>
+
+    <select id="newMarketBySeason" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT V1.DEAL_CONTRACT_ID, V1.DEAL_CONTRACT_NAME, COUNT(V1.CONTRACT_ID) as CONTRACT_PRICE FROM (
+        SELECT TD.DEPT_ID DEAL_CONTRACT_ID, TD.DEPT_NAME DEAL_CONTRACT_NAME, TBP.CONTRACT_ID, TBP.WORK_ZONE, TBP.CONTRACT_TYPE,
+        -- DECODE(TBP.WORK_ZONE,'SC_CQ_ZONE','川渝地区', 'TLM_ZONE', '塔里木地区', 'XJ_ZONE', '新疆地区', 'CQ_ZONE', '长庆地区', 'HW_ZONE', '海外地区', 'HS_ZONE', '海上地区', 'BF_ZONE', '北方地区', '') as WORK_ZONE
+        (CASE
+        WHEN TBP.WORK_ZONE = 'SC_CQ_ZONE' THEN '川渝地区'
+        WHEN TBP.WORK_ZONE = 'TLM_ZONE' THEN '塔里木地区'
+        WHEN TBP.WORK_ZONE = 'XJ_ZONE' THEN '新疆地区'
+        WHEN TBP.WORK_ZONE = 'CQ_ZONE' THEN '长庆地区'
+        WHEN TBP.WORK_ZONE = 'HW_ZONE' THEN '海外地区'
+        WHEN TBP.WORK_ZONE = 'HS_ZONE' THEN '海上地区'
+        WHEN TBP.WORK_ZONE = 'BF_ZONE' THEN '北方地区'
+        ELSE ''
+         END) as WORK_ZONE2,
+        (CASE
+        WHEN TBP.CONTRACT_TYPE = 'RELATED' THEN '关联交易'
+        WHEN TBP.CONTRACT_TYPE = 'UNRELATED' THEN '非关联交易'
+        WHEN TBP.CONTRACT_TYPE = 'NZ' THEN '内部责任书'
+        WHEN TBP.CONTRACT_TYPE = 'INSTRUCTION' THEN '指令项目'
+        WHEN TBP.CONTRACT_TYPE = 'TRANSFER' THEN '划拨项目'
+        WHEN TBP.CONTRACT_TYPE = 'TH' THEN '三万以下'
+        ELSE ''
+        END) as CONTRACT_TYPE2,
+        TBP.CLIENT_ID
+        FROM V_LABOR_SCORE_DEPT TD
+        INNER JOIN T_BIZ_PROJECT TBP ON TD.DEPT_ID = TBP.DEAL_CONTRACT_ID
+        WHERE 1 = 1
+        AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{season}
+        AND CEIL(DATE_FORMAT(TBP.CREATE_DATE, '%m') / 3) = #{season}
+        ) V1
+        WHERE NOT EXISTS (
+        SELECT 1 FROM T_BIZ_PROJECT_SUMDATA TBPS
+        WHERE V1.CLIENT_ID = TBPS.CLIENT_ID
+        OR V1.WORK_ZONE2 = TBPS.WORK_ZONE
+        OR V1.CONTRACT_TYPE2 = TBPS.CONTRACT_TYPE
+        )
+        AND NOT EXISTS (
+        SELECT 1 FROM T_BIZ_PROJECT TBP2
+        WHERE !(DATE_FORMAT(TBP2.CREATE_DATE, '%Y') = #{season} AND CEIL(DATE_FORMAT(TBP2.CREATE_DATE, '%m') / 3) = #{season})
+        AND (
+        V1.CLIENT_ID = TBP2.CLIENT_ID
+        OR V1.WORK_ZONE = TBP2.WORK_ZONE
+        OR V1.CONTRACT_TYPE = TBP2.CONTRACT_TYPE
+        )
+        )
+        GROUP BY V1.DEAL_CONTRACT_ID, V1.DEAL_CONTRACT_NAME
+    </select>
+
+    <select id="sumByContractType" parameterType="java.util.Map" resultMap="YearlyKpiSumResultMap">
+        SELECT
+            TSD.DEPT_ID,
+            TSD.DEPT_NAME,
+            (
+                SELECT
+                    IFNULL(SUM(TBP.CONTRACT_PRICE), 0)
+                FROM
+                    T_BIZ_PROJECT TBP
+                WHERE
+                    TBP.DEAL_CONTRACT_ID = TSD.DEPT_ID
+                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{year}
+                AND TBP.CONTRACT_TYPE IN ('RELATED', 'UNRELATED')
+                <if test="dateStart!=null and dateStart!=''">
+                    AND TBP.CREATE_DATE >= str_to_date(#{dateStart},'%Y-%m-%d')
+                </if>
+                <if test="dateEnd!=null and dateEnd!=''">
+                    AND TBP.CREATE_DATE &lt;= str_to_date(#{dateEnd},'%Y-%m-%d')
+                </if>
+            ) AS DEAL,
+            (
+                SELECT
+                    IFNULL(SUM(TBP.CONTRACT_PRICE), 0)
+                FROM
+                    T_BIZ_PROJECT TBP
+                WHERE
+                    TBP.DEAL_CONTRACT_ID = TSD.DEPT_ID
+                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{year}
+                AND TBP.CONTRACT_TYPE IN ('NZ')
+                <if test="dateStart!=null and dateStart!=''">
+                    AND TBP.CREATE_DATE >= str_to_date(#{dateStart},'%Y-%m-%d')
+                </if>
+                <if test="dateEnd!=null and dateEnd!=''">
+                    AND TBP.CREATE_DATE &lt;= str_to_date(#{dateEnd},'%Y-%m-%d')
+                </if>
+            ) AS NZ,
+            (
+                SELECT
+                    IFNULL(SUM(TBP.CONTRACT_PRICE), 0)
+                FROM
+                    T_BIZ_PROJECT TBP
+                WHERE
+                    TBP.DEAL_CONTRACT_ID = TSD.DEPT_ID
+                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{year}
+                AND TBP.CONTRACT_TYPE IN ('INSTRUCTION', 'TRANSFER')
+                <if test="dateStart!=null and dateStart!=''">
+                  AND TBP.CREATE_DATE >= str_to_date(#{dateStart},'%Y-%m-%d')
+                </if>
+                <if test="dateEnd!=null and dateEnd!=''">
+                  AND TBP.CREATE_DATE &lt;= str_to_date(#{dateEnd},'%Y-%m-%d')
+                </if>
+            ) AS INSTRUCTION,
+            (
+                SELECT
+                    IFNULL(SUM(TBP.CONTRACT_PRICE), 0)
+                FROM
+                    T_BIZ_PROJECT TBP
+                WHERE
+                    TBP.DEAL_CONTRACT_ID = TSD.DEPT_ID
+                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{year}
+                AND TBP.CONTRACT_TYPE IN ('TH')
+                <if test="dateStart!=null and dateStart!=''">
+                    AND TBP.CREATE_DATE >= str_to_date(#{dateStart},'%Y-%m-%d')
+                </if>
+                <if test="dateEnd!=null and dateEnd!=''">
+                    AND TBP.CREATE_DATE &lt;= str_to_date(#{dateEnd},'%Y-%m-%d')
+                </if>
+            ) AS TH
+        FROM
+        V_LABOR_SCORE_DEPT TSD
+    </select>
+
+<!--    <select id="sumMonthly" parameterType="java.util.Map" resultType="String">-->
+<!--        SELECT IFNULL(SUM(TBP.CONTRACT_PRICE), 0) CONTRACT_PRICE FROM T_BIZ_PROJECT TBP-->
+<!--        <where>-->
+<!--            <if test="yearMonth!=null and yearMonth!=''">-->
+<!--                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y%m') = #{yearMonth}-->
+<!--            </if>-->
+<!--            <if test="dateStart!=null and dateStart!=''">-->
+<!--                AND TBP.CREATE_DATE >= str_to_date(#{dateStart},'%Y-%m-%d')-->
+<!--            </if>-->
+<!--            <if test="dateEnd!=null and dateEnd!=''">-->
+<!--                AND TBP.CREATE_DATE &lt;= str_to_date(#{dateEnd},'%Y-%m-%d')-->
+<!--            </if>-->
+<!--            <if test="marketType!=null and marketType!=''">-->
+<!--                AND TBP.MARKET_TYPE = #{marketType}-->
+<!--            </if>-->
+<!--            <if test="companyType!=null and companyType!=''">-->
+<!--                AND TBP.COMPANY_TYPE = #{companyType}-->
+<!--            </if>-->
+<!--            <if test="contractType!=null and contractType!=''">-->
+<!--                AND TBP.CONTRACT_TYPE = #{contractType}-->
+<!--            </if>-->
+<!--            <if test="workZone!=null and workZone!=''">-->
+<!--                AND TBP.WORK_ZONE = #{workZone}-->
+<!--            </if>-->
+<!--            <if test="workZoneNot!=null and workZoneNot!=''">-->
+<!--                AND TBP.WORK_ZONE NOT IN ('SC_CQ_ZONE', 'CQ_ZONE', 'TLM_ZONE')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <select id="sumMonthly" parameterType="java.util.Map" resultType="String">
+        SELECT IFNULL(SUM(TBP.CONTRACT_PRICE), 0) CONTRACT_PRICE FROM V_DEAL_CUR_PRJ TBP
+        <where>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y%m') &lt;= #{yearMonth}
+            </if>
+            <if test="year!=null and year!=''">
+                AND DATE_FORMAT(TBP.CREATE_DATE, '%Y') = #{year}
+            </if>
+            <if test="dateStart!=null and dateStart!=''">
+                AND TBP.CREATE_DATE >= str_to_date(#{dateStart},'%Y-%m-%d')
+            </if>
+            <if test="dateEnd!=null and dateEnd!=''">
+                AND TBP.CREATE_DATE &lt;= str_to_date(#{dateEnd},'%Y-%m-%d')
+            </if>
+            <if test="marketType!=null and marketType!=''">
+                AND TBP.MARKET_TYPE = #{marketType}
+            </if>
+            <if test="companyType!=null and companyType!=''">
+                AND TBP.COMPANY_TYPE = #{companyType}
+            </if>
+            <if test="contractType!=null and contractType!=''">
+                AND TBP.CONTRACT_TYPE = #{contractType}
+            </if>
+            <if test="workZone!=null and workZone!=''">
+                AND TBP.WORK_ZONE = #{workZone}
+            </if>
+            <if test="workZoneNot!=null and workZoneNot!=''">
+                AND TBP.WORK_ZONE NOT IN ('SC_CQ_ZONE', 'CQ_ZONE', 'TLM_ZONE')
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.SysDeptDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.SysDeptDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="ALIAS_NAME1" jdbcType="VARCHAR" property="aliasName1" />
+    <result column="ALIAS_NAME2" jdbcType="VARCHAR" property="aliasName2" />
+    <result column="DEPT_BASE" jdbcType="VARCHAR" property="deptBase" />
+    <result column="DEPT_MANAGER" jdbcType="VARCHAR" property="deptManager" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="IS_EMP" jdbcType="INTEGER" property="isEmp" />
+    <result column="DEPT_MANAGER_NAME" jdbcType="VARCHAR" property="deptManagerName" />
+    <result column="ALIAS_NAME3" jdbcType="VARCHAR" property="aliasName3" />
+  </resultMap>
+
+    <!--查询部门-->
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TSD.*,TSU.USER_NAME DEPT_MANAGER_NAME FROM T_SYS_DEPT TSD
+        LEFT JOIN T_SYS_USER TSU ON TSD.DEPT_MANAGER=TSU.USER_ID
+        <where>
+
+          <if test="deptName!=null and deptName!=''">
+            AND TSD.DEPT_NAME  like    CONCAT('%',#{deptName},'%')
+          </if>
+
+          <if test="aliasName1!=null and aliasName1!=''">
+            AND TSD.ALIAS_NAME1 = #{aliasName1}
+          </if>
+
+          <if test="aliasName2!=null and aliasName2!=''">
+            AND TSD.ALIAS_NAME2 = #{aliasName2}
+          </if>
+
+          <if test="deptBase!=null and deptBase!=''">
+            AND TSD.DEPT_BASE  like    CONCAT('%',#{deptBase},'%')
+          </if>
+
+          <if test="deptManager!=null and deptManager!=''">
+            AND TSD.DEPT_MANAGER = #{deptManager}
+          </if>
+
+          <if test="isEmp!=null and isEmp!=''">
+            AND TSD.IS_EMP = #{isEmp}
+          </if>
+
+        </where>
+    </select>
+
+  <!--查询部门-->
+  <select id="selectList2" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT TSD.DEPT_ID,TSD.DEPT_NAME,TSD.ALIAS_NAME1,TSD.ALIAS_NAME2,TSD.DEPT_MANAGER,TSD.DEPT_BASE,TSD.CREATE_TIME,TSD.IS_EMP,TSD.IS_EMP,TSD.IS_EMP
+
+    FROM T_SYS_DEPT TSD WHERE TSD.ALIAS_NAME2 = #{deptName}
+  </select>
+
+  <select id="selectList4LaborScore" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT TSD.DEPT_ID,TSD.DEPT_NAME FROM V_LABOR_SCORE_DEPT TSD
+  </select>
+</mapper>

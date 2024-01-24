@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizDealZlhbMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizDealZlhbDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo"/>
+        <result column="PROJECT_NO" jdbcType="VARCHAR" property="projectNo"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="DEAL_VALUE" jdbcType="DOUBLE" property="dealValue"/>
+        <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="DEAL_SIGN_TIME" jdbcType="TIMESTAMP" property="dealSignTime"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId"/>
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome"/>
+        <result column="DEAL_FUNDS" jdbcType="VARCHAR" property="dealFunds"/>
+        <result column="DEAL_REPORT_NO" jdbcType="VARCHAR" property="dealReportNo"/>
+        <result column="DEAL_CONTRACT" jdbcType="VARCHAR" property="dealContract"/>
+        <result column="DEAL_DISPUTE" jdbcType="VARCHAR" property="dealDispute"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="DEAL_START" jdbcType="TIMESTAMP" property="dealStart"/>
+        <result column="DEAL_END" jdbcType="TIMESTAMP" property="dealEnd"/>
+        <result column="PLACED_TIME" jdbcType="TIMESTAMP" property="placedTime"/>
+        <result column="DEAL_SELECTION" jdbcType="VARCHAR" property="dealSelection"/>
+        <!--<result column="DEAL_SETTLEMENT" jdbcType="DOUBLE" property="dealSettlement" />-->
+        <result column="SETTLE_DATE" jdbcType="TIMESTAMP" property="settleDate"/>
+        <result column="DEAL_NOTES" jdbcType="VARCHAR" property="dealNotes"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="DEAL_CURRENCY" jdbcType="VARCHAR" property="dealCurrency"/>
+        <result column="SUBTYPE_ID" jdbcType="VARCHAR" property="subtypeId"/>
+        <result column="DEAL_STATUS" jdbcType="VARCHAR" property="dealStatus"/>
+        <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType"/>
+        <result column="PAYMENT_TYPE" jdbcType="VARCHAR" property="paymentType"/>
+        <result column="PAYMENT_REQ" jdbcType="VARCHAR" property="paymentTeq"/>
+        <result column="DEAL_VALUE_AFTER" jdbcType="DOUBLE" property="dealValueAfter"/>
+        <result column="DEAL_VALUE_BEFORE" jdbcType="DOUBLE" property="dealValueBefore"/>
+        <result column="HAVE_TAX" jdbcType="INTEGER" property="haveTax"/>
+        <result column="TAX_RATE" jdbcType="INTEGER" property="taxRate"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="SUBTYPE_NAME" jdbcType="VARCHAR" property="subtypeName"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="STEP_NO" jdbcType="VARCHAR" property="stepNo"/>
+        <result column="FLAG" jdbcType="VARCHAR" property="flag"/>
+        <result column="DEAL_SETTLEMENT" jdbcType="DOUBLE" property="dealSettlement"/>
+        <result column="DUTY_MAN" jdbcType="VARCHAR" property="dutyMan"/>
+        <result column="CONT_BANK" jdbcType="VARCHAR" property="contBank"/>
+        <result column="CONT_ACCOUNT" jdbcType="VARCHAR" property="contAccount"/>
+        <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus"/>
+        <result column="outTime" jdbcType="VARCHAR" property="outTime"/>
+        <result column="settleNow" jdbcType="DOUBLE" property="settleNow"/>
+        <result column="settleHis" jdbcType="DOUBLE" property="settleHis"/>
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="SEL_CONT_ID" jdbcType="VARCHAR" property="selContId"/>
+        <result column="PLAN_ID" jdbcType="VARCHAR" property="planId"/>
+        <result column="RESULT_ID" jdbcType="VARCHAR" property="resultId"/>
+        <result column="CONTRACT_NUMBER" jdbcType="VARCHAR" property="contractNumber"/>
+        <result column="CHANGE_DESC" jdbcType="VARCHAR" property="changeDesc" />
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.ActivitiItemDealPo">
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType"/>
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="DEAL_VALUE" jdbcType="DOUBLE" property="dealValue"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo"/>
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="DEAL_STATUS" jdbcType="VARCHAR" property="dealStatus"/>
+        <result column="DEAL_START" jdbcType="TIMESTAMP" property="dealStart"/>
+        <result column="DEAL_END" jdbcType="TIMESTAMP" property="dealEnd"/>
+    </resultMap>
+
+
+    <select id="selectCurrentDealNo" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT SUBSTRING_INDEX(TBD.`DEAL_NO`,'-',-1)
+        FROM T_BIZ_DEAL_ZLHB TBD
+        WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(TBD.`DEAL_NO`,'-',-2),'-',1)=#{year}
+          AND SUBSTRING_INDEX(TBD.`DEAL_NO`,'-',1)=#{dealType}
+        ORDER BY  CAST(SUBSTRING_INDEX(TBD.`DEAL_NO`,'-',-1) AS SIGNED INTEGER) DESC LIMIT 1
+
+    </select>
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM T_BIZ_DEAL_ZLHB TBD
+        <where>
+            <if test="dealNo!=null and dealNo!=''">
+                            AND TBD.DEAL_NO =#{dealNo}
+                        </if>
+        </where>
+    </select>
+
+
+    <update id="updateByid" parameterType="java.util.Map">
+        UPDATE T_BIZ_DEAL_ZLHB
+        <set>
+            DEAL_BIZ = #{dealBiz}
+        </set>
+        WHERE DEAL_ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

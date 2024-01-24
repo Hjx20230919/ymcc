@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizCheckStepDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizCheckStepDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="STEP_ID" jdbcType="VARCHAR" property="stepId"/>
+        <result column="STEP_NO" jdbcType="INTEGER" property="stepNo"/>
+        <result column="STEP_NAME" jdbcType="VARCHAR" property="stepName"/>
+        <result column="STEP_CREATE_AT" jdbcType="TIMESTAMP" property="stepCreateAt"/>
+        <result column="STEP_CREATE_USER" jdbcType="VARCHAR" property="stepCreateUser"/>
+        <result column="STEP_STATE" jdbcType="VARCHAR" property="stepState"/>
+        <result column="STEP_BEGIN_AT" jdbcType="TIMESTAMP" property="stepBeginAt"/>
+        <result column="STEP_END_AT" jdbcType="TIMESTAMP" property="stepEndAt"/>
+        <result column="CHECK_OBJ_ID" jdbcType="VARCHAR" property="checkObjId"/>
+        <result column="CHECK_OBJ_TYPE" jdbcType="VARCHAR" property="checkObjType"/>
+        <result column="STEP_SPLIT" jdbcType="INTEGER" property="stepSplit"/>
+        <result column="CHECK_DEPT_ID" jdbcType="INTEGER" property="checkDeptId"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.CheckStepPo">
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="STEP_NO" jdbcType="VARCHAR" property="stepNo"/>
+        <result column="CHECK_TIME" jdbcType="TIMESTAMP" property="checkTime"/>
+        <result column="CHECK_NODE" jdbcType="VARCHAR" property="checkNode"/>
+        <result column="STEP_ID" jdbcType="VARCHAR" property="stepId"/>
+        <result column="MAN_ID" jdbcType="VARCHAR" property="manId"/>
+        <result column="IS_EMP" jdbcType="VARCHAR" property="isEmp"/>
+        <result column="CHECK_RESULT" jdbcType="VARCHAR" property="checkResult"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="STEP_SPLIT" jdbcType="INTEGER" property="stepSplit"/>
+        <result column="STEP_NAME" jdbcType="VARCHAR" property="stepName"/>
+        <result column="ENTRUST_USER_ID" jdbcType="VARCHAR" property="entrustUserId"/>
+        <result column="CHECK_STATE" jdbcType="VARCHAR" property="checkState"/>
+        <result column="CHECK_OBJ_ID" jdbcType="VARCHAR" property="checkObjId"/>
+        <result column="CHECK_OBJ_TYPE" jdbcType="VARCHAR" property="checkObjType"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap3" type="cn.com.cnpc.cpoa.po.CheckStepPo">
+        <result column="CHECK_NODE" jdbcType="VARCHAR" property="checkNode"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="STEP_ID" jdbcType="VARCHAR" property="stepId"/>
+        <result column="MAN_ID" jdbcType="TIMESTAMP" property="manId"/>
+    </resultMap>
+
+    <!--查询步骤-->
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM T_BIZ_CHECK_STEP TBCS
+        <where>
+            <if test="settleId!=null and settleId!=''">
+                and TBCS.CHECK_OBJ_ID=#{settleId}
+            </if>
+            <if test="dealId!=null and dealId!=''">
+                and TBCS.CHECK_OBJ_ID=#{dealId}
+            </if>
+            <if test="objId!=null and objId!=''">
+                and TBCS.CHECK_OBJ_ID=#{objId}
+            </if>
+
+            <if test="stepNo!=null and stepNo!=''">
+                and TBCS.STEP_NO=#{stepNo}
+            </if>
+
+            <if test="stepState!=null and stepState!=''">
+                and TBCS.STEP_STATE=#{stepState}
+            </if>
+
+            <if test="nextStepNo!=null and nextStepNo!=''">
+                and TBCS.STEP_NO>#{nextStepNo}
+            </if>
+            <if test="checkObjType!=null and checkObjType!=''">
+                and TBCS.CHECK_OBJ_TYPE = #{checkObjType}
+            </if>
+
+        </where>
+    </select>
+
+    <!--按合同标志查询所有步骤-->
+    <select id="selectDetailsByDealId" parameterType="java.util.Map" resultMap="BaseResultMap2">
+         SELECT * FROM (SELECT TSU.USER_NAME,TBCM.CHECK_TIME,TBCM.CHECK_NODE,TSD.DEPT_NAME,TBCS.STEP_NO,TBCS.STEP_NAME,
+        TSU.USER_ID,TSD.IS_EMP,TBCM.CHECK_RESULT,TBCM.MAN_ID,TBCS.STEP_ID,TBCS.STEP_SPLIT,TBCS.STEP_CREATE_AT,TSU.ENTRUST_USER_ID,
+        TBCM.CHECK_STATE,TBCS.CHECK_OBJ_ID,TBCS.CHECK_OBJ_TYPE
+        FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+        INNER JOIN T_SYS_DEPT TSD ON TSD.DEPT_ID=TBCS.CHECK_DEPT_ID
+        <where>
+            <if test="dealId != null and dealId != ''">
+                and TBCS.CHECK_OBJ_ID=#{dealId}
+            </if>
+            <if test="objType != null and objType != ''">
+                and TBCS.CHECK_OBJ_TYPE=#{objType}
+            </if>
+        </where>
+
+        ORDER BY STEP_NO,CHECK_TIME IS NULL,CHECK_TIME
+        ) m
+
+  </select>
+
+    <select id="selectDetailsByObjId" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT * FROM (SELECT TSU.USER_NAME,TBCM.CHECK_TIME,TBCM.CHECK_NODE,TSD.DEPT_NAME,TBCS.STEP_NO,TBCS.STEP_NAME,
+        TSU.USER_ID,TSD.IS_EMP,TBCM.CHECK_RESULT,TBCM.MAN_ID,TBCS.STEP_ID,TBCS.STEP_SPLIT,TBCS.STEP_CREATE_AT,TSU.ENTRUST_USER_ID
+        FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+        INNER JOIN T_SYS_DEPT TSD ON TSD.DEPT_ID=TBCS.CHECK_DEPT_ID
+        INNER JOIN (
+        SELECT MIN(TBCM.check_time) mintime,TSD.DEPT_ID
+        FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+        INNER JOIN T_SYS_DEPT TSD ON TSD.DEPT_ID=TBCS.CHECK_DEPT_ID
+        WHERE TBCS.CHECK_OBJ_ID=#{objId}
+        GROUP BY TSD.DEPT_ID
+        ) b ON TSD.DEPT_ID=b.DEPT_ID
+        WHERE TBCS.CHECK_OBJ_ID=#{objId}
+        <if test="stepstate!=null and stepstate!=''">
+            and TBCS.STEP_STATE=#{stepstate}
+        </if>
+        <if test="objType != null and objType != ''">
+            and TBCS.CHECK_OBJ_TYPE = #{objType}
+        </if>
+        ORDER BY b.mintime,CHECK_TIME IS NULL,CHECK_TIME
+        ) m
+
+    </select>
+
+    <select id="selectDetailsByObjIdAndObjType" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT
+            max( tbcs.STEP_NO ),
+            ANY_VALUE(tsu.USER_NAME) USER_NAME,
+            ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+            ANY_VALUE(tbcm.CHECK_NODE) CHECK_NODE
+        FROM
+            T_BIZ_CHECK_STEP tbcs
+                LEFT JOIN T_BIZ_CHECK_MAN tbcm ON tbcs.STEP_ID = tbcm.STEP_ID
+                LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+        WHERE
+            tbcs.CHECK_OBJ_ID = #{objId}
+          AND tbcs.CHECK_OBJ_TYPE = #{objType}
+    </select>
+
+    <select id="selectDetailsBySettleId" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT * FROM (
+        SELECT TSU.USER_NAME,TBCM.CHECK_TIME,TBCM.CHECK_NODE,TSD.DEPT_NAME,TBCS.STEP_NO,TBCS.STEP_NAME,
+        TSU.USER_ID,TSD.IS_EMP,TBCM.CHECK_RESULT,TBCM.MAN_ID,TBCS.STEP_ID,TBCS.STEP_SPLIT,TBCS.STEP_CREATE_AT,TSU.ENTRUST_USER_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+        INNER JOIN T_SYS_DEPT TSD ON TSD.DEPT_ID=TBCS.CHECK_DEPT_ID
+        WHERE TBCS.CHECK_OBJ_ID=#{settleId}
+
+        ) A
+        ORDER BY STEP_NO,CHECK_TIME IS NULL,CHECK_TIME
+
+    </select>
+
+
+    <!--查询对象下未通过的数据-->
+    <select id="selectLastStepByObjectId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM T_BIZ_CHECK_STEP TBCS
+        WHERE TBCS.CHECK_OBJ_ID=#{objId}
+        AND TBCS.STEP_NO=#{stepNo}
+        AND TBCS.STEP_STATE IS NULL
+    </select>
+
+
+    <!--查询最后步骤-->
+    <select id="getLastStepByDealId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT *  FROM T_BIZ_CHECK_STEP B WHERE B.CHECK_OBJ_ID=#{objId} AND B.STEP_NO=
+        (SELECT MAX(TBCS.STEP_NO) FROM T_BIZ_CHECK_STEP TBCS WHERE TBCS.CHECK_OBJ_ID=#{objId}
+        AND TBCS.STEP_CREATE_AT>=
+        ( SELECT TBCS2.STEP_CREATE_AT FROM T_BIZ_CHECK_STEP TBCS2 WHERE TBCS2.STEP_ID=#{stepId}))
+    </select>
+
+    <select id="getLastStepByObjIdAndObjType" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT *  FROM T_BIZ_CHECK_STEP B WHERE B.CHECK_OBJ_ID=#{objId} AND B.CHECK_OBJ_TYPE = #{objType} AND B.STEP_NO=
+        (SELECT MAX(TBCS.STEP_NO) FROM T_BIZ_CHECK_STEP TBCS WHERE TBCS.CHECK_OBJ_ID=#{objId} AND TBCS.CHECK_OBJ_TYPE = #{objType}
+        AND TBCS.STEP_CREATE_AT>=
+        ( SELECT TBCS2.STEP_CREATE_AT FROM T_BIZ_CHECK_STEP TBCS2 WHERE TBCS2.STEP_ID=#{stepId}))
+    </select>
+
+
+    <!--查询未审核步骤-->
+    <select id="selectRemainList" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT TBCS.STEP_ID,TBCM.MAN_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        <where>
+            <if test="settleId!=null and settleId!=''">
+                and TBCS.CHECK_OBJ_ID=#{settleId}
+            </if>
+            <if test="dealId!=null and dealId!=''">
+                and TBCS.CHECK_OBJ_ID=#{dealId}
+            </if>
+        </where>
+        AND TBCS.STEP_STATE IS NULL
+    </select>
+
+    <!--查询当前最大步骤-->
+    <select id="selectMaxStepNo" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT IFNULL(MAX(TBCS.STEP_NO),'0') STEP_NO FROM T_BIZ_CHECK_STEP TBCS
+        WHERE TBCS.CHECK_OBJ_ID=#{objId}
+    </select>
+
+    <!--查询当前最xiao步骤-->
+    <select id="selectMinStepNo" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        SELECT TBC.* FROM T_BIZ_CHECK_STEP TBC WHERE TBC.CHECK_OBJ_ID=#{objId}
+        AND TBC.STEP_STATE IS NULL
+        AND TBC.STEP_NO=(
+        SELECT MIN(TBCS.STEP_NO) FROM  T_BIZ_CHECK_STEP TBCS  WHERE TBCS.CHECK_OBJ_ID=#{objId}
+        AND TBCS.STEP_STATE IS NULL)
+
+    </select>
+
+    <select id="selectBidProjectMinStepNo" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        SELECT TBC.* FROM T_BIZ_CHECK_STEP TBC WHERE TBC.CHECK_OBJ_ID=#{objId} AND TBC.CHECK_OBJ_TYPE=#{objType}
+                                                 AND TBC.STEP_STATE IS NULL
+                                                 AND TBC.STEP_NO=(
+                SELECT MIN(TBCS.STEP_NO) FROM  T_BIZ_CHECK_STEP TBCS  WHERE TBCS.CHECK_OBJ_ID=#{objId} AND TBC.CHECK_OBJ_TYPE=#{objType}
+                                                                        AND TBCS.STEP_STATE IS NULL)
+
+    </select>
+
+    <!--选商审核数据-->
+   <!-- <select id="selectSelContCheck" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select t.CHECK_NODE,t.USER_NAME,t.STEP_ID from T_PROJ_SEL_CONT tpsc
+        left join (select tbcm.CHECK_NODE,tbcm.MAN_ID,tsu.USER_NAME,tbcs.STEP_CREATE_USER,tbcs.CHECK_OBJ_ID,tbcs.STEP_ID from
+        t_biz_check_man tbcm left join t_biz_check_step tbcs on tbcs.STEP_ID = tbcm.STEP_ID left join t_sys_user tsu on  tbcm.USER_ID= tsu.USER_ID) t
+        on tpsc.PROJ_ID = t.CHECK_OBJ_ID and tpsc.CREATE_ID = t.STEP_CREATE_USER
+        where tpsc.SEL_CONT_ID = #{selContId}
+    </select>-->
+    <!--选商审核数据-->
+    <select id="selectSelContCheck" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select tbcs.STEP_ID,tbcm.MAN_ID,tbcm.CHECK_NODE,tsu.USER_NAME from T_BIZ_CHECK_STEP tbcs LEFT JOIN T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID LEFT JOIN T_SYS_USER tsu on tbcm.USER_ID = tsu.USER_ID
+        where tbcs.CHECK_OBJ_ID = #{selContId}
+    </select>
+
+    <!--采购审核数据-->
+    <select id="seelctPlanCheck" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select t.CHECK_NODE,t.USER_NAME,t.STEP_ID from T_PROJ_PURC_PLAN tppp
+        left join (select tbcm.CHECK_NODE,tbcm.MAN_ID,tsu.USER_NAME,tbcs.STEP_CREATE_USER,tbcs.CHECK_OBJ_ID,tbcs.STEP_ID from
+        T_BIZ_CHECK_MAN tbcm left join T_BIZ_CHECK_STEP tbcs on tbcs.STEP_ID = tbcm.STEP_ID left join T_SYS_USER tsu on  tbcm.USER_ID= tsu.USER_ID) t on tppp.PLAN_ID = t.CHECK_OBJ_ID and tppp.CREATE_ID = t.STEP_CREATE_USER
+        where tppp.PLAN_ID = #{planId}
+    </select>
+
+    <!--采购结果审核数据-->
+    <select id="selectResultCheck" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select t.CHECK_NODE,t.USER_NAME,t.STEP_ID from T_PROJ_PURC_RESULT tppr
+        left join (select tbcm.CHECK_NODE,tbcm.MAN_ID,tsu.USER_NAME,tbcs.STEP_CREATE_USER,tbcs.CHECK_OBJ_ID,tbcs.STEP_ID from
+        T_BIZ_CHECK_MAN tbcm left join T_BIZ_CHECK_STEP tbcs on tbcs.STEP_ID = tbcm.STEP_ID left join T_SYS_USER tsu on  tbcm.USER_ID= tsu.USER_ID where tbcs.CHECK_OBJ_TYPE = 'rePurchase') t on tppr.RESULT_ID = t.CHECK_OBJ_ID and tppr.CREATE_ID = t.STEP_CREATE_USER
+        where tppr.RESULT_ID = #{resultId}
+    </select>
+
+
+    <!--职能部门考核审批数据-->
+    <select id="selectOfficeAuditCheck" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        SELECT tbcs.STEP_ID,tbcm.MAN_ID FROM T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID
+        where tbcs.CHECK_OBJ_ID = #{officeDetailId} and tbcs.CHECK_OBJ_TYPE = 'officeTask' and tbcm.CHECK_STATE = 'PENDING'
+    </select>
+
+    <select id="selectLastStepAudting" parameterType="java.util.Map" resultMap="BaseResultMap2" >
+        select max(tbcs.STEP_NO) STEP_NO from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID
+        where tbcs.CHECK_OBJ_ID = #{objId} and tbcs.CHECK_OBJ_TYPE = #{objType} and tbcm.CHECK_STATE = 'PENDING'
+    </select>
+
+    <!--查询发起部门-->
+    <select id="selectStartDeptName" parameterType="java.util.Map" resultMap="BaseResultMap2" >
+        select tsd.DEPT_NAME from (select tbcs.CHECK_DEPT_ID,tbcs.STEP_NO from T_BIZ_CHECK_STEP tbcs where
+        tbcs.CHECK_OBJ_ID = #{checkObjId} and tbcs.CHECK_OBJ_TYPE = #{checkObjType} ORDER BY tbcs.STEP_NO limit 1) a left join T_SYS_DEPT tsd on a.CHECK_DEPT_ID = tsd.DEPT_ID
+    </select>
+</mapper>

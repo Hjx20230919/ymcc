@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.ContReviewSummaryDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.ContReviewSummaryDto">
+    <result column="REVIEW_SUMMARY_ID" jdbcType="VARCHAR" property="reviewSummaryId" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="REVIEW_YEAR" jdbcType="VARCHAR" property="reviewYear" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="BASIC_SCORE" jdbcType="REAL" property="basicScore" />
+    <result column="QHSE_SCORE" jdbcType="REAL" property="qhseScore" />
+    <result column="PRODUCTION_SCORE" jdbcType="REAL" property="productionScore" />
+    <result column="OM_SCORE" jdbcType="REAL" property="omScore" />
+    <result column="FINANCIAL_SCORE" jdbcType="REAL" property="financialScore" />
+    <result column="TOTAL_SCORE" jdbcType="REAL" property="totalScore" />
+    <result column="EVAL_CONCLUSION" jdbcType="VARCHAR" property="evalConclusion" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="ContReviewSummaryPo" type="cn.com.cnpc.cpoa.po.contractor.ContReviewSummaryPo">
+    <result column="REVIEW_SUMMARY_ID" jdbcType="VARCHAR" property="reviewSummaryId" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="REVIEW_YEAR" jdbcType="VARCHAR" property="reviewYear" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="BASIC_SCORE" jdbcType="REAL" property="basicScore" />
+    <result column="QHSE_SCORE" jdbcType="REAL" property="qhseScore" />
+    <result column="PRODUCTION_SCORE" jdbcType="REAL" property="productionScore" />
+    <result column="OM_SCORE" jdbcType="REAL" property="omScore" />
+    <result column="FINANCIAL_SCORE" jdbcType="REAL" property="financialScore" />
+    <result column="TOTAL_SCORE" jdbcType="REAL" property="totalScore" />
+    <result column="EVAL_CONCLUSION" jdbcType="VARCHAR" property="evalConclusion" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+  </resultMap>
+
+  <resultMap id="AccessSummaryPo" type="cn.com.cnpc.cpoa.po.contractor.AccessSummaryPo">
+    <result column="total" jdbcType="VARCHAR" property="total" />
+    <result column="excellent" jdbcType="VARCHAR" property="excellent" />
+    <result column="qualified" jdbcType="TIMESTAMP" property="qualified" />
+    <result column="rectification" jdbcType="VARCHAR" property="rectification" />
+    <result column="disqualified" jdbcType="VARCHAR" property="disqualified" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+  </resultMap>
+
+  <select id="selectSummaryByContIdAndYear" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(rs.REVIEW_SUMMARY_ID) from T_CONT_REVIEW_SUMMARY rs
+    <where>
+      <if test="contId != null and contId != ''">
+        and rs.CONT_ID = #{contId}
+      </if>
+      <if test="reviewYear != null and reviewYear != ''">
+        and rs.REVIEW_YEAR = #{reviewYear}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectSummaryByMap" parameterType="java.util.Map" resultMap="ContReviewSummaryPo">
+    SELECT
+    rs.REVIEW_SUMMARY_ID,
+    rs.CREATE_ID,
+    rs.CREATE_AT,
+    CASE
+
+    WHEN rs.TASK_STATUS = 'draft' THEN
+    '待考评'
+    WHEN rs.TASK_STATUS = 'reviewing' THEN
+    '考评中'
+    WHEN rs.TASK_STATUS = 'down' THEN
+    '考评完成'
+    END TASK_STATUS,
+    rs.REVIEW_YEAR,
+    rs.CONT_ID,
+    rs.OWNER_DEPT_ID,
+    rs.BASIC_SCORE,
+    rs.QHSE_SCORE,
+    rs.PRODUCTION_SCORE,
+    rs.OM_SCORE,
+    rs.FINANCIAL_SCORE,
+    rs.TOTAL_SCORE,
+    rs.EVAL_CONCLUSION,
+    rs.NOTES,
+    tcc.CONT_NAME,
+    tsd.DEPT_NAME
+    FROM
+    T_CONT_REVIEW_SUMMARY rs
+    LEFT JOIN T_CONT_CONTRACTOR tcc ON tcc.CONT_ID = rs.CONT_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = rs.OWNER_DEPT_ID
+    <where>
+      <if test="reviewYear != null and reviewYear != ''">
+        and rs.REVIEW_YEAR = #{reviewYear}
+      </if>
+      <if test="evalConclusion != null and evalConclusion != ''">
+        and rs.EVAL_CONCLUSION = #{evalConclusion}
+      </if>
+      <if test="taskStatus != null and taskStatus != ''">
+        and rs.TASK_STATUS = #{taskStatus}
+      </if>
+      <if test="deptName != null and deptName != ''">
+        and tsd.DEPT_NAME = #{deptName}
+      </if>
+      <if test="userId != null and userId != ''">
+        and rs.CREATE_ID = #{userId}
+      </if>
+      <if test="createAtStart != null and createAtStart != ''">
+        and rs.CREATE_AT &gt;= #{createAtStart}
+      </if>
+      <if test="createAtEnd != null and createAtEnd!= ''">
+        and rs.CREATE_AT &lt;= #{createAtEnd}
+      </if>
+      <if test="contId != null and contId != ''">
+        and rs.CONT_ID = #{contId}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectSummaryByReviewAndAccessLevel" parameterType="java.util.Map" resultMap="AccessSummaryPo">
+    SELECT
+      (
+          sum( t.excellent )+ sum( t.qualified )+ sum( t.rectification )+ sum( t.disqualified )) total,
+      sum( t.excellent ) excellent,
+      sum( t.qualified ) qualified,
+      sum( t.rectification ) rectification,
+      sum( t.disqualified ) disqualified,
+      t.OWNER_DEPT_ID,
+      tsd.DEPT_NAME
+    FROM
+      (
+        SELECT
+          count( rs.REVIEW_SUMMARY_ID ) 'excellent',
+          0 'qualified',
+          0 'rectification',
+          0 'disqualified',
+          rs.OWNER_DEPT_ID
+        FROM
+          T_CONT_REVIEW_SUMMARY rs
+            LEFT JOIN T_CONT_CONTRACTOR tcc ON rs.CONT_ID = tcc.CONT_ID
+                <where>
+                    and rs.EVAL_CONCLUSION = '优秀'
+                    <if  test="reviewYear != null and reviewYear != ''">
+                      and rs.REVIEW_YEAR = #{reviewYear}
+                    </if>
+                  <if  test="accessLevel != null and accessLevel != ''">
+                    and tcc.ACCESS_LEVEL = #{accessLevel}
+                  </if>
+                </where>
+        GROUP BY
+          rs.OWNER_DEPT_ID UNION ALL
+        SELECT
+          0 'excellent',
+          count( rs.REVIEW_SUMMARY_ID ) 'qualified',
+          0 'rectification',
+          0 'disqualified',
+          rs.OWNER_DEPT_ID
+        FROM
+          T_CONT_REVIEW_SUMMARY rs
+            LEFT JOIN T_CONT_CONTRACTOR tcc ON rs.CONT_ID = tcc.CONT_ID
+            <where>
+              and rs.EVAL_CONCLUSION = '合格'
+              <if  test="reviewYear != null and reviewYear != ''">
+                and rs.REVIEW_YEAR = #{reviewYear}
+              </if>
+              <if  test="accessLevel != null and accessLevel != ''">
+                and tcc.ACCESS_LEVEL = #{accessLevel}
+              </if>
+            </where>
+        GROUP BY
+          rs.OWNER_DEPT_ID UNION ALL
+        SELECT
+          0 'excellent',
+          0 'qualified',
+          count( rs.REVIEW_SUMMARY_ID ) 'rectification',
+          0 'disqualified',
+          rs.OWNER_DEPT_ID
+        FROM
+          T_CONT_REVIEW_SUMMARY rs
+            LEFT JOIN T_CONT_CONTRACTOR tcc ON rs.CONT_ID = tcc.CONT_ID
+            <where>
+              and rs.EVAL_CONCLUSION = '限期整改'
+              <if  test="reviewYear != null and reviewYear != ''">
+                and rs.REVIEW_YEAR = #{reviewYear}
+              </if>
+              <if  test="accessLevel != null and accessLevel != ''">
+                and tcc.ACCESS_LEVEL = #{accessLevel}
+              </if>
+            </where>
+        GROUP BY
+          rs.OWNER_DEPT_ID UNION ALL
+        SELECT
+          0 'excellent',
+          0 'qualified',
+          0 'rectification',
+          count( rs.REVIEW_SUMMARY_ID ) 'disqualified',
+          rs.OWNER_DEPT_ID
+        FROM
+          T_CONT_REVIEW_SUMMARY rs
+            LEFT JOIN T_CONT_CONTRACTOR tcc ON rs.CONT_ID = tcc.CONT_ID
+            <where>
+              and rs.EVAL_CONCLUSION = '不合格'
+              <if  test="reviewYear != null and reviewYear != ''">
+                and rs.REVIEW_YEAR = #{reviewYear}
+              </if>
+              <if  test="accessLevel != null and accessLevel != ''">
+                and tcc.ACCESS_LEVEL = #{accessLevel}
+              </if>
+            </where>
+        GROUP BY
+          rs.OWNER_DEPT_ID
+      ) t
+        LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = t.OWNER_DEPT_ID
+    GROUP BY
+      t.OWNER_DEPT_ID
+  </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContAcceScopeMapper">
+
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContAcceScopeDto">
+    <result column="SCOPE_ID" jdbcType="VARCHAR" property="scopeId" />
+    <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId" />
+    <result column="SCOPE_NO" jdbcType="INTEGER" property="scopeNo" />
+    <result column="SCOPE_NAME" jdbcType="VARCHAR" property="scopeName" />
+    <result column="SCOPE_CREDIT_LEVEL" jdbcType="VARCHAR" property="scopeCreditLevel" />
+  </resultMap>
+
+  <select id="selectContAcceScopeDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_CONT_ACCE_SCOPE CAS
+    <where>
+      <if test="acceId!=null and acceId!=''">
+        and CAS.ACCE_ID=#{acceId}
+      </if>
+    </where>
+
+  </select>
+
+
+
+</mapper>

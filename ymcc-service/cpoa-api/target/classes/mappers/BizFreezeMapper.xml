@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizFreezeMapper">
+
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.vo.StatisticsDetailVo">
+
+    <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+    <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo" />
+    <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+    <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType" />
+    <result column="DEAL_STATUS" jdbcType="VARCHAR" property="dealStatus" />
+    <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus" />
+    <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="DEAL_VALUE" jdbcType="VARCHAR" property="dealValue" />
+    <result column="SETTLE_NOW" jdbcType="DOUBLE" property="settleNow" />
+    <result column="SETTLE_HIS" jdbcType="DOUBLE" property="settleHis" />
+    <result column="DEAL_SETTLEMENT" jdbcType="DOUBLE" property="dealSettlement" />
+    <result column="DEAL_START" jdbcType="DATE" property="dealStart" />
+    <result column="DEAL_END" jdbcType="DATE" property="dealEnd" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+  </resultMap>
+
+  <select id="selectUnPlacedCount" parameterType="java.util.Map" resultType="INTEGER">
+  SELECT COUNT(1) FROM T_BIZ_DEAL a
+  INNER JOIN (
+
+    SELECT T1.DEAL_ID,T1.SETTLE_STATUS FROM `T_BIZ_SETTLEMENT` T1 INNER JOIN  (
+      SELECT MAX(T2.CREATE_TIME) CREATE_TIME,T2.DEAL_ID FROM T_BIZ_SETTLEMENT T2 GROUP BY T2.DEAL_ID
+    ) T3 ON T1.DEAL_ID=T3.DEAL_ID AND T1.CREATE_TIME=T3.CREATE_TIME
+
+  ) b  ON a.deal_id=b.deal_id WHERE a.deal_status!='placed' AND SETTLE_STATUS='down'
+
+  </select>
+
+
+  <select id="selectUnPlacedDetail" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT b.DEAL_ID, b.DEAL_NAME,b.DEAL_TYPE,b.DEAL_STATUS,
+    b.DEAL_INCOME,b.DEPT_ID,c.DEPT_NAME,b.USER_ID,
+    d.USER_NAME,b.DEAL_VALUE,a.本年结算 SETTLE_NOW,
+    a.往年结算 SETTLE_HIS,b.DEAL_SETTLEMENT,b.DEAL_START,b.DEAL_END,e.CONT_NAME,f.SETTLE_STATUS,b.DEAL_NO  FROM V_DEAL_STTLE a
+    INNER JOIN T_BIZ_DEAL b ON a.DEAL_ID=b.DEAL_ID
+    LEFT JOIN T_SYS_DEPT c ON a.DEPT_ID=c.DEPT_ID
+    LEFT JOIN T_SYS_USER d ON a.USER_ID=d.USER_ID
+    LEFT JOIN T_BIZ_CONTRACTOR e ON e.CONT_ID=a.CONTRACT_ID
+    INNER JOIN (
+
+    SELECT T1.DEAL_ID,T1.SETTLE_STATUS FROM `T_BIZ_SETTLEMENT` T1 INNER JOIN  (
+    SELECT MAX(T2.CREATE_TIME) CREATE_TIME,T2.DEAL_ID FROM T_BIZ_SETTLEMENT T2 GROUP BY T2.DEAL_ID
+    ) T3 ON T1.DEAL_ID=T3.DEAL_ID AND T1.CREATE_TIME=T3.CREATE_TIME
+
+    ) f  ON a.deal_id=f.deal_id WHERE a.deal_status='progressAuditing' AND f.SETTLE_STATUS='down'
+
+  </select>
+
+  <update id="placedAll" parameterType="java.util.Map">
+    <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
+      UPDATE T_BIZ_DEAL
+      <set>
+        DEAL_STATUS=#{newStatus}
+      </set>
+      <where>
+        DEAL_ID = #{bean.dealId}
+      </where>
+    </foreach>
+  </update>
+
+
+</mapper>

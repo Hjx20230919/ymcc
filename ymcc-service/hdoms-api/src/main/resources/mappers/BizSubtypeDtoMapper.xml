@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizSubtypeDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizSubtypeDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="SUBTYPE_ID" jdbcType="VARCHAR" property="subtypeId" />
+    <result column="SUBTYPE_NAME" jdbcType="VARCHAR" property="subtypeName" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+
+  </resultMap>
+
+
+  <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from  T_BIZ_SUBTYPE TBS
+    <where>
+      <if test="subtypeName!=null and subtypeName!=''">
+        AND TBS.SUBTYPE_NAME like  CONCAT('%',#{subtypeName},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="selectListByName" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from  T_BIZ_SUBTYPE TBS WHERE SUBTYPE_NAME=#{subtypeName}
+  </select>
+</mapper>

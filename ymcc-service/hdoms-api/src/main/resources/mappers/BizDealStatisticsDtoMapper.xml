@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizDealStatisticsDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizDealStatisticsDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="STAT_ID" jdbcType="VARCHAR" property="statId"/>
+        <result column="STAT_TYPE" jdbcType="VARCHAR" property="statType"/>
+        <result column="STAT_ORDER" jdbcType="INTEGER" property="statOrder"/>
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="DEAL_CONTRACT" jdbcType="VARCHAR" property="dealContract"/>
+        <result column="DEAL_REPORT_NO" jdbcType="VARCHAR" property="dealReportNo"/>
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="CONT_ID" jdbcType="VARCHAR" property="contId"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="DEAL_START" jdbcType="DATE" property="dealStart"/>
+        <result column="DEAL_END" jdbcType="DATE" property="dealEnd"/>
+        <result column="DEAL_VALUE" jdbcType="DECIMAL" property="dealValue"/>
+        <result column="DEAL_SETTLE_LAST" jdbcType="DECIMAL" property="dealSettleLast"/>
+        <result column="DEAL_SETTLE_NOW" jdbcType="DECIMAL" property="dealSettleNow"/>
+        <result column="DEAL_SETTLE" jdbcType="DECIMAL" property="dealSettle"/>
+        <result column="DEAL_SETTLE_PROGRESS" jdbcType="DECIMAL" property="dealSettleProgress"/>
+        <result column="SETTLE_LAST" jdbcType="DECIMAL" property="settleLast"/>
+        <result column="SETTLE_NOW" jdbcType="DECIMAL" property="settleNow"/>
+        <result column="SETTLE" jdbcType="DECIMAL" property="settle"/>
+        <result column="SETTLE_PROGRESS" jdbcType="DECIMAL" property="settleProgress"/>
+        <result column="NOT_SETTLE_LAST" jdbcType="DECIMAL" property="notSettleLast"/>
+        <result column="NOT_SETTLE" jdbcType="DECIMAL" property="notSettle"/>
+        <result column="MARKET_DIST" jdbcType="VARCHAR" property="marketDist"/>
+        <result column="NOTE" jdbcType="LONGVARCHAR" property="note"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="CREATE_ID" jdbcType="VARCHAR" property="createId"/>
+        <result column="deal_contract" jdbcType="VARCHAR" property="dealContract"/>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
+
+        <result column="DEAL_SETTLE_WAY" jdbcType="VARCHAR" property="dealSettleWay"/>
+        <result column="IS_DEAL_SETTLE_DONE" jdbcType="VARCHAR" property="isDealSettleDone"/>
+        <result column="SETTLE_WAY" jdbcType="VARCHAR" property="settleWay"/>
+        <result column="IS_SETTLE_DONE" jdbcType="VARCHAR" property="isSettleDone"/>
+        <result column="EXPECT_INCOME_NOW" jdbcType="DECIMAL" property="expectIncomeNow"/>
+
+        <result column="EXPECT_INCOME_HALF" jdbcType="DECIMAL" property="expectIncomeHalf"/>
+        <result column="CHANGES_REASON" jdbcType="LONGVARCHAR" property="changesReason"/>
+
+        <result column="CHANGE_ANALYSIS" jdbcType="VARCHAR" property="changeAnalysis"/>
+        <result column="EXPECT_SETTLE_NOW" jdbcType="VARCHAR" property="expectSettleNow"/>
+    </resultMap>
+
+    <resultMap id="VDealSttleDto" type="cn.com.cnpc.cpoa.domain.VDealSttleDto">
+        <result column="settleNow" jdbcType="DECIMAL" property="settleNow"/>
+        <result column="settleLast" jdbcType="DECIMAL" property="settleLast"/>
+    </resultMap>
+
+    <select id="selectDealStatistics" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select tbds.*,tsd.dept_name from T_BIZ_DEAL_STATISTICS tbds
+        left join T_SYS_DEPT tsd on tbds.DEPT_ID=tsd.DEPT_ID
+        
+
+        <where>
+
+            <if test="dealIncome!=null and dealIncome!=''">
+                AND tbds.DEAL_INCOME=#{dealIncome}
+            </if>
+
+            <if test="deptId!=null and deptId!=''">
+                AND tbds.DEPT_ID=#{deptId}
+            </if>
+
+            <if test="statType!=null and statType!=''">
+                AND tbds.STAT_TYPE=#{statType}
+            </if>
+
+            <if test="dealName!=null and dealName!=''">
+                AND tbds.DEAL_NAME LIKE CONCAT('%',#{dealName},'%')
+            </if>
+
+            <if test="dealId!=null and dealId!=''">
+                AND tbds.DEAL_ID=#{dealId}
+            </if>
+
+            <if test="dealNo !=null and dealNo !=''">
+                AND tbds.DEAL_No like  CONCAT('%',#{dealNo},'%')
+            </if>
+        </where>
+        order by tbds.STAT_ORDER asc
+
+    </select>
+
+
+    <select id="selectDealStatisticsSum" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select tbds.STAT_TYPE,tbds.STAT_ORDER,
+        tbds.deal_contract,
+        ifnull(sum(tbds.DEAL_VALUE),0) DEAL_VALUE,
+        ifnull(sum(tbds.DEAL_SETTLE_LAST),0) DEAL_SETTLE_LAST,
+        ifnull(sum(tbds.DEAL_SETTLE_NOW),0) DEAL_SETTLE_NOW,
+        ifnull(sum(tbds.DEAL_SETTLE),0) DEAL_SETTLE,
+        ROUND((ifnull(sum(tbds.DEAL_SETTLE),0)/ifnull(sum(tbds.DEAL_VALUE),0)),2) DEAL_SETTLE_PROGRESS,
+        ifnull(sum(tbds.SETTLE_LAST),0) SETTLE_LAST,
+        ifnull(sum(tbds.SETTLE_NOW),0) SETTLE_NOW,
+        ifnull(sum(tbds.SETTLE),0) SETTLE,
+        ROUND((ifnull(sum(tbds.SETTLE),0)/ifnull(sum(tbds.DEAL_VALUE),0)),2) SETTLE_PROGRESS,
+        ifnull(sum(tbds.NOT_SETTLE_LAST),0) NOT_SETTLE_LAST,
+        ifnull(sum(tbds.NOT_SETTLE),0) NOT_SETTLE,
+        ifnull(sum(tbds.EXPECT_INCOME_NOW),0) EXPECT_INCOME_NOW,
+        ifnull(sum(tbds.EXPECT_INCOME_HALF),0) EXPECT_INCOME_HALF
+        from T_BIZ_DEAL_STATISTICS tbds
+
+
+        <where>
+
+            <if test="dealIncome!=null and dealIncome!=''">
+                AND tbds.DEAL_INCOME=#{dealIncome}
+            </if>
+
+            <if test="deptId!=null and deptId!=''">
+                AND tbds.DEPT_ID=#{deptId}
+            </if>
+
+
+        </where>
+        group by tbds.deal_contract,tbds.STAT_ORDER,tbds.STAT_TYPE
+        order by tbds.STAT_ORDER asc
+
+    </select>
+    
+    <select id="selectVDealSttle" parameterType="java.util.Map" resultMap="VDealSttleDto">
+        select t.本年结算 settleNow,t.往年结算 settleLast from V_DEAL_STTLE t
+        <where>
+            <if test="dealId != null and dealId != ''">
+                and t.DEAL_ID = #{dealId}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,121 @@
+#
+#server:
+#  port: 45678
+#  address: 192.168.8.140
+#  servlet:
+#    context-path: /api
+#
+#spring:
+#  application:
+#    name: application-hdoms #服务名
+#  #  main:
+#  #    allow-bean-definition-overriding: true
+#  profiles:
+#    active: dev
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848 #注册中心
+#      config:
+#        server-addr: localhost:8848 #配置中心
+#        namespace: b02105a7-1aaa-4fc7-8bb4-dd11a88c6294
+#        file-extension: yaml #配置文件格式
+
+server:
+  port: 45678
+  address: 192.168.8.136
+  servlet:
+    context-path: /hdapi
+
+spring:
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hdoa_pro230911?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
+    username: root
+    password: zhaopeng0201
+  jackson:
+    time-zone: GMT+8
+
+
+#log4j
+
+logging:
+  config: classpath:log4j2-dev.xml
+
+wechat:
+  mpAppId: wxb7095fc7e128db01
+  mpAppSecret: 617318d9229eb2de30375b6e49bd24ea
+templateId:
+  passTemplateId: c2bx0RGVGILtEh1Fx8Na-RY6sDbKJwNo-W-LsDio_LI
+  refuseTemplateId: c2bx0RGVGILtEh1Fx8Na-RY6sDbKJwNo-W-LsDio_LI
+  pendTemplateId: 3ceyQzTh4P9iBv9ku_Vq97e8YTGnk8K54_0NxGHB4ds
+  #承包商资质即将过期发送消息
+  creditTemplateId: c2bx0RGVGILtEh1Fx8Na-RY6sDbKJwNo-W-LsDio_LI
+  #基层审核模板
+  auditTemplateId: i-jTF6xfCi2U7Wiq6B5TSokvAWCnGjNkySlOg35xMqM
+  #投标消息提醒模板
+  bidProjectTemplateId: c2bx0RGVGILtEh1Fx8Na-RY6sDbKJwNo-W-LsDio_LI
+  templateUrl: wx.zhinglink.com
+
+file:
+  baseurl: F:/test/base/
+  recyclebinurl: F:/test-recycle/base/
+  tempurl: F:/test/temp/
+  #下载模板
+  wordTemplateUrl: F:/test/word/合同签约审查审批表.docx
+  wordSettleTemplateUrl: F:/test/word/合同付款审批表.docx
+  #水印
+  PDFPicUrl: F:/test/pic/water.png
+  #字体
+  baseFontUrl: F:/test/font/simsun.ttf
+  #承包商模板
+  contContractorTmpl: F:/test/fileblackListTmpls/wordTemplate/其他方式准入模板.xlsx
+  #黑名单导入模板
+  blackListTmpl: F:/test/files/wordTemplate/黑名单测试.xlsx
+  yearEvaluationTempUrl: F:/test/files/wordTemplate/承包商业绩综合考核评价汇总表（年）.xlsx
+  rptMonthTmplUrl: F:/test/files/fusionTmpl/tmpl-biz-rpt-month.xlsx
+  rptLaborScoreTmplUrl: F:/test/files/fusionTmpl/tmpl-biz-rpt-month.xlsx
+  rptKpiSumTmplUrl: F:/test/files/fusionTmpl/tmpl-kpi-sum.xlsx
+  #合同导入模板
+  dealTmpl: F:/test/fileblackListTmpls/wordTemplate/合同模板.xls
+#招标
+bid:
+  bidDetailUrl: https://www.cnpcbidding.com/cms/pmsbidInfo/detailsOut
+  bidListUrl: https://www.cnpcbidding.com/cms/pmsbidInfo/listPageOut
+  #附件下载地址
+  bidAttachUrl: https://www.cnpcbidding.com/pmsbid/download?id=
+  #附件存放地址，以/结尾
+  attachPath: F:/test/
+
+
+#file:
+#    baseurl: /home/test/files/base/
+#    tempurl: /home/test/files/temp/
+#    wordTemplateUrl: /home/test/files/wordTemplate/合同签约审查审批表.docx
+#    wordSettleTemplateUrl: /home/test/files/wordTemplate/合同付款审批表.docx
+#    PDFPicUrl: /home/test/files/pic/water.png
+#    baseFontUrl: /home/test/files/font/simsun.ttf
+#    yearEvaluationTempUrl: /home/test/files/wordTemplate/承包商业绩综合考核评价汇总表（年）.xlsx
+#    rptMonthTmplUrl: /home/test/files/fusionTmpl/tmpl-biz-rpt-month.xlsx
+#    rptLaborScoreTmplUrl: /home/test/files/fusionTmpl/tmpl-biz-rpt-month.xlsx
+#    rptKpiSumTmplUrl: /home/test/files/fusionTmpl/tmpl-kpi-sum.xlsx
+
+#interface
+prodsys:
+  contractSync:
+    syncContractInfo: https://www.ketetest.com/detection/contractSync/syncContractInfo.do
+    updateClientInfo: https://www.ketetest.com/detection/contractSync/syncClientInfo.do
+
+access:
+  prefix: http://cpoa.jkzj.com:55556
+
+jwt:
+  tokenKey: ____________________cpoa_api_dev
+mybatis:
+  #  configuration:
+  #    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mappers/**/*.xml
+
+

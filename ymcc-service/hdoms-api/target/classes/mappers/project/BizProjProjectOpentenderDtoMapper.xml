@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.project.BizProjProjectOpentenderDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.project.BizProjProjectOpentenderDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="OTENDER_ID" jdbcType="VARCHAR" property="otenderId" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="OTENDER_SEL_CONT_TYPE" jdbcType="VARCHAR" property="otenderSelContType" />
+    <result column="OTENDER_PROJ_TYPE" jdbcType="VARCHAR" property="otenderProjType" />
+    <result column="OTENDER_PLAN_NO" jdbcType="VARCHAR" property="otenderPlanNo" />
+    <result column="OTENDER_TYPE" jdbcType="VARCHAR" property="otenderType" />
+    <result column="OTENDER_TENDER_TYPE" jdbcType="VARCHAR" property="otenderTenderType" />
+    <result column="OTENDER_START_DATE" jdbcType="DATE" property="otenderStartDate" />
+    <result column="OTENDER_END_DATE" jdbcType="DATE" property="otenderEndDate" />
+    <result column="OTENDER_VALUTION_TYPE" jdbcType="VARCHAR" property="otenderValutionType" />
+    <result column="OTENDER_MODALITY" jdbcType="VARCHAR" property="otenderModality" />
+    <result column="OTENDER_SUPERVISE" jdbcType="VARCHAR" property="otenderSupervise" />
+    <result column="OTENDER_CONTENT" jdbcType="LONGVARCHAR" property="otenderContent" />
+    <result column="OTENDER_COMMITTEE" jdbcType="LONGVARCHAR" property="otenderCommittee" />
+    <result column="OTENDER_QUALIFICATIONS" jdbcType="LONGVARCHAR" property="otenderQualifications" />
+  </resultMap>
+</mapper>

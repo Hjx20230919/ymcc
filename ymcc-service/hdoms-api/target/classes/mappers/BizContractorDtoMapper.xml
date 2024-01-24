@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizContractorDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizContractorDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="ALIAS_NAME" jdbcType="VARCHAR" property="aliasName" />
+    <result column="CONT_TYPE" jdbcType="VARCHAR" property="contType" />
+    <result column="CONT_ADDRSS" jdbcType="VARCHAR" property="contAddrss" />
+    <result column="ID_NO" jdbcType="VARCHAR" property="idNo" />
+    <result column="ORG_NO" jdbcType="VARCHAR" property="orgNo" />
+    <result column="DUTY_MAN" jdbcType="VARCHAR" property="dutyMan" />
+    <result column="REG_CAPTIAL" jdbcType="VARCHAR" property="regCaptial" />
+    <result column="REG_CERT_NUM" jdbcType="VARCHAR" property="regCertNum" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="LINKMAN" jdbcType="VARCHAR" property="linkman" />
+    <result column="LINK_NUM" jdbcType="VARCHAR" property="linkNum" />
+    <result column="CONT_BANK" jdbcType="VARCHAR" property="contBank" />
+    <result column="CONT_ACCOUNT" jdbcType="VARCHAR" property="contAccount" />
+    <result column="LINK_MAIL" jdbcType="VARCHAR" property="linkMail" />
+    <result column="BIZ_SCOPE" jdbcType="VARCHAR" property="bizScope" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="createName" />
+    <result column="MARKET_TYPE" jdbcType="VARCHAR" property="marketType"/>
+    <result column="COMPANY_TYPE" jdbcType="VARCHAR" property="companyType"/>
+    <result column="CONTRACT_TYPE" jdbcType="VARCHAR" property="contractType"/>
+    <result column="WORK_ZONE" jdbcType="VARCHAR" property="workZone"/>
+    <result column="PARENT_NAME" jdbcType="VARCHAR" property="parentName"/>
+  </resultMap>
+
+  <!--查询合同-->
+  <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select TBC.*,TSU.USER_NAME from  T_BIZ_CONTRACTOR TBC
+    LEFT JOIN T_SYS_USER TSU ON TBC.creator=TSU.USER_ID
+    <where>
+      <if test="contName!=null and contName!=''">
+        AND TBC.CONT_NAME like  CONCAT('%',#{contName},'%')
+      </if>
+      <if test="contractorId!=null and contractorId!=''">
+        AND TBC.CONT_ID = #{contractorId}
+      </if>
+      <if test="contType!=null and contType!=''">
+        AND TBC.CONT_TYPE = #{contType}
+      </if>
+    </where>
+  </select>
+
+
+
+  <select id="selectList2" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from  T_BIZ_CONTRACTOR TBC WHERE TBC.CONT_NAME =#{contName}
+  </select>
+
+
+</mapper>

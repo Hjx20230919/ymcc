@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.ContReviewOfficeDetailDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.ContReviewOfficeDetailDto">
+    <result column="OFFICE_DETAIL_ID" jdbcType="VARCHAR" property="officeDetailId" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="REVIEW_YEAR" jdbcType="VARCHAR" property="reviewYear" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="TOTAL_SCORE" jdbcType="REAL" property="totalScore" />
+    <result column="PROPORTION" jdbcType="REAL" property="proportion" />
+    <result column="CONVERSION_SCORE" jdbcType="REAL" property="conversionScore" />
+    <result column="EVAL_CONCLUSION" jdbcType="VARCHAR" property="evalConclusion" />
+    <result column="EVAL_AT" jdbcType="TIMESTAMP" property="evalAt" />
+    <result column="EVAL_MAN" jdbcType="VARCHAR" property="evalMan" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="ContReviewOfficeDetailPo" type="cn.com.cnpc.cpoa.po.contractor.ContReviewOfficeDetailPo">
+    <result column="OFFICE_DETAIL_ID" jdbcType="VARCHAR" property="officeDetailId" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="REVIEW_YEAR" jdbcType="VARCHAR" property="reviewYear" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId" />
+    <result column="TOTAL_SCORE" jdbcType="REAL" property="totalScore" />
+    <result column="PROPORTION" jdbcType="REAL" property="proportion" />
+    <result column="CONVERSION_SCORE" jdbcType="REAL" property="conversionScore" />
+    <result column="EVAL_CONCLUSION" jdbcType="VARCHAR" property="evalConclusion" />
+    <result column="EVAL_AT" jdbcType="TIMESTAMP" property="evalAt" />
+    <result column="EVAL_MAN" jdbcType="VARCHAR" property="evalMan" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="MAN_ID" jdbcType="VARCHAR" property="manId" />
+    <result column="STEP_ID" jdbcType="VARCHAR" property="stepId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel" />
+  </resultMap>
+
+  <select id="selectOfficeDetailByMap" parameterType="java.util.Map" resultMap="ContReviewOfficeDetailPo">
+    SELECT
+    tcrod.OFFICE_DETAIL_ID,
+    tcrod.CREATE_ID,
+    tcrod.CREATE_AT,
+    CASE
+
+    WHEN tcrod.TASK_STATUS = 'draft' THEN
+    '待考评'
+    WHEN tcrod.TASK_STATUS = 'reviewing' THEN
+    '考评中'
+    WHEN tcrod.TASK_STATUS = 'buildAuditing' THEN
+    '审核中'
+    WHEN tcrod.TASK_STATUS = 'back' THEN
+    '退回'
+    WHEN tcrod.TASK_STATUS = 'down' THEN
+    '考评完成'
+    END TASK_STATUS,
+    tcrod.REVIEW_YEAR,
+    tcrod.CONT_ID,
+    tcrod.OWNER_DEPT_ID,
+    tcrod.TOTAL_SCORE,
+    tcrod.PROPORTION,
+    tcrod.CONVERSION_SCORE,
+    tcrod.EVAL_CONCLUSION,
+    tcrod.EVAL_AT,
+    tcrod.EVAL_MAN,
+    tcrod.NOTES,
+    tcc.CONT_NAME,
+    tsd.DEPT_NAME
+    FROM
+    T_CONT_REVIEW_OFFICE_DETAIL tcrod
+    LEFT JOIN T_CONT_CONTRACTOR tcc ON tcc.CONT_ID = tcrod.CONT_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tcrod.OWNER_DEPT_ID
+    <where>
+      <if test="reviewYear != null and reviewYear!= ''">
+        and tcrod.REVIEW_YEAR = #{reviewYear}
+      </if>
+      <if test="taskStatus != null and taskStatus!= ''">
+        and tcrod.TASK_STATUS = #{taskStatus}
+      </if>
+      <if test="deptName != null and deptName!= ''">
+        and tsd.DEPT_NAME = #{deptName}
+      </if>
+      <if test="userId != null and userId!= ''">
+        and tcrod.CREATE_ID = #{userId}
+      </if>
+      <if test="createAtStart != null and createAtStart!= ''">
+        and tcrod.CREATE_AT &gt;= #{createAtStart}
+      </if>
+      <if test="createAtEnd != null and createAtEnd!= ''">
+        and tcrod.CREATE_AT &lt;= #{createAtEnd}
+      </if>
+      <if test="contId != null and contId!= ''">
+        and tcrod.CONT_ID = #{contId}
+      </if>
+      <if test="deptId != null and deptId != ''">
+        and tcrod.OWNER_DEPT_ID = #{deptId}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectOfficeAuditItem" parameterType="java.util.Map" resultMap="ContReviewOfficeDetailPo">
+    SELECT
+    od.OFFICE_DETAIL_ID,
+    od.CREATE_ID,
+    od.CREATE_AT,
+    CASE
+
+    WHEN od.TASK_STATUS = 'draft' THEN
+    '待考评'
+    WHEN od.TASK_STATUS = 'reviewing' THEN
+    '考评中'
+    WHEN od.TASK_STATUS = 'buildAuditing' THEN
+    '审核中'
+    WHEN od.TASK_STATUS = 'back' THEN
+    '退回'
+    WHEN od.TASK_STATUS = 'down' THEN
+    '考评完成'
+    END TASK_STATUS,
+    od.REVIEW_YEAR,
+    od.CONT_ID,
+    od.OWNER_DEPT_ID,
+    od.TOTAL_SCORE,
+    od.PROPORTION,
+    od.CONVERSION_SCORE,
+    od.EVAL_CONCLUSION,
+    od.EVAL_AT,
+    od.EVAL_MAN,
+    od.NOTES,
+    TSD.DEPT_NAME,
+    B.MAN_ID,
+    B.STEP_ID,
+    TCC.CONT_NAME,
+    TCC.ACCESS_LEVEL
+    FROM
+    T_CONT_REVIEW_OFFICE_DETAIL od
+    INNER JOIN (
+    SELECT
+    IFNULL( MIN( TBCS.STEP_NO ),- 1 ) STEP_NO,
+    od.OFFICE_DETAIL_ID
+    FROM
+    T_CONT_REVIEW_OFFICE_DETAIL od
+    INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID = od.OFFICE_DETAIL_ID
+    INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID = TBCM.STEP_ID
+    WHERE
+    od.TASK_STATUS = 'buildAuditing'
+    AND TBCM.CHECK_STATE = 'PENDING'
+    AND TBCS.CHECK_OBJ_TYPE = 'officeTask'
+    GROUP BY
+    od.OFFICE_DETAIL_ID
+    ) A ON od.OFFICE_DETAIL_ID = A.OFFICE_DETAIL_ID
+    INNER JOIN (
+    SELECT
+    ANY_VALUE(MIN( TBCS.STEP_NO )) STEP_NO,
+    ANY_VALUE(TBCS.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(TBCS.STEP_ID) STEP_ID,
+    ANY_VALUE(TBCM.MAN_ID) MAN_ID
+    FROM
+    T_BIZ_CHECK_STEP TBCS
+    INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID = TBCM.STEP_ID
+    WHERE
+    TBCM.CHECK_STATE = 'PENDING'
+    AND TBCS.CHECK_OBJ_TYPE = 'officeTask'
+    GROUP BY
+    TBCS.CHECK_OBJ_ID
+    ) B ON A.STEP_NO = B.STEP_NO
+    AND A.OFFICE_DETAIL_ID = B.CHECK_OBJ_ID
+    LEFT JOIN T_SYS_DEPT TSD ON od.OWNER_DEPT_ID = TSD.DEPT_ID
+    LEFT JOIN T_SYS_USER TSU ON od.CREATE_ID = TSU.USER_ID
+    LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID = od.CONT_ID
+    <where>
+      <if test="taskStatus != null and taskStatus != ''">
+        and od.TASK_STATUS = #{taskStatus}
+      </if>
+      <if test="evalAtStart != null and evalAtStart != ''">
+        and od.EVAL_AT &gt;= #{evalAtStart}
+      </if>
+      <if test="evalAtEnd != null and evalAtEnd != ''">
+        and od.EVAL_AT &lt;= #{taskStatus}
+      </if>
+      <if test="reviewYear != null and reviewYear != ''">
+        and od.REVIEW_YEAR = #{reviewYear}
+      </if>
+      <if test="deptId != null and deptId != ''">
+        and od.OWNER_DEPT_ID = #{deptId}
+      </if>
+    </where>
+
+  </select>
+
+  <select id="selectContByContIdAndYear" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(od.OFFICE_DETAIL_ID) from T_CONT_REVIEW_OFFICE_DETAIL od
+    <where>
+      <if test="contId != null and contId != ''">
+        and od.CONT_ID = #{contId}
+      </if>
+      <if test="reviewYear != null and reviewYear != ''">
+        and od.REVIEW_YEAR = #{reviewYear}
+      </if>
+      <if test="taskStatus != null and taskStatus.size() > 0">
+        and od.TASK_STATUS in
+        <foreach collection="taskStatus" index="index" item="status" open="(" separator="," close=")">
+          #{status}
+        </foreach>
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContCreditMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContCreditDto">
+        <result column="CREDIT_ID" jdbcType="VARCHAR" property="creditId"/>
+        <result column="CREDIT_NAME" jdbcType="VARCHAR" property="creditName"/>
+        <result column="CREDIT_VALID_START" jdbcType="TIMESTAMP" property="creditValidStart"/>
+        <result column="CREDIT_VALID_END" jdbcType="TIMESTAMP" property="creditValidEnd"/>
+        <result column="CREDIT_DESC" jdbcType="VARCHAR" property="creditDesc"/>
+        <result column="CREDIT_NO" jdbcType="INTEGER" property="creditNo"/>
+        <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId"/>
+        <result column="ITEM_ID" jdbcType="VARCHAR" property="itemId"/>
+        <result column="CREDIT_PROJ_NAME" jdbcType="VARCHAR" property="creditProjName"/>
+        <result column="CREDIT_STATE" jdbcType="VARCHAR" property="creditState"/>
+        <result column="isMust" jdbcType="VARCHAR" property="isMust"/>
+        <result column="ITEM_PROJ_DESC" jdbcType="VARCHAR" property="itemProjDesc"/>
+        <result column="CREDIT_TIME_FLAG" jdbcType="VARCHAR" property="creditTimeFlag"/>
+        <result column="CREDIT_ITEM_FLAG" jdbcType="VARCHAR" property="creditItemFlag"/>
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.contractor.ContCreditMaintainPo">
+        <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="CONT_ORG_NO" jdbcType="VARCHAR" property="contOrgNo"/>
+        <result column="CORPORATE" jdbcType="VARCHAR" property="corporate"/>
+        <result column="LINK_MOBILE" jdbcType="VARCHAR" property="linkMobile"/>
+        <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="CONT_STATE" jdbcType="VARCHAR" property="contState"/>
+        <result column="CREATE_AT" jdbcType="VARCHAR" property="createAt"/>
+        <result column="SET_FILL_TIME" jdbcType="TIMESTAMP" property="setFillTime"/>
+        <result column="SET_CODE" jdbcType="VARCHAR" property="setCode"/>
+        <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+        <result column="ISOUTTIME" jdbcType="VARCHAR" property="isOutTime"/>
+        <result column="ACCE_STATE" jdbcType="VARCHAR" property="acceState"/>
+        <result column="SET_STATE" jdbcType="VARCHAR" property="setState"/>
+        <result column="SET_ID" jdbcType="VARCHAR" property="setId"/>
+        <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel"/>
+        <result column="CONT_FREEZE_STATE" jdbcType="VARCHAR" property="contFreezeState"/>
+
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="PROJ_CONT_CODE" jdbcType="VARCHAR" property="projContCode"/>
+        <result column="PROJ_CONT_NAME" jdbcType="VARCHAR" property="projContName"/>
+        <result column="PROJ_CONT_LINKMAN" jdbcType="VARCHAR" property="projContLinkman"/>
+        <result column="PROJ_CONT_PHONE" jdbcType="VARCHAR" property="projContPhone"/>
+        <result column="PROJ_CONT_MAIL" jdbcType="VARCHAR" property="projContMail"/>
+        <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType"/>
+        <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent"/>
+        <result column="PROJ_AT" jdbcType="TIMESTAMP" property="projAt"/>
+        <result column="PROJ_STATE" jdbcType="VARCHAR" property="projState"/>
+        <result column="PROJ_STATE_AT" jdbcType="TIMESTAMP" property="projStateAt"/>
+        <result column="PROJ_APPLY_REASON" jdbcType="VARCHAR" property="projApplyReason"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap3" type="cn.com.cnpc.cpoa.po.contractor.ContCreditPo">
+        <result column="CREDIT_ID" jdbcType="VARCHAR" property="creditId"/>
+        <result column="CREDIT_NAME" jdbcType="VARCHAR" property="creditName"/>
+        <result column="CREDIT_VALID_START" jdbcType="TIMESTAMP" property="creditValidStart"/>
+        <result column="CREDIT_VALID_END" jdbcType="TIMESTAMP" property="creditValidEnd"/>
+        <result column="CREDIT_DESC" jdbcType="VARCHAR" property="creditDesc"/>
+        <result column="CREDIT_NO" jdbcType="INTEGER" property="creditNo"/>
+        <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId"/>
+        <result column="ITEM_ID" jdbcType="VARCHAR" property="itemId"/>
+        <result column="CREDIT_PROJ_NAME" jdbcType="VARCHAR" property="creditProjName"/>
+        <result column="SET_STATE" jdbcType="VARCHAR" property="setState"/>
+        <result column="isChange" jdbcType="VARCHAR" property="isChange"/>
+        <result column="SET_ID" jdbcType="VARCHAR" property="setId"/>
+        <result column="ITEM_PROJ_DESC" jdbcType="VARCHAR" property="itemProjDesc"/>
+        <result column="CREDIT_TIME_FLAG" jdbcType="VARCHAR" property="creditTimeFlag"/>
+        <result column="CREDIT_ITEM_FLAG" jdbcType="VARCHAR" property="creditItemFlag"/>
+        <result column="isMust" jdbcType="VARCHAR" property="isMust"/>
+    </resultMap>
+
+    <!--查询-->
+    <select id="selectContCreditDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT *,IFNULL(TCCT.ITEM_MUST,'0') isMust,
+        TCCT.ITEM_PROJ_DESC,IFNULL(TCCT.CREDIT_TIME_FLAG,'0') CREDIT_TIME_FLAG,IFNUll(TCCT.CREDIT_ITEM_FLAG,'1')
+        CREDIT_ITEM_FLAG
+        FROM T_CONT_CREDIT TCC
+        LEFT JOIN T_CONT_CREDIT_TI TCCT
+        ON TCC.ITEM_ID=TCCT.ITEM_ID
+        <where>
+
+            <if test="acceId!=null and acceId!=''">
+                and TCC.ACCE_ID=#{acceId}
+            </if>
+            <if test="creditId!=null and creditId!=''">
+                and TCC.CREDIT_ID=#{creditId}
+            </if>
+            <if test="creditState!=null and creditState!=''">
+                and TCC.CREDIT_STATE=#{creditState}
+            </if>
+
+            <if test="acceIds!=null and acceIds.size() > 0">
+                AND TCC.ACCE_ID in
+                <foreach collection="acceIds" item="acceId" open="(" close=")" separator=",">
+                    #{acceId, jdbcType=VARCHAR }
+                </foreach>
+            </if>
+
+        </where>
+        ORDER BY CREDIT_NO ASC
+    </select>
+
+    <!--&lt;!&ndash;查询超时准入&ndash;&gt;-->
+    <!--<select id="selectOverdueContCreditDto" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+    <!--SELECT TCC.* FROM T_CONT_CREDIT TCC-->
+    <!--LEFT JOIN T_CONT_ACCESS TCA-->
+    <!--ON TCA.ACCE_ID=TCC.ACCE_ID-->
+    <!--<where>-->
+    <!--<if test="contId!=null and contId!=''">-->
+    <!--and TCA.CONT_ID=#{contId}-->
+    <!--</if>-->
+    <!--<if test="creditId!=null and creditId!=''">-->
+    <!--and TCC.CREDIT_ID=#{creditId}-->
+    <!--</if>-->
+    <!--<if test="creditState!=null and creditState!=''">-->
+    <!--and TCC.CREDIT_STATE=#{creditState}-->
+    <!--</if>-->
+    <!--</where>-->
+
+    <!---->
+    <!--</select>-->
+
+
+    <!--查询当前准入下-->
+    <select id="selectContCreditByAcceId" parameterType="java.util.Map" resultMap="BaseResultMap3">
+      SELECT TCC.*,TCCSI.SET_STATE,TCCSI.SET_ID,TCCT.ITEM_PROJ_DESC,CASE WHEN TCCSI.SET_ID IS NULL THEN '0' ELSE'1' END  isChange
+      ,IFNULL(TCCT.CREDIT_TIME_FLAG,'0') CREDIT_TIME_FLAG,IFNUll(TCCT.CREDIT_ITEM_FLAG,'1') CREDIT_ITEM_FLAG,IFNULL(TCCT.ITEM_MUST,'0') isMust
+    FROM T_CONT_CREDIT TCC
+    LEFT JOIN (
+    SELECT TCS.*,TCCSI.CREDIT_ID FROM T_CONT_CREDIT_SET_ITEM TCCSI
+    INNER JOIN (SELECT SET_ID,SET_CODE,SET_STATE FROM T_CONT_CREDIT_SET WHERE  ACCE_ID=#{acceId} ORDER BY SET_CREATE_AT DESC LIMIT 1) TCS
+    ON TCS.SET_ID=TCCSI.SET_ID
+    ) TCCSI ON TCC.CREDIT_ID=TCCSI.CREDIT_ID
+    LEFT JOIN T_CONT_CREDIT_TI TCCT ON TCC.ITEM_ID=TCCT.ITEM_ID
+    WHERE TCC.ACCE_ID=#{acceId}
+    order by TCC.CREDIT_NO
+
+  </select>
+
+    <!--查询准入信息-->
+    <select id="selectContCreditMaintain" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT TCA.ACCE_ID,TCC.CONT_NAME,TCC.CONT_ORG_NO,TCC.CORPORATE,
+        TCC.LINK_MOBILE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCC.CONT_STATE,TCA.ACCE_STATE,TCS.SET_STATE,TCS.SET_ID,
+        TCC.CREATE_AT,TCS.SET_FILL_TIME,TCS.SET_CODE,TSU.USER_NAME,TSD.DEPT_NAME,CAP.CONTENT,TCP.PROJ_CONTENT,
+        CASE WHEN IFNULL(CREDIT_VALID_END,NOW())>NOW() THEN '0'
+        ELSE '1'
+        END ISOUTTIME,TCC.ACCESS_LEVEL,TCC.CONT_FREEZE_STATE,TCP.*
+
+        FROM T_CONT_ACCESS TCA
+        INNER JOIN T_CONT_CONTRACTOR TCC
+        ON TCA.CONT_ID=TCC.CONT_ID
+        LEFT JOIN (
+        SELECT SET_FILL_TIME,M.ACCE_ID,SET_CODE,SET_STATE,SET_ID FROM T_CONT_CREDIT_SET M INNER JOIN (
+        SELECT ACCE_ID,MAX(SET_CREATE_AT) SET_CREATE_AT FROM T_CONT_CREDIT_SET GROUP BY ACCE_ID
+        ) N ON N.ACCE_ID=M.ACCE_ID AND N.SET_CREATE_AT=M.SET_CREATE_AT
+        ) TCS
+        ON TCA.ACCE_ID=TCS.ACCE_ID
+        INNER JOIN (
+        SELECT ACCE_ID,GROUP_CONCAT(TCAP.PROJ_NAME) CONTENT,PROJ_ACCESS_TYPE FROM
+        T_CONT_ACCESS_PROJ TCAP GROUP BY TCAP.ACCE_ID,PROJ_ACCESS_TYPE
+        ) CAP ON TCA.ACCE_ID=CAP.ACCE_ID
+        LEFT JOIN T_SYS_USER TSU ON TCA.OWNER_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCA.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN (SELECT ACCE_ID,MIN(CREDIT_VALID_END) CREDIT_VALID_END FROM T_CONT_CREDIT CC GROUP BY ACCE_ID) CC
+        ON CC.ACCE_ID=TCA.ACCE_ID
+        LEFT JOIN T_CONT_PROJECT TCP ON TCP.PROJ_ID=TCA.PROJ_ID
+        <where>
+            and TCA.ACCE_STATE='done'
+
+            <if test="contName!=null and contName!=''">
+                and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+            </if>
+            <if test="contentType!=null and contentType!=''">
+                and CAP.CONTENT like CONCAT('%',#{contentType},'%')
+            </if>
+            <if test="contType!=null and contType!=''">
+                and CAP.CONTENT like CONCAT('%',#{contType},'%')
+            </if>
+
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+            </if>
+            <if test="contState!=null and contState!=''">
+                and TCS.SET_STATE=#{contState}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and TCC.CREATE_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and TCC.CREATE_AT &lt;=str_to_date(#{accessDateEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="projAccessType!=null and projAccessType!=''">
+                and CAP.PROJ_ACCESS_TYPE=#{projAccessType}
+            </if>
+
+            <choose>
+                <when test="accessLevel2!=null and accessLevel2!=''">
+                    and ((TCP.PROJ_ACCESS_TYPE=#{accessLevel2} and TCC.ACCESS_LEVEL is null) or
+                    TCC.ACCESS_LEVEL=#{accessLevel})
+                </when>
+                <when test="accessLevel!=null and accessLevel!=''">
+                    AND TCC.ACCESS_LEVEL=#{accessLevel}
+                </when>
+                <otherwise>
+
+                </otherwise>
+            </choose>
+
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+
+        ORDER BY TCA.ACCE_AT DESC
+
+    </select>
+
+
+    <!--查询逾期信息-->
+    <select id="selectOverdueCredit" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT TCA.ACCE_ID,TCC.CONT_NAME,TCC.CONT_ORG_NO,TCC.CORPORATE,
+        TCC.LINK_MOBILE,TCA.OWNER_ID,TCA.OWNER_DEPT_ID,TCC.CONT_STATE,TCA.ACCE_STATE,TCS.SET_STATE,
+        TCC.CREATE_AT,TCS.SET_FILL_TIME,TCS.SET_CODE,TSU.USER_NAME,TSD.DEPT_NAME,CAP.CONTENT,
+        CASE WHEN IFNULL(CREDIT_VALID_END,NOW())>NOW() THEN '0'
+        ELSE '1'
+        END ISOUTTIME
+
+        FROM T_CONT_ACCESS TCA
+        INNER JOIN T_CONT_CONTRACTOR TCC
+        ON TCA.CONT_ID=TCC.CONT_ID
+        LEFT JOIN (
+        SELECT SET_FILL_TIME,M.ACCE_ID,SET_CODE,SET_STATE FROM T_CONT_CREDIT_SET M INNER JOIN (
+        SELECT ACCE_ID,MAX(SET_CREATE_AT) SET_CREATE_AT FROM T_CONT_CREDIT_SET GROUP BY ACCE_ID
+        ) N ON N.ACCE_ID=M.ACCE_ID AND N.SET_CREATE_AT=M.SET_CREATE_AT
+        ) TCS
+        ON TCA.ACCE_ID=TCS.ACCE_ID
+        INNER JOIN (
+        SELECT ACCE_ID,GROUP_CONCAT(TCAP.PROJ_NAME) CONTENT FROM
+        T_CONT_ACCESS_PROJ TCAP GROUP BY TCAP.ACCE_ID
+        ) CAP ON TCA.ACCE_ID=CAP.ACCE_ID
+        LEFT JOIN T_SYS_USER TSU ON TCA.OWNER_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCA.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN (SELECT ACCE_ID,MIN(CREDIT_VALID_END) CREDIT_VALID_END FROM T_CONT_CREDIT CC WHERE
+        CC.CREDIT_STATE='valid' GROUP BY ACCE_ID) CC
+        ON CC.ACCE_ID=TCA.ACCE_ID
+        <where>
+            <if test="contName!=null and contName!=''">
+                and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+            </if>
+            <if test="contentType!=null and contentType!=''">
+                and CAP.CONTENT like CONCAT('%',#{contentType},'%')
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+            </if>
+            <if test="contState!=null and contState!=''">
+                and TCC.CONT_STATE=#{contState}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and TCC.CREATE_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and TCC.CREATE_AT &lt;=str_to_date(#{accessDateEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="overdue!=null and overdue!=''">
+                and CC.CREDIT_VALID_END &lt;=NOW()
+            </if>
+            <if test="alarm!=null and alarm!=''">
+                and DATEDIFF(CC.CREDIT_VALID_END,DATE_FORMAT(NOW(), '%Y-%m-%d'))&lt;=90 AND
+                DATEDIFF(DATE_FORMAT(CC.CREDIT_VALID_END, '%Y-%m-%d'),DATE_FORMAT(NOW(), '%Y-%m-%d'))>0
+            </if>
+        </where>
+
+    </select>
+
+    <select id="selectAptitude" parameterType="java.lang.String" resultType="java.lang.String">
+        select IF(t.CREDIT_VALID_END &lt;= now(),1,0) status from  T_CONT_CREDIT t where t.ACCE_ID = #{acceId}
+    </select>
+
+    <select id="selectAptitudeByContName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+            t.*
+        FROM
+            T_CONT_ACCESS tca
+            INNER JOIN T_CONT_CREDIT t ON t.ACCE_ID = tca.ACCE_ID
+        where
+            tca.CONT_ID = #{contId} and tca.ACCE_STATE = 'done' and t.CREDIT_STATE = 'invalid'
+    </select>
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidCertiDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidCertiDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="USER_CERTI_ID" jdbcType="VARCHAR" property="userCertiId" />
+    <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
+    <result column="CERTI_TYPE" jdbcType="VARCHAR" property="certiType" />
+    <result column="CERTI_NAME" jdbcType="VARCHAR" property="certiName" />
+    <result column="CERTI_CODE" jdbcType="VARCHAR" property="certiCode" />
+    <result column="CERTI_LEVEL" jdbcType="VARCHAR" property="certiLevel" />
+    <result column="ISSUE_DATE" jdbcType="DATE" property="issueDate" />
+    <result column="DUE_DATE" jdbcType="DATE" property="dueDate" />
+    <result column="CERTI_AUTH" jdbcType="VARCHAR" property="certiAuth" />
+    <result column="AUDIT_CYCLE" jdbcType="REAL" property="auditCycle" />
+    <result column="AUDIT_DATE_PRE" jdbcType="DATE" property="auditDatePre" />
+    <result column="AUDIT_DATE_NEXT" jdbcType="DATE" property="auditDateNext" />
+    <result column="ALART_DAYS" jdbcType="INTEGER" property="alartDays" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="BidCertiPo" type="cn.com.cnpc.cpoa.po.bid.BidCertiPo">
+    <result column="USER_CERTI_ID" jdbcType="VARCHAR" property="userCertiId" />
+    <result column="COMPANY_NAME" jdbcType="VARCHAR" property="companyName" />
+    <result column="CERTI_TYPE" jdbcType="VARCHAR" property="certiType" />
+    <result column="CERTI_NAME" jdbcType="VARCHAR" property="certiName" />
+    <result column="CERTI_CODE" jdbcType="VARCHAR" property="certiCode" />
+    <result column="CERTI_LEVEL" jdbcType="VARCHAR" property="certiLevel" />
+    <result column="ISSUE_DATE" jdbcType="DATE" property="issueDate" />
+    <result column="DUE_DATE" jdbcType="DATE" property="dueDate" />
+    <result column="CERTI_AUTH" jdbcType="VARCHAR" property="certiAuth" />
+    <result column="AUDIT_CYCLE" jdbcType="REAL" property="auditCycle" />
+    <result column="AUDIT_DATE_PRE" jdbcType="DATE" property="auditDatePre" />
+    <result column="AUDIT_DATE_NEXT" jdbcType="DATE" property="auditDateNext" />
+    <result column="ALART_DAYS" jdbcType="INTEGER" property="alartDays" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectAllByMap" parameterType="java.util.Map" resultMap="BidCertiPo">
+    select * from T_BID_CERTI t
+    <where>
+      <if test="certiType != null and certiType != ''">
+        and t.CERTI_TYPE like CONCAT('%',#{certiType},'%')
+      </if>
+      <if test="certiName != null and certiName != ''">
+        and t.CERTI_NAME like  CONCAT('%',#{certiName},'%')
+      </if>
+      <if test="companyName != null and companyName != ''">
+        and t.COMPANY_NAME like  CONCAT('%',#{companyName},'%')
+      </if>
+      <if test="certiCode != null and certiCode != ''">
+        and t.CERTI_CODE like  CONCAT('%',#{certiCode},'%')
+      </if>
+    </where>
+    order by t.DUE_DATE asc
+  </select>
+
+  <select id="selectByCertiBorrowId" parameterType="java.lang.String" resultMap="BidCertiPo">
+    select tbc.* from T_BID_CERTI_BORROW_LIST tbcbl left join T_BID_CERTI tbc on tbc.USER_CERTI_ID = tbcbl.USER_CERTI_ID
+    where tbcbl.CERTI_BORROW_ID = #{certiBorrowId}
+  </select>
+
+  <select id="selectIsAudit" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT
+      bcs.STEP_STATE
+    FROM
+      T_BIZ_CHECK_STEP bcs
+        LEFT JOIN T_BIZ_CHECK_MAN bcm ON bcs.STEP_ID = bcm.STEP_ID
+    WHERE
+      bcs.CHECK_OBJ_ID = #{certiBorrowId}
+      AND bcs.CHECK_OBJ_TYPE = 'certiBorrow'
+    ORDER BY
+      bcs.STEP_NO DESC
+      LIMIT 1;
+  </select>
+  
+</mapper>

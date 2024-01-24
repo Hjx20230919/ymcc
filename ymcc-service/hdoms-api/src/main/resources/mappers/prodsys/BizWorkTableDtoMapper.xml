@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.BizWorkTableDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizWorkTableDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="CLAS_ID" jdbcType="VARCHAR" property="clasId"/>
+        <result column="WORK_TYPE1" jdbcType="VARCHAR" property="workType1"/>
+        <result column="WORK_TYPE2" jdbcType="VARCHAR" property="workType2"/>
+        <result column="SERV_TYPE" jdbcType="VARCHAR" property="servType"/>
+        <result column="DPT_ID" jdbcType="VARCHAR" property="dptId"/>
+        <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName"/>
+        <result column="DPT_NAME" jdbcType="VARCHAR" property="dptName"/>
+        <result column="UNIT" jdbcType="VARCHAR" property="unit"/>
+    </resultMap>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT *
+        FROM T_BIZ_WORK_TABLE TBWT
+        <where>
+            <if test="clasId!=null and clasId!=''">
+                AND TBWT.CLAS_ID = #{clasId}
+            </if>
+        </where>
+        ORDER BY TBWT.WORK_TYPE1, TBWT.WORK_TYPE2
+    </select>
+
+</mapper>

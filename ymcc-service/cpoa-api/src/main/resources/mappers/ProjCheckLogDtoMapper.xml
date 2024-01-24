@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.ProjCheckLogDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.ProjCheckLogDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="CHECK_LOG_ID" jdbcType="VARCHAR" property="checkLogId" />
+    <result column="CHECK_OBJ_ID" jdbcType="VARCHAR" property="checkObjId" />
+    <result column="CHECK_OBJ_TYPE" jdbcType="VARCHAR" property="checkObjType" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="PLAN_LOG" jdbcType="VARCHAR" property="planLog" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+</mapper>

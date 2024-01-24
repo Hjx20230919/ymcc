@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.BizDeptTaskDtoMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizDeptTaskDto">
+        <result column="DEPT_TASK_ID" jdbcType="VARCHAR" property="deptTaskId"/>
+        <result column="YEAR_MOMTH" jdbcType="VARCHAR" property="yearMonth"/>
+        <result column="CLIENT_ID" jdbcType="VARCHAR" property="clientId"/>
+        <result column="CLIENT_NAME" jdbcType="VARCHAR" property="clientName"/>
+        <result column="MARKET_TYPE" jdbcType="VARCHAR" property="marketType"/>
+        <result column="COMPANY_TYPE" jdbcType="VARCHAR" property="companyType"/>
+        <result column="CONTRACT_TYPE" jdbcType="VARCHAR" property="contractType"/>
+        <result column="WORK_ZONE" jdbcType="VARCHAR" property="workZone"/>
+        <result column="WORK_TYPE" jdbcType="VARCHAR" property="workType"/>
+        <result column="BIZ_TYPE_ID" jdbcType="VARCHAR" property="bizTypeId"/>
+        <result column="TASK_PRICE" jdbcType="DOUBLE" property="taskPrice"/>
+        <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="SUB_DEPT_NAME" jdbcType="VARCHAR" property="subDeptName"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+    </resultMap>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT t.*, TD.DEPT_NAME
+        FROM T_BIZ_DEPT_TASK t
+        LEFT JOIN T_SYS_DEPT TD ON T.DEPT_ID = TD.DEPT_ID
+        <where>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND t.YEAR_MOMTH = #{yearMonth}
+            </if>
+            <if test="deptId!=null and deptId!=''">
+                AND t.DEPT_ID = #{deptId}
+            </if>
+            <!--<if test="clientId!=null and clientId!=''">-->
+            <!--AND t.CLIENT_ID = #{clientId}-->
+            <!--</if>-->
+            <if test="marketType!=null and marketType!=''">
+                AND t.MARKET_TYPE = #{marketType}
+            </if>
+            <if test="companyType!=null and companyType!=''">
+                AND t.COMPANY_TYPE = #{companyType}
+            </if>
+            <if test="contractType!=null and contractType!=''">
+                AND t.CONTRACT_TYPE = #{contractType}
+            </if>
+            <if test="workZone!=null and workZone!=''">
+                AND t.WORK_ZONE = #{workZone}
+            </if>
+            <if test="workType!=null and workType!=''">
+                AND t.WORK_TYPE = #{workType}
+            </if>
+        </where>
+        ORDER BY
+        t.YEAR_MOMTH
+    </select>
+
+    <select id="sumBySeason" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TSD.DEPT_ID, TSD.DEPT_NAME, IFNULL(SUM(TDT.TASK_PRICE), 0) as TASK_PRICE from T_SYS_DEPT TSD
+        LEFT JOIN T_BIZ_DEPT_TASK TDT ON TSD.DEPT_ID = TDT.DEPT_ID
+        <where>
+            <if test="year!=null and year!=''">
+                AND SUBSTR(TDT.YEAR_MOMTH, 1, 4) = #{year}
+            </if>
+            <if test="season!=null and season!=''">
+                AND CEIL(SUBSTR(TDT.YEAR_MOMTH, 5, 2) / 3) = #{season}
+            </if>
+        </where>
+        GROUP BY TSD.DEPT_ID, TSD.DEPT_NAME
+    </select>
+</mapper>

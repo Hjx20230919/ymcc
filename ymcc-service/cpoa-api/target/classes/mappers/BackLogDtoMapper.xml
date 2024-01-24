@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BackLogDtoMapper">
+  <!--待办事项返回类-->
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.po.BackLogPo">
+    <result column="CHECK_TIME" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="CHECK_OBJ_TYPE" jdbcType="VARCHAR" property="checkObjType" />
+    <result column="CHECK_OBJ_ID" jdbcType="VARCHAR" property="checkObjId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="SEL_CONT_ID" jdbcType="VARCHAR" property="selContId" />
+    <result column="RESULT_ID" jdbcType="VARCHAR" property="resultId" />
+    <result column="PLAN_ID" jdbcType="VARCHAR" property="planId" />
+    <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+    <result column="settleId" jdbcType="VARCHAR" property="settleId" />
+    <result column="accessId" jdbcType="VARCHAR" property="accessId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="SEL_CONT_TYPE" jdbcType="VARCHAR" property="selContType" />
+    <result column="processType" jdbcType="VARCHAR" property="processType" />
+  </resultMap>
+
+  <!--我的流程返回类-->
+  <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.MyProcessPo">
+    <result column="CHECK_TIME" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="CHECK_OBJ_TYPE" jdbcType="VARCHAR" property="checkObjType" />
+    <result column="CHECK_OBJ_ID" jdbcType="VARCHAR" property="checkObjId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="SEL_CONT_ID" jdbcType="VARCHAR" property="selContId" />
+    <result column="PLAN_ID" jdbcType="VARCHAR" property="planId" />
+    <result column="RESULT_ID" jdbcType="VARCHAR" property="resultId" />
+    <result column="processType" jdbcType="VARCHAR" property="processType" />
+  </resultMap>
+
+  <!--查询待审核-->
+  <select id="selectBackLogByUserId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from (
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,tbd.DEAL_ID,'数据融合' processType,tbd.DEAL_NAME NAME,'提前开工审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'dealps'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE  	tbcs.CHECK_OBJ_TYPE = 'dealps' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_BIZ_DEAL_PS PS WHERE (PS.`DEAL_STATUS`='buildAuditing' or PS.`DEAL_STATUS`='changeAuditing')) tbd on t.CHECK_OBJ_ID = tbd.DEAL_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,tbd.DEAL_ID,'合同运行' processType,tbd.DEAL_NAME NAME,'合同审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'deal'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE  	tbcs.CHECK_OBJ_TYPE = 'deal' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_BIZ_DEAL TBD WHERE (TBD.`DEAL_STATUS`='buildAuditing' or TBD.`DEAL_STATUS`='changeAuditing')) tbd on t.CHECK_OBJ_ID = tbd.DEAL_ID union all
+    select '' accessId,t.CHECK_OBJ_ID settleId,'' SEL_CONT_TYPE,tbs.DEAL_ID,'合同运行' processType,tbd.DEAL_NAME NAME,'结算审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'settle'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE  	tbcs.CHECK_OBJ_TYPE = 'settle' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_BIZ_SETTLEMENT TBS WHERE TBS.`SETTLE_STATUS`='buildAuditing') tbs on t.CHECK_OBJ_ID = tbs.SETTLE_ID
+    INNER JOIN T_BIZ_DEAL tbd ON tbd.DEAL_ID = tbs.DEAL_ID union all
+    select '' accessId,'' settleId,tpp.SEL_CONT_TYPE,'' DEAL_ID,'项目立项' processType,tpp.PROJ_NAME NAME,'立项审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'proProject'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'proProject' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_PROJ_PROJECT TPP WHERE TPP.PROJ_STATUS='auditing') tpp on t.CHECK_OBJ_ID = tpp.PROJ_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'项目立项' processType,tpp.PROJ_NAME NAME,'选商审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'selCont'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'selCont' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_PROJ_SEL_CONT TPSC WHERE TPSC.PROJ_STATUS='auditing') tpsc on t.CHECK_OBJ_ID = tpsc.SEL_CONT_ID
+    INNER JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tpsc.PROJ_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'项目立项' processType,tpp.PROJ_NAME NAME,'采购方案审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'purchase'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'purchase' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_PROJ_PURC_PLAN TPPP WHERE TPPP.PROJ_STATUS='auditing') tppp on t.CHECK_OBJ_ID = tppp.PLAN_ID
+    INNER JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tppp.PROJ_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'项目立项' processType,tpp.PROJ_NAME NAME,'采购结果审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'rePurchase'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'rePurchase' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_PROJ_PURC_RESULT TPPR WHERE TPPR.PROJ_STATUS='auditing') tppr on t.CHECK_OBJ_ID = tppr.RESULT_ID
+    INNER JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tppr.PROJ_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'承包商准入' processType,tcp.PROJ_CONT_NAME NAME,'项目审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'contProject'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'contProject' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_CONT_PROJECT TCP WHERE TCP.PROJ_STATE='auditing') tcp on t.CHECK_OBJ_ID = tcp.PROJ_ID union all
+    select t.CHECK_OBJ_ID accessId, '' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'承包商准入' processType,tcp.PROJ_CONT_NAME NAME,'承包商准入审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'access'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'access' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_CONT_ACCESS TCA WHERE TCA.ACCE_STATE='auditing') tca on t.CHECK_OBJ_ID = tca.ACCE_ID
+    INNER JOIN T_CONT_PROJECT tcp ON tca.PROJ_ID = tcp.PROJ_ID union all
+    select tccs.ACCE_ID accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'承包商准入' processType,tcp.PROJ_CONT_NAME NAME,'资质变更审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'creditSet'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'creditSet' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_CONT_CREDIT_SET TCCS WHERE TCCS.SET_STATE='auditing') tccs on t.CHECK_OBJ_ID = tccs.SET_ID
+    INNER JOIN T_CONT_ACCESS tca ON tccs.ACCE_ID = tca.ACCE_ID INNER JOIN T_CONT_PROJECT tcp ON tcp.PROJ_ID = tca.PROJ_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'承包商基础考评' processType,TCC.CONT_NAME NAME,'基础考评审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'task'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'task' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_CONT_REVIEW_TASK TCRT WHERE TCRT.TASK_STATUS = 'buildAuditing') tcrt on t.CHECK_OBJ_ID = tcrt.REVIEW_TASK_ID INNER JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID = tcrt.CONT_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'投标项目' processType,tbd.PROJ_NAME NAME,'标书会审审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'bidProject'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'bidProject' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_BID_PROJECT TBP WHERE TBP.PROJ_STATUS = 'BidAuditin') tbp on t.CHECK_OBJ_ID = tbp.BID_PROJ_ID INNER JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'投标项目' processType,tbd.PROJ_NAME NAME,'投标终止审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'stopBidProject'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'stopBidProject' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join  T_BID_PROJECT tbp on t.CHECK_OBJ_ID = tbp.BID_PROJ_ID INNER JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'投标项目' processType,tbp.PROJ_NAME NAME,'企业资质审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'certiBorrow'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'certiBorrow' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join T_BID_CERTI_BORROW tbcb on t.CHECK_OBJ_ID = tbcb.CERTI_BORROW_ID LEFT JOIN (SELECT tbp.*,tbd.PROJ_NO,tbd.PROJ_NAME,tbd.BID_OPEN_AT,tbd.PUBLISH_AT FROM T_BID_PROJECT tbp LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+    ) tbp ON tbp.BID_PROJ_ID = tbcb.BID_PROJ_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,'' DEAL_ID,'投标项目' processType,tbp.PROJ_NAME NAME,'人事资料审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'personnelFile'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE	tbcs.CHECK_OBJ_TYPE = 'personnelFile' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join T_BID_CERTI_BORROW tbcb on t.CHECK_OBJ_ID = tbcb.CERTI_BORROW_ID INNER JOIN (SELECT tbp.*,tbd.PROJ_NO,tbd.PROJ_NAME,tbd.BID_OPEN_AT,tbd.PUBLISH_AT FROM T_BID_PROJECT tbp LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+    ) tbp ON tbp.BID_PROJ_ID = tbcb.BID_PROJ_ID union all
+    select '' accessId,'' settleId,'' SEL_CONT_TYPE,TBP.DEAL_ID,'数据融合' processType,TBP.CONTRACT_NAME NAME,'项目开工审批' TYPE,t.STEP_CREATE_AT CHECK_TIME,t.CHECK_OBJ_TYPE, t.CHECK_OBJ_ID,t.USER_NAME,t.DEPT_NAME,t.DEPT_ID from (select A.CHECK_OBJ_ID,A.CHECK_OBJ_TYPE,A.DEPT_ID,A.DEPT_NAME,A.USER_NAME,A.STEP_CREATE_AT from (
+    SELECT MIN( tbcs.STEP_NO ) STEP_NO,tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcs.STEP_CREATE_AT) STEP_CREATE_AT,ANY_VALUE ( tsu.USER_NAME ) USER_NAME,ANY_VALUE ( tsd.DEPT_NAME ) DEPT_NAME,ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM T_BIZ_CHECK_MAN tbcm
+    LEFT JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    LEFT JOIN T_SYS_USER tsu ON tbcm.USER_ID = tsu.USER_ID
+    LEFT JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDING' AND tbcs.CHECK_OBJ_TYPE = 'instruction'
+    GROUP BY tbcs.CHECK_OBJ_ID) A
+    INNER join (SELECT MIN(tbcs.STEP_NO) STEP_NO,ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID
+    FROM T_BIZ_CHECK_STEP tbcs
+    WHERE  	tbcs.CHECK_OBJ_TYPE = 'instruction' and tbcs.STEP_STATE IS NULL GROUP BY tbcs.CHECK_OBJ_ID) B on A.STEP_NO = B.STEP_NO AND A.CHECK_OBJ_ID = B.CHECK_OBJ_ID
+    ) t inner join (SELECT * FROM T_BIZ_PROJECT TBP WHERE (TBP.`CONTRACT_STATE`='unconfirmed' or TBP.`CONTRACT_STATE`='back')) TBP on t.CHECK_OBJ_ID = TBP.CONTRACT_ID
+    ) a
+    <where>
+      <if test="checkObjType != null and checkObjType.size() > 0">
+        and a.processType in
+        <foreach collection="checkObjType" index="index" item="objType" open="(" separator="," close=")">
+          #{objType}
+        </foreach>
+      </if>
+      <if test="type != null and type.size() > 0">
+        and a.TYPE in
+        <foreach collection="type" index="index" item="objType" open="(" separator="," close=")">
+          #{objType}
+        </foreach>
+      </if>
+      <if test="beginTime != null and beginTime != ''">
+        and a.CHECK_TIME &gt;= #{beginTime}
+      </if>
+      <if test="endTime != null and endTime != ''">
+        and a.CHECK_TIME &lt; #{endTime}
+      </if>
+      <if test="deptId != null and deptId != ''">
+        and a.DEPT_ID = #{deptId}
+      </if>
+    </where>
+    ORDER BY a.CHECK_TIME DESC
+  </select>
+
+  <!--查询已审核-->
+  <select id="selectAuditByUserId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from (
+    SELECT
+    '' accessId,
+    '' settleId,
+    ANY_VALUE(tbd.DEAL_ID) DEAL_ID,
+    '数据融合' processType,
+    ANY_VALUE(tbd.DEAL_NAME) NAME,
+    '提前开工审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BIZ_DEAL_PS tbd ON tbcs.CHECK_OBJ_ID = tbd.DEAL_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'dealps' GROUP BY tbcs.CHECK_OBJ_ID UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    ANY_VALUE(TBP.DEAL_ID) DEAL_ID,
+    '数据融合' processType,
+    ANY_VALUE(TBP.CONTRACT_NAME) NAME,
+    '项目开工审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BIZ_PROJECT TBP ON tbcs.CHECK_OBJ_ID = TBP.CONTRACT_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'instruction' GROUP BY tbcs.CHECK_OBJ_ID UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    ANY_VALUE(tbd.DEAL_ID) DEAL_ID,
+    '合同运行' processType,
+    ANY_VALUE(tbd.DEAL_NAME) NAME,
+    '合同审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BIZ_DEAL tbd ON tbcs.CHECK_OBJ_ID = tbd.DEAL_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'deal' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    '' accessId,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) settleId,
+    ANY_VALUE(tbs.DEAL_ID) DEAL_ID,
+    '合同运行' processType,
+    ANY_VALUE(tbd.DEAL_NAME) NAME,
+    '结算审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BIZ_SETTLEMENT tbs ON tbcs.CHECK_OBJ_ID = tbs.SETTLE_ID
+    LEFT JOIN T_BIZ_DEAL tbd ON tbd.DEAL_ID = tbs.DEAL_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'settle' GROUP BY tbcs.CHECK_OBJ_ID UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '项目立项' processType,
+    ANY_VALUE(tpp.PROJ_NAME) NAME,
+    '立项审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_PROJ_PROJECT tpp ON tbcs.CHECK_OBJ_ID = tpp.PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'proProject' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '项目立项' processType,
+    ANY_VALUE(tpp.PROJ_NAME) NAME,
+    '选商审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_PROJ_SEL_CONT tpsc ON tbcs.CHECK_OBJ_ID = tpsc.SEL_CONT_ID
+    INNER JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tpsc.PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'selCont' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '项目立项' processType,
+    ANY_VALUE(tpp.PROJ_NAME) NAME,
+    '采购方案审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_PROJ_PURC_PLAN tppp ON tbcs.CHECK_OBJ_ID = tppp.PLAN_ID
+    INNER JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tppp.PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'purchase' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '项目立项' processType,
+    ANY_VALUE(tpp.PROJ_NAME) NAME,
+    '采购结果审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_PROJ_PURC_RESULT tppr ON tbcs.CHECK_OBJ_ID = tppr.RESULT_ID
+    INNER JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tppr.PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'rePurchase' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '承包商准入' processType,
+    ANY_VALUE(tcp.PROJ_CONT_NAME) NAME,
+    '项目审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_CONT_PROJECT tcp ON tbcs.CHECK_OBJ_ID = tcp.PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'contProject' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '承包商准入' processType,
+    ANY_VALUE(tcp.PROJ_CONT_NAME) NAME,
+    '承包商准入审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_CONT_ACCESS tca ON tbcs.CHECK_OBJ_ID = tca.ACCE_ID
+    INNER JOIN T_CONT_PROJECT tcp ON tca.PROJ_ID = tcp.PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'access' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    tccs.ACCE_ID accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '承包商准入' processType,
+    ANY_VALUE(tcp.PROJ_CONT_NAME) NAME,
+    '资质变更审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_CONT_CREDIT_SET tccs ON tbcs.CHECK_OBJ_ID = tccs.SET_ID
+    INNER JOIN T_CONT_ACCESS tca ON tccs.ACCE_ID = tca.ACCE_ID
+    INNER JOIN T_CONT_PROJECT tcp ON tca.PROJ_ID = tcp.PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'creditSet' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '承包商基础考评' processType,
+    ANY_VALUE(tpp.PROJ_NAME) NAME,
+    '基础考评审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_CONT_REVIEW_TASK tcrt ON tbcs.CHECK_OBJ_ID = tcrt.REVIEW_TASK_ID
+    INNER JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tcrt.PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'task' GROUP BY tbcs.CHECK_OBJ_ID	UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '投标项目' processType,
+    ANY_VALUE(tbd.PROJ_NAME) NAME,
+    '标书会审审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BID_PROJECT tbp ON tbcs.CHECK_OBJ_ID = tbp.BID_PROJ_ID
+    INNER JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'bidProject' GROUP BY tbcs.CHECK_OBJ_ID UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '投标项目' processType,
+    ANY_VALUE(tbd.PROJ_NAME) NAME,
+    '投标终止审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BID_PROJECT tbp ON tbcs.CHECK_OBJ_ID = tbp.BID_PROJ_ID
+    INNER JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'stopBidProject' GROUP BY tbcs.CHECK_OBJ_ID UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '投标项目' processType,
+    ANY_VALUE(tbp.PROJ_NAME) NAME,
+    '企业资质审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BID_CERTI_BORROW tbcb ON tbcs.CHECK_OBJ_ID = tbcb.CERTI_BORROW_ID
+    LEFT JOIN (SELECT tbp.*,tbd.PROJ_NO,tbd.PROJ_NAME,tbd.BID_OPEN_AT,tbd.PUBLISH_AT FROM T_BID_PROJECT tbp LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID) tbp ON tbp.BID_PROJ_ID = tbcb.BID_PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'certiBorrow' GROUP BY tbcs.CHECK_OBJ_ID UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '投标项目' processType,
+    ANY_VALUE(tbp.PROJ_NAME) NAME,
+    '人事资料审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BID_CERTI_BORROW tbcb ON tbcs.CHECK_OBJ_ID = tbcb.CERTI_BORROW_ID
+    INNER JOIN (SELECT tbp.*,tbd.PROJ_NO,tbd.PROJ_NAME,tbd.BID_OPEN_AT,tbd.PUBLISH_AT FROM T_BID_PROJECT tbp LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID) tbp ON tbp.BID_PROJ_ID = tbcb.BID_PROJ_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'personnelFile' GROUP BY tbcs.CHECK_OBJ_ID UNION ALL
+    SELECT
+    '' accessId,
+    '' settleId,
+    '' DEAL_ID,
+    '投标项目' processType,
+    ANY_VALUE(tbd.PROJ_NAME) NAME,
+    '推送基层审批' TYPE,
+    ANY_VALUE(tbcm.CHECK_TIME) CHECK_TIME,
+    ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,
+    ANY_VALUE(tbcs.CHECK_OBJ_ID) CHECK_OBJ_ID,
+    ANY_VALUE(tsu.USER_NAME) USER_NAME,
+    ANY_VALUE(tsd.DEPT_NAME) DEPT_NAME,
+    ANY_VALUE ( tsd.DEPT_ID ) DEPT_ID
+    FROM
+    T_BIZ_CHECK_MAN tbcm
+    INNER JOIN T_BIZ_CHECK_STEP tbcs ON tbcm.STEP_ID = tbcs.STEP_ID
+    INNER JOIN T_BID_BIDDING tbd ON tbcs.CHECK_OBJ_ID = tbd.BIDDING_ID
+    INNER JOIN T_SYS_USER tsu ON tbcs.STEP_CREATE_USER = tsu.USER_ID
+    INNER JOIN T_SYS_DEPT tsd ON tbcs.CHECK_DEPT_ID = tsd.DEPT_ID
+    WHERE
+    tbcm.USER_ID = #{userId}
+    AND tbcm.CHECK_STATE = 'PENDED'
+    AND tbcs.CHECK_OBJ_TYPE = 'bidding' GROUP BY tbcs.CHECK_OBJ_ID
+    ) a
+    <where>
+      <if test="checkObjType != null and checkObjType.size() > 0">
+        and a.processType in
+        <foreach collection="checkObjType" index="index" item="objType" open="(" separator="," close=")">
+          #{objType}
+        </foreach>
+      </if>
+      <if test="type != null and type.size() > 0">
+        and a.TYPE in
+        <foreach collection="type" index="index" item="objType" open="(" separator="," close=")">
+          #{objType}
+        </foreach>
+      </if>
+      <if test="beginTime != null and beginTime != ''">
+        and a.CHECK_TIME &gt;= #{beginTime}
+      </if>
+      <if test="endTime != null and endTime != ''">
+        and a.CHECK_TIME &lt; #{endTime}
+      </if>
+      <if test="deptId != null and deptId != ''">
+        and a.DEPT_ID = #{deptId}
+      </if>
+    </where>
+    ORDER BY a.CHECK_TIME DESC
+  </select>
+
+  <!--查询流程中事项-->
+  <select id="selectMyProcessByUserId" parameterType="java.util.Map" resultMap="BaseResultMap2">
+    select t.* from (
+    select '' accessId,'' settleId,tbd.DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'合同运行' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'合同审批' TYPE,tbd.DEAL_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'deal' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join T_BIZ_DEAL tbd on tb.CHECK_OBJ_ID = tbd.DEAL_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID  UNION ALL
+    select '' accessId,tb.CHECK_OBJ_ID settleId, tbd.DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'合同运行' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'结算审批' TYPE,tbd.DEAL_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'settle' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (SELECT tbd.DEAL_ID,tbd.DEAL_NAME,tbs.SETTLE_ID FROM T_BIZ_SETTLEMENT tbs LEFT JOIN T_BIZ_DEAL tbd ON tbs.DEAL_ID = tbd.DEAL_ID) tbd on tb.CHECK_OBJ_ID = tbd.SETTLE_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select '' accessId,'' settleId,'' DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'承包商准入' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'项目审批' TYPE,tcp.PROJ_CONT_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'contProject' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join T_CONT_PROJECT tcp on tb.CHECK_OBJ_ID = tcp.PROJ_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select tb.CHECK_OBJ_ID accessId,'' settleId,'' DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'承包商准入' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'承包商准入审批' TYPE,tcp.PROJ_CONT_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'access' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tca.ACCE_ID,tcp.PROJ_CONT_NAME from T_CONT_ACCESS tca LEFT JOIN T_CONT_PROJECT tcp ON tcp.PROJ_ID = tca.PROJ_ID) tcp on tb.CHECK_OBJ_ID = tcp.ACCE_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select tcp.ACCE_ID accessId,'' settleId,'' DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'承包商准入' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'资质变更审批' TYPE,tcp.PROJ_CONT_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'creditSet' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tccs.SET_ID,tccs.ACCE_ID,tcp.PROJ_CONT_NAME from T_CONT_CREDIT_SET tccs LEFT JOIN T_CONT_ACCESS tca ON tccs.ACCE_ID = tca.ACCE_ID LEFT JOIN T_CONT_PROJECT tcp ON tcp.PROJ_ID = tca.PROJ_ID) tcp on tb.CHECK_OBJ_ID = tcp.SET_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION  ALL
+    select '' accessId,'' settleId,'' DEAL_ID,tpp.PROJ_ID,tpp.SEL_CONT_ID,tpp.PLAN_ID,tpp.RESULT_ID,'合同立项' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'立项审批' TYPE,tpp.PROJ_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'proProject' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tpp.PROJ_NAME,tpp.PROJ_ID,tpsc.SEL_CONT_ID,tppp.PLAN_ID,tppr.RESULT_ID from T_PROJ_PROJECT tpp
+    LEFT JOIN T_PROJ_SEL_CONT tpsc ON tpsc.PROJ_ID = tpp.PROJ_ID
+    LEFT JOIN T_PROJ_PURC_PLAN tppp ON tppp.PROJ_ID = tpp.PROJ_ID
+    LEFT JOIN T_PROJ_PURC_RESULT tppr ON tppr.PROJ_ID = tpp.PROJ_ID) tpp on tb.CHECK_OBJ_ID = tpp.PROJ_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select '' accessId,'' settleId,'' DEAL_ID,tpp.PROJ_ID,tpp.SEL_CONT_ID,tpp.PLAN_ID,tpp.RESULT_ID,'合同立项' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'选商审批' TYPE,tpp.PROJ_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'selCont' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tpp.PROJ_NAME,tpp.PROJ_ID,tpsc.SEL_CONT_ID,tppp.PLAN_ID,tppr.RESULT_ID from T_PROJ_SEL_CONT tpsc
+    LEFT JOIN T_PROJ_PROJECT tpp ON tpsc.PROJ_ID = tpp.PROJ_ID
+    LEFT JOIN T_PROJ_PURC_PLAN tppp ON tppp.PROJ_ID = tpp.PROJ_ID
+    LEFT JOIN T_PROJ_PURC_RESULT tppr ON tppr.PROJ_ID = tpp.PROJ_ID) tpp on tb.CHECK_OBJ_ID = tpp.SEL_CONT_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select '' accessId,'' settleId,'' DEAL_ID,tpp.PROJ_ID,tpp.SEL_CONT_ID,tpp.PLAN_ID,tpp.RESULT_ID,'合同立项' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'采购方案审批' TYPE,tpp.PROJ_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'purchase' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tpp.PROJ_NAME,tpp.PROJ_ID,tpsc.SEL_CONT_ID,tppp.PLAN_ID,tppr.RESULT_ID from T_PROJ_PURC_PLAN tppp
+    LEFT JOIN T_PROJ_PROJECT tpp ON tppp.PROJ_ID = tpp.PROJ_ID
+    LEFT JOIN T_PROJ_SEL_CONT tpsc ON tpsc.PROJ_ID = tpp.PROJ_ID
+    LEFT JOIN T_PROJ_PURC_RESULT tppr ON tppr.PROJ_ID = tpp.PROJ_ID) tpp on tb.CHECK_OBJ_ID = tpp.PLAN_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select '' accessId,'' settleId,'' DEAL_ID,tpp.PROJ_ID,tpp.SEL_CONT_ID,tpp.PLAN_ID,tpp.RESULT_ID,'合同立项' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'采购结果审批' TYPE,tpp.PROJ_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'rePurchase' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tpp.PROJ_NAME,tpp.PROJ_ID,tpsc.SEL_CONT_ID,tppp.PLAN_ID,tppr.RESULT_ID from T_PROJ_PURC_RESULT tppr
+    LEFT JOIN T_PROJ_PROJECT tpp ON tppr.PROJ_ID = tpp.PROJ_ID
+    LEFT JOIN T_PROJ_SEL_CONT tpsc ON tpsc.PROJ_ID = tpp.PROJ_ID
+    LEFT JOIN T_PROJ_PURC_PLAN tppp ON tppp.PROJ_ID = tpp.PROJ_ID) tpp on tb.CHECK_OBJ_ID = tpp.RESULT_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select '' accessId,'' settleId,'' DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'承包商基础考评' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'基础考评审批' TYPE,tcrt.PROJ_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'task' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tcrt.REVIEW_TASK_ID,tpp.PROJ_NAME from  T_CONT_REVIEW_TASK tcrt LEFT JOIN T_PROJ_PROJECT tpp ON tpp.PROJ_ID = tcrt.PROJ_ID) tcrt on tb.CHECK_OBJ_ID = tcrt.REVIEW_TASK_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select '' accessId,'' settleId,'' DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'投标项目' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'标书会审审批' TYPE,tbp.PROJ_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'bidProject' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tbp.BID_PROJ_ID,tbd.PROJ_NAME from  T_BID_PROJECT tbp LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID) tbp on tb.CHECK_OBJ_ID = tbp.BID_PROJ_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    select '' accessId,'' settleId,'' DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'投标项目' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'投标终止审批' TYPE,tbp.PROJ_NAME NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME from (select tbcs.CHECK_OBJ_ID,ANY_VALUE(tbcs.CHECK_OBJ_TYPE) CHECK_OBJ_TYPE,ANY_VALUE(tbcm.USER_ID) USER_ID,ANY_VALUE(tbcs.CHECK_DEPT_ID) CHECK_DEPT_ID,ANY_VALUE(tbcs.STEP_CREATE_AT) CHECK_TIME from T_BIZ_CHECK_STEP tbcs left join T_BIZ_CHECK_MAN tbcm on tbcs.STEP_ID = tbcm.STEP_ID where tbcs.CHECK_OBJ_TYPE = 'stopBidProject' and tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID) tb left join (select tbp.BID_PROJ_ID,tbd.PROJ_NAME from  T_BID_PROJECT tbp LEFT JOIN T_BID_BIDDING tbd ON tbp.BIDDING_ID = tbd.BIDDING_ID) tbp on tb.CHECK_OBJ_ID = tbp.BID_PROJ_ID LEFT JOIN T_SYS_USER tsu on tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd on tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    SELECT '' accessId,'' settleId,'' DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'投标项目' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'企业资质审批' TYPE,tbcb.BORROW_REASON NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME FROM (SELECT tbcs.CHECK_OBJ_ID,ANY_VALUE ( tbcs.CHECK_OBJ_TYPE ) CHECK_OBJ_TYPE,ANY_VALUE ( tbcm.USER_ID ) USER_ID,ANY_VALUE ( tbcs.CHECK_DEPT_ID ) CHECK_DEPT_ID,ANY_VALUE ( tbcs.STEP_CREATE_AT ) CHECK_TIME FROM T_BIZ_CHECK_STEP tbcs LEFT JOIN T_BIZ_CHECK_MAN tbcm ON tbcs.STEP_ID = tbcm.STEP_ID WHERE tbcs.CHECK_OBJ_TYPE = 'certiBorrow' AND tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID ) tb LEFT JOIN T_BID_CERTI_BORROW tbcb ON tb.CHECK_OBJ_ID = tbcb.CERTI_BORROW_ID LEFT JOIN T_SYS_USER tsu ON tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tb.CHECK_DEPT_ID UNION ALL
+    SELECT '' accessId,'' settleId,'' DEAL_ID,'' PROJ_ID,'' SEL_CONT_ID,'' PLAN_ID,'' RESULT_ID,'投标项目' processType,tsd.DEPT_ID,tb.CHECK_OBJ_ID,tsu.USER_ID,tb.CHECK_OBJ_TYPE,'人事资料审批' TYPE,tbcb.BORROW_REASON NAME,tsd.DEPT_NAME,tsu.USER_NAME,tb.CHECK_TIME FROM (SELECT tbcs.CHECK_OBJ_ID,ANY_VALUE ( tbcs.CHECK_OBJ_TYPE ) CHECK_OBJ_TYPE,ANY_VALUE ( tbcm.USER_ID ) USER_ID,ANY_VALUE ( tbcs.CHECK_DEPT_ID ) CHECK_DEPT_ID,ANY_VALUE ( tbcs.STEP_CREATE_AT ) CHECK_TIME FROM T_BIZ_CHECK_STEP tbcs LEFT JOIN T_BIZ_CHECK_MAN tbcm ON tbcs.STEP_ID = tbcm.STEP_ID WHERE tbcs.CHECK_OBJ_TYPE = 'personnelFile' AND tbcm.USER_ID = #{userId} GROUP BY tbcs.CHECK_OBJ_ID ) tb LEFT JOIN T_BID_CERTI_BORROW tbcb ON tb.CHECK_OBJ_ID = tbcb.CERTI_BORROW_ID LEFT JOIN T_SYS_USER tsu ON tsu.USER_ID = tb.USER_ID LEFT JOIN T_SYS_DEPT tsd ON tsd.DEPT_ID = tb.CHECK_DEPT_ID
+    ) t
+        <where>
+          <if test="checkObjType != null and checkObjType.size() > 0">
+            and t.processType in
+            <foreach collection="checkObjType" index="index" item="objType" open="(" separator="," close=")">
+              #{objType}
+            </foreach>
+          </if>
+          <if test="type != null and type.size() > 0">
+            and t.TYPE in
+            <foreach collection="type" index="index" item="objType" open="(" separator="," close=")">
+              #{objType}
+            </foreach>
+          </if>
+          <if test="beginTime != null and beginTime != ''">
+            and t.CHECK_TIME &gt;= #{beginTime}
+          </if>
+          <if test="endTime != null and endTime != ''">
+            and t.CHECK_TIME &lt;= #{endTime}
+          </if>
+          <if test="userId != null and userId != ''">
+            and t.USER_ID = #{userId}
+          </if>
+          <if test="deptId != null and deptId != ''">
+            and t.DEPT_ID = #{deptId}
+          </if>
+        </where>
+        ORDER BY t.CHECK_TIME DESC
+  </select>
+</mapper>

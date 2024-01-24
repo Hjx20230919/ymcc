@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.SysRoleActionDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.SysRoleActionDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="ROLE_ACTION_ID" jdbcType="VARCHAR" property="roleActionId" />
+    <result column="ACTION_ID" jdbcType="VARCHAR" property="actionId" />
+    <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <!--根据角色ID查询角色所有菜单权限-->
+    <select id="selectMenuAuthByRoleID" parameterType="java.lang.String" resultType="java.lang.String">
+    /*查询一级菜单权限*/
+    select a.ACTION_ID from T_SYS_ACTIONS a where a.ACTION_ID in(
+        select ra.ACTION_ID from T_SYS_ROLE_ACTIONS ra where ra.ROLE_ID = (
+            select r.ROLE_ID from T_SYS_ROLE r where r.ROLE_ID = #{id}))and a.SEQ = 1 union all
+    /*查询二级菜单权限*/
+    select a.ACTION_ID from T_SYS_ACTIONS a where a.PARENT_ACTION_ID in(
+        select a.ACTION_ID from T_SYS_ACTIONS a where a.ACTION_ID in(select ra.ACTION_ID from T_SYS_ROLE_ACTIONS ra where ra.ROLE_ID = (
+            select r.ROLE_ID from T_SYS_ROLE r where r.ROLE_ID = #{id})) and a.SEQ = 1) and a.SEQ = 2 union all
+    /*查询三级菜单权限*/
+    select a.ACTION_ID from T_SYS_ACTIONS a where a.PARENT_ACTION_ID in(
+        select a.ACTION_ID from T_SYS_ACTIONS a where a.PARENT_ACTION_ID in(
+            select a.ACTION_ID from T_SYS_ACTIONS a where a.ACTION_ID in(
+                select ra.ACTION_ID from T_SYS_ROLE_ACTIONS ra where ra.ROLE_ID = (
+                    select r.ROLE_ID from T_SYS_ROLE r where r.ROLE_ID = #{id})) and a.SEQ = 1) and a.SEQ = 2) and a.SEQ = 3
+    </select>
+
+    <!--根据用户id查询用户权限-->
+    <select id="selectActionUrlByRoleID" parameterType="java.lang.String" resultType="java.lang.String">
+        /*查询一级菜单权限*/
+        select a.NAME from T_SYS_ACTIONS a where a.ACTION_ID in(
+            select ra.ACTION_ID from T_SYS_ROLE_ACTIONS ra where ra.ROLE_ID = (
+                select r.ROLE_ID from T_SYS_ROLE r where r.ROLE_ID = (select ROLE_ID from T_SYS_USER_ROLES where USER_ID = #{ID})))and a.SEQ = 1 union all
+        /*查询二级菜单权限*/
+        select a.NAME from T_SYS_ACTIONS a where a.PARENT_ACTION_ID in(
+            select a.ACTION_ID from T_SYS_ACTIONS a where a.ACTION_ID in(select ra.ACTION_ID from T_SYS_ROLE_ACTIONS ra where ra.ROLE_ID = (
+                select r.ROLE_ID from T_SYS_ROLE r where r.ROLE_ID = (select ROLE_ID from T_SYS_USER_ROLES where USER_ID = #{ID}))) and a.SEQ = 1) and a.SEQ = 2 union all
+        /*查询三级菜单权限*/
+        select a.NAME from T_SYS_ACTIONS a where a.PARENT_ACTION_ID in(
+            select a.ACTION_ID from T_SYS_ACTIONS a where a.PARENT_ACTION_ID in(
+                select a.ACTION_ID from T_SYS_ACTIONS a where a.ACTION_ID in(
+                    select ra.ACTION_ID from T_SYS_ROLE_ACTIONS ra where ra.ROLE_ID = (
+                        select r.ROLE_ID from T_SYS_ROLE r where r.ROLE_ID = (select ROLE_ID from T_SYS_USER_ROLES where USER_ID = #{ID}))) and a.SEQ = 1) and a.SEQ = 2) and a.SEQ = 3
+    </select>
+
+  <!--删除角色权限-->
+    <delete id="deleteByRoleID"  parameterType="java.lang.String">
+      delete from T_SYS_ROLE_ACTIONS where ROLE_ID = #{roleID}
+    </delete>
+
+    <select id="selectRoleActions" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select tnra.* from T_SYS_ROLE_ACTIONS tnra
+        <where>
+            <if test="roleId!=null and roleId!=''">
+                and tnra.ROLE_ID =#{roleId}
+            </if>
+            <if test="actionId!=null and actionId!=''">
+                and tnra.ACTION_ID =#{actionId}
+            </if>
+        </where>
+    </select>
+</mapper>

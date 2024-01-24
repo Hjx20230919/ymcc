@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizSettlementDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizSettlementDto">
+      <result column="SETTLE_ID" jdbcType="VARCHAR" property="settleId" />
+      <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus" />
+      <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+      <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+      <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+      <result column="SETTLE_AMOUNT" jdbcType="DOUBLE" property="settleAmount" />
+      <result column="SETTLE_BANK" jdbcType="VARCHAR" property="settleBank" />
+      <result column="SETTLE_ACOUNT" jdbcType="VARCHAR" property="settleAcount" />
+      <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="PAYABLE_TIME" jdbcType="TIMESTAMP" property="payableTime" />
+      <result column="ACTUAL_PAY_AMOUNT" jdbcType="DOUBLE" property="actualPayAmount" />
+      <result column="ACTUAL_PAY_TIME" jdbcType="TIMESTAMP" property="actualPayTime" />
+      <result column="ACTUAL_PAY_MAN" jdbcType="VARCHAR" property="actualPayMan" />
+      <result column="ACTUAL_PAY_NOTES" jdbcType="VARCHAR" property="actualPayNotes" />
+      <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+      <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+      <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+      <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+      <result column="STEP_NO" jdbcType="VARCHAR" property="stepNo" />
+      <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+      <result column="CONT_NAME2" jdbcType="VARCHAR" property="contName2" />
+      <result column="ORG_NO" jdbcType="VARCHAR" property="orgNo" />
+      <result column="CONT_ADDRSS" jdbcType="VARCHAR" property="contAddrss" />
+      <result column="LINK_NUM" jdbcType="VARCHAR" property="linkNum" />
+  </resultMap>
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.SettlementAuditPo">
+        <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType" />
+        <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus" />
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome" />
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+        <result column="DEAL_VALUE" jdbcType="VARCHAR" property="dealValue" />
+        <result column="SETTLE_AMOUNT" jdbcType="VARCHAR" property="settleAmount" />
+        <result column="SUM_SETTLE_AMOUNT" jdbcType="VARCHAR" property="sumSettleAmount" />
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+        <result column="SETTLE_ID" jdbcType="VARCHAR" property="settleId" />
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo" />
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+        <result column="DEAL_START" jdbcType="VARCHAR" property="dealStart" />
+        <result column="DEAL_END" jdbcType="VARCHAR" property="dealEnd" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap3" type="cn.com.cnpc.cpoa.po.ActivitiItemSettlePo">
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+        <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType" />
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome" />
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+        <result column="DEAL_VALUE" jdbcType="VARCHAR" property="dealValue" />
+        <result column="SETTLE_AMOUNT" jdbcType="VARCHAR" property="settleAmount" />
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+        <result column="SETTLE_ID" jdbcType="VARCHAR" property="settleId" />
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo" />
+        <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus" />
+        <result column="DEAL_START" jdbcType="TIMESTAMP" property="dealStart" />
+        <result column="DEAL_END" jdbcType="TIMESTAMP" property="dealEnd" />
+        <result column="DEAL_ID" jdbcType="TIMESTAMP" property="dealId" />
+
+    </resultMap>
+  <!--查询结算-->
+  <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT TBS.*,TBS.CONT_NAME CONT_NAME2,TSD.DEPT_NAME,TSU.USER_NAME,TBD.DEAL_NAME,TBC.CONT_NAME FROM T_BIZ_SETTLEMENT TBS
+    LEFT JOIN T_SYS_DEPT TSD ON TBS.DEPT_ID=TSD.DEPT_ID
+    LEFT JOIN T_SYS_USER TSU ON TBS.USER_ID=TSU.USER_ID
+    LEFT JOIN T_BIZ_DEAL TBD ON TBS.DEAL_ID=TBD.DEAL_ID
+    LEFT JOIN T_BIZ_CONTRACTOR TBC ON TBC.CONT_ID=TBD.CONTRACT_ID
+
+    <where>
+      <if test="settleStatus!=null and settleStatus!=''">
+        AND TBS.SETTLE_STATUS = #{settleStatus}
+      </if>
+      <if test="dealId!=null and dealId!=''">
+        AND TBS.DEAL_ID = #{dealId}
+      </if>
+    </where>
+     ORDER BY TBS.CREATE_TIME DESC
+
+  </select>
+
+
+   <!--查询结算审核列表。解析查询合同最小审核步骤与 用户当前合同最小审核步骤一致方可审核-->
+  <select id="selectUserList" parameterType="java.util.Map" resultMap="BaseResultMap2">
+      SELECT * FROM (SELECT TBD.DEAL_TYPE,
+      TB.SETTLE_STATUS,
+      TBD.DEAL_INCOME,
+      TBD.DEPT_ID,
+      TBD.DEAL_VALUE,
+      TB.`SETTLE_AMOUNT`,
+      IFNULL(TBD.DEAL_SETTLEMENT,0) SUM_SETTLE_AMOUNT,
+      TBC2.CONT_NAME,
+      TSD.DEPT_NAME,
+      TSU.`USER_ID`,
+      TSU.USER_NAME,
+      TBD.DEAL_NAME,
+      TBD.DEAL_NO,
+      TB.SETTLE_ID,
+      TBD.DEAL_ID,
+      date_format(TBD.DEAL_START,'%Y-%m-%d') DEAL_START,
+      date_format(TBD.DEAL_END,'%Y-%m-%d') DEAL_END
+
+      FROM T_BIZ_SETTLEMENT TB
+      INNER JOIN (
+      SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBS.SETTLE_ID FROM T_BIZ_SETTLEMENT TBS
+      INNER JOIN T_BIZ_DEAL TBD ON TBD.`DEAL_ID`=TBS.`DEAL_ID`
+      INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBS.SETTLE_ID
+      INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+      WHERE TBD.`DEAL_STATUS`='progressAuditing'
+      AND TBCM.`CHECK_STATE`='PENDING'
+      AND TBS.`SETTLE_STATUS`='buildAuditing'
+      GROUP BY TBS.SETTLE_ID ) A
+      ON TB.SETTLE_ID=A.SETTLE_ID
+      INNER JOIN (
+      SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+      INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+      INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+      WHERE TSU.`USER_ID`=#{userId}
+      AND TBCM.`CHECK_STATE`='PENDING'
+      GROUP BY TBCS.CHECK_OBJ_ID
+      ) B ON A.STEP_NO=B.STEP_NO
+      AND A.SETTLE_ID=B.CHECK_OBJ_ID
+      LEFT JOIN T_SYS_DEPT TSD ON TB.DEPT_ID=TSD.DEPT_ID
+      LEFT JOIN T_SYS_USER TSU ON TB.USER_ID=TSU.USER_ID
+      LEFT JOIN T_BIZ_DEAL TBD ON TB.DEAL_ID=TBD.DEAL_ID
+      LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TBC2.CONT_ID=TBD.CONTRACT_ID
+
+      <where>
+          <if test="dealNo!=null and dealNo!=''">
+              AND TBD.DEAL_NO =#{dealNo}
+          </if>
+          <if test="dealName!=null and dealName!=''">
+              AND TBD.DEAL_NAME like CONCAT('%',#{dealName},'%')
+          </if>
+
+          <if test="dealValueMax!=null and dealValueMax!=''">
+              AND TBD.DEAL_VALUE &lt;= #{dealValueMax}
+          </if>
+
+          <if test="dealValueMin!=null and dealValueMin!=''">
+              AND TBD.DEAL_VALUE >= #{dealValueMin}
+          </if>
+
+          <if test="contractId!=null and contractId!=''">
+              AND TBD.CONTRACT_ID = #{contractId}
+          </if>
+          <if test="dealSignTimeStart!=null and dealSignTimeStart!=''">
+              AND TBD.DEAL_SIGN_TIME >= str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s')
+          </if>
+          <if test="dealSignTimeEnd!=null and dealSignTimeEnd!=''">
+              AND TBD.DEAL_SIGN_TIME &lt;= str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+          </if>
+
+          <if test="dealType!=null and dealType!=''">
+              AND TBD.DEAL_TYPE =#{dealType}
+          </if>
+
+      </where>
+          )a
+
+
+          <if test="entrustUserId!=null and entrustUserId!=''">
+              UNION ALL
+
+              SELECT * FROM (SELECT TBD.DEAL_TYPE,
+              TB.SETTLE_STATUS,
+              TBD.DEAL_INCOME,
+              TBD.DEPT_ID,
+              TBD.DEAL_VALUE,
+              TB.`SETTLE_AMOUNT`,
+              IFNULL(TBD.DEAL_SETTLEMENT,0) SUM_SETTLE_AMOUNT,
+              TBC2.CONT_NAME,
+              TSD.DEPT_NAME,
+              TSU.`USER_ID`,
+              TSU.USER_NAME,
+              TBD.DEAL_NAME,
+              TBD.DEAL_NO,
+              TB.SETTLE_ID,
+              TBD.DEAL_ID,
+              date_format(TBD.DEAL_START,'%Y-%m-%d') DEAL_START,
+              date_format(TBD.DEAL_END,'%Y-%m-%d') DEAL_END
+
+              FROM T_BIZ_SETTLEMENT TB
+              INNER JOIN (
+              SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBS.SETTLE_ID FROM T_BIZ_SETTLEMENT TBS
+              INNER JOIN T_BIZ_DEAL TBD ON TBD.`DEAL_ID`=TBS.`DEAL_ID`
+              INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBS.SETTLE_ID
+              INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+              WHERE TBD.`DEAL_STATUS`='progressAuditing'
+              AND TBCM.`CHECK_STATE`='PENDING'
+              AND TBS.`SETTLE_STATUS`='buildAuditing'
+              GROUP BY TBS.SETTLE_ID ) A
+              ON TB.SETTLE_ID=A.SETTLE_ID
+              INNER JOIN (
+              SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+              INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+              INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+              WHERE TSU.`ENTRUST_USER_ID`=#{userId}
+              AND TBCM.`CHECK_STATE`='PENDING'
+              GROUP BY TBCS.CHECK_OBJ_ID
+              ) B ON A.STEP_NO=B.STEP_NO
+              AND A.SETTLE_ID=B.CHECK_OBJ_ID
+              LEFT JOIN T_SYS_DEPT TSD ON TB.DEPT_ID=TSD.DEPT_ID
+              LEFT JOIN T_SYS_USER TSU ON TB.USER_ID=TSU.USER_ID
+              LEFT JOIN T_BIZ_DEAL TBD ON TB.DEAL_ID=TBD.DEAL_ID
+              LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TBC2.CONT_ID=TBD.CONTRACT_ID
+
+              <where>
+              <if test="dealNo!=null and dealNo!=''">
+                  AND TBD.DEAL_NO =#{dealNo}
+              </if>
+              <if test="dealName!=null and dealName!=''">
+                  AND TBD.DEAL_NAME like CONCAT('%',#{dealName},'%')
+              </if>
+
+              <if test="dealValueMax!=null and dealValueMax!=''">
+                  AND TBD.DEAL_VALUE &lt;= #{dealValueMax}
+              </if>
+
+              <if test="dealValueMin!=null and dealValueMin!=''">
+                  AND TBD.DEAL_VALUE >= #{dealValueMin}
+              </if>
+
+              <if test="contractId!=null and contractId!=''">
+                  AND TBD.CONTRACT_ID = #{contractId}
+              </if>
+              <if test="dealSignTimeStart!=null and dealSignTimeStart!=''">
+                  AND TBD.DEAL_SIGN_TIME >= str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s')
+              </if>
+              <if test="dealSignTimeEnd!=null and dealSignTimeEnd!=''">
+                  AND TBD.DEAL_SIGN_TIME &lt;= str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+              </if>
+
+              <if test="dealType!=null and dealType!=''">
+                  AND TBD.DEAL_TYPE =#{dealType}
+              </if>
+              </where>
+              )b
+
+          </if>
+
+
+  </select>
+
+    <!--查询结算正在审核的结算-->
+    <select id="selectAuditList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT TBS.* FROM  T_BIZ_SETTLEMENT TBS  WHERE TBS.SETTLE_STATUS not in('draft','down')
+        AND TBS.DEAL_ID=#{dealId}
+      </select>
+
+
+
+    <!--查询结算当前审核人-->
+    <select id="selectUserNameList" parameterType="java.util.Map" resultMap="BaseResultMap">
+      SELECT B.USER_NAME,B.USER_ID FROM (
+      SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBS.SETTLE_ID FROM  T_BIZ_SETTLEMENT TBS
+      INNER JOIN T_BIZ_DEAL TBD ON TBD.`DEAL_ID`=TBS.`DEAL_ID`
+      INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBS.SETTLE_ID
+      INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+      WHERE TBD.`DEAL_STATUS`='progressAuditing'
+      AND TBCM.`CHECK_STATE`='PENDING'
+      AND TBS.SETTLE_ID =#{settleId}
+      AND TBS.`SETTLE_STATUS`='buildAuditing'
+      GROUP BY TBS.SETTLE_ID ) A
+      INNER JOIN  (
+      SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID,TSU.`USER_ID`,TSU.`USER_NAME` FROM T_BIZ_CHECK_STEP TBCS
+              INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+              INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+              WHERE  TBCM.`CHECK_STATE`='PENDING'
+              AND TBCS.CHECK_OBJ_ID=#{settleId}
+              GROUP BY TBCS.CHECK_OBJ_ID,TSU.`USER_ID`,TSU.`USER_NAME`
+      ) B ON A.STEP_NO=B.STEP_NO
+      AND A.SETTLE_ID=B.CHECK_OBJ_ID
+    </select>
+
+    <!--查询用户已审核结算-->
+    <select id="selectAuditedList" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT TBD.DEAL_TYPE,
+        TB.SETTLE_STATUS,
+        TBD.DEAL_INCOME,
+        TBD.DEPT_ID,
+        TBD.DEAL_VALUE,
+        TB.`SETTLE_AMOUNT`,
+        IFNULL(TBD.DEAL_SETTLEMENT,0) SUM_SETTLE_AMOUNT,
+        TBC2.CONT_NAME,
+        TSD.DEPT_NAME,
+        TSU.`USER_ID`,
+        TSU.USER_NAME,
+        TBD.DEAL_NAME,
+        TBD.DEAL_NO,
+        TB.SETTLE_ID,
+        TBD.DEAL_ID,
+        date_format(TBD.DEAL_START,'%Y-%m-%d') DEAL_START,
+        date_format(TBD.DEAL_END,'%Y-%m-%d') DEAL_END
+        FROM  (
+        SELECT TB1.*,TB2.CHECK_TIME FROM T_BIZ_SETTLEMENT TB1 INNER JOIN  (
+        SELECT TBS.SETTLE_ID,TBCM.CHECK_TIME FROM `T_BIZ_SETTLEMENT` TBS
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBS.`SETTLE_ID`=TBCS.`CHECK_OBJ_ID`
+        INNER JOIN   T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+        WHERE TBCM.`USER_ID`=#{userId} AND TBCM.`CHECK_STATE`='PENDED'
+        ) TB2 ON  TB1.`SETTLE_ID`=TB2.`SETTLE_ID`
+
+        ) TB
+
+        LEFT JOIN T_SYS_DEPT TSD ON TB.DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TB.USER_ID=TSU.USER_ID
+        LEFT JOIN   T_BIZ_DEAL TBD ON TB.DEAL_ID=TBD.DEAL_ID
+        LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TBC2.CONT_ID=TBD.CONTRACT_ID
+
+        <where>
+            <if test="dealNo!=null and dealNo!=''">
+                AND TBD.DEAL_NO =#{dealNo}
+            </if>
+            <if test="dealName!=null and dealName!=''">
+                AND TBD.DEAL_NAME like  CONCAT('%',#{dealName},'%')
+            </if>
+
+            <if test="dealValueMax!=null and dealValueMax!=''">
+                AND TBD.DEAL_VALUE &lt;= #{dealValueMax}
+            </if>
+
+            <if test="dealValueMin!=null and dealValueMin!=''">
+                AND TBD.DEAL_VALUE >= #{dealValueMin}
+            </if>
+
+            <if test="contractId!=null and contractId!=''">
+                AND TBD.CONTRACT_ID = #{contractId}
+            </if>
+            <if test="dealSignTimeStart!=null and dealSignTimeStart!=''">
+                AND TBD.DEAL_SIGN_TIME >= str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="dealSignTimeEnd!=null and dealSignTimeEnd!=''">
+                AND TBD.DEAL_SIGN_TIME &lt;= str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="dealType!=null and dealType!=''">
+                AND TBD.DEAL_TYPE =#{dealType}
+            </if>
+
+        </where>
+
+        ORDER BY TB.CHECK_TIME DESC
+    </select>
+
+    <!--查询流程事项中-->
+    <select id="selectActivitiItem" parameterType="java.util.Map" resultMap="BaseResultMap3">
+        SELECT TBD.*,TSD.DEPT_NAME, TBC2.CONT_NAME FROM (
+
+        SELECT TBD.*,tsu.USER_NAME,tbs.settle_id,tbs.settle_amount,tbs.settle_status  FROM T_BIZ_SETTLEMENT tbs
+        LEFT JOIN T_BIZ_DEAL TBD ON tbs.deal_id=TBD.deal_id
+        LEFT JOIN T_SYS_USER tsu ON tbs.USER_ID=tsu.user_id
+        WHERE tbs.settle_status IN ('buildAuditing','back')) TBD
+        LEFT JOIN T_SYS_DEPT TSD ON TBD.DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TBC2.CONT_ID=TBD.CONTRACT_ID
+
+        <where>
+            <if test="dealNo!=null and dealNo!='' and dealNo!='null'.toString()">
+                AND TBD.DEAL_NO =#{dealNo}
+            </if>
+            <if test="dealName!=null and dealName!='' and dealName!='null'.toString()">
+                AND TBD.DEAL_NAME like  CONCAT('%',#{dealName},'%')
+            </if>
+
+            <if test="dealValueMax!=null and dealValueMax!='' and dealValueMax!='null'.toString()">
+                AND TBD.DEAL_VALUE &lt;= #{dealValueMax}
+            </if>
+
+            <if test="dealValueMin!=null and dealValueMin!=''and dealValueMin!='null'.toString()">
+                AND TBD.DEAL_VALUE >= #{dealValueMin}
+            </if>
+
+            <if test="contractId!=null and contractId!=''and contractId!='null'.toString()">
+                AND TBD.CONTRACT_ID = #{contractId}
+            </if>
+            <if test="dealSignTimeStart!=null and dealSignTimeStart!=''and dealSignTimeStart!='null'.toString()">
+                AND TBD.DEAL_SIGN_TIME >= str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="dealSignTimeEnd!=null and dealSignTimeEnd!=''and dealSignTimeEnd!='null'.toString()">
+                AND TBD.DEAL_SIGN_TIME &lt;= str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TBD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TBD.USER_ID  = #{dataScopeSelf}
+            </if>
+
+        </where>
+
+    </select>
+
+    <!--查询合同审核列表。解析查询合同最小审核步骤与 用户当前合同最小审核步骤一致方可审核-->
+    <select id="selectAuditCount" parameterType="java.util.Map" resultType="String">
+        SELECT COUNT(1) FROM (
+        SELECT 1 FROM (SELECT 1
+
+        FROM T_BIZ_SETTLEMENT TB
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBS.SETTLE_ID FROM T_BIZ_SETTLEMENT TBS
+        INNER JOIN T_BIZ_DEAL TBD ON TBD.`DEAL_ID`=TBS.`DEAL_ID`
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBS.SETTLE_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+        WHERE TBD.`DEAL_STATUS`='progressAuditing'
+        AND TBCM.`CHECK_STATE`='PENDING'
+        AND TBS.`SETTLE_STATUS`='buildAuditing'
+        GROUP BY TBS.SETTLE_ID ) A
+        ON TB.SETTLE_ID=A.SETTLE_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+        INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+        WHERE TSU.`USER_ID`=#{userId}
+        AND TBCM.`CHECK_STATE`='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.SETTLE_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TB.DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TB.USER_ID=TSU.USER_ID
+        LEFT JOIN T_BIZ_DEAL TBD ON TB.DEAL_ID=TBD.DEAL_ID
+        LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TBC2.CONT_ID=TBD.CONTRACT_ID
+        )a
+
+
+        <if test="entrustUserId!=null and entrustUserId!=''">
+            UNION ALL
+
+            SELECT 1 FROM (SELECT 1
+
+            FROM T_BIZ_SETTLEMENT TB
+            INNER JOIN (
+            SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TBS.SETTLE_ID FROM T_BIZ_SETTLEMENT TBS
+            INNER JOIN T_BIZ_DEAL TBD ON TBD.`DEAL_ID`=TBS.`DEAL_ID`
+            INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.`CHECK_OBJ_ID`=TBS.SETTLE_ID
+            INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+            WHERE TBD.`DEAL_STATUS`='progressAuditing'
+            AND TBCM.`CHECK_STATE`='PENDING'
+            AND TBS.`SETTLE_STATUS`='buildAuditing'
+            GROUP BY TBS.SETTLE_ID ) A
+            ON TB.SETTLE_ID=A.SETTLE_ID
+            INNER JOIN (
+            SELECT MIN(TBCS.`STEP_NO`) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+            INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.`STEP_ID`=TBCM.`STEP_ID`
+            INNER JOIN T_SYS_USER TSU ON TSU.`USER_ID`=TBCM.`USER_ID`
+            WHERE TSU.`ENTRUST_USER_ID`=#{userId}
+            AND TBCM.`CHECK_STATE`='PENDING'
+            GROUP BY TBCS.CHECK_OBJ_ID
+            ) B ON A.STEP_NO=B.STEP_NO
+            AND A.SETTLE_ID=B.CHECK_OBJ_ID
+            )b
+
+        </if>
+        ) c
+    </select>
+
+    <select id="selectThisMonthSettlement" parameterType="java.lang.String" resultType="java.lang.Double">
+        select bs.SETTLE_AMOUNT from T_BIZ_SETTLEMENT bs
+        <where>
+            and DATE_FORMAT(bs.DOWN_TIME,'%Y%m') = #{yearMonth}
+            <if test="dealId != null and dealId != ''">
+                and bs.DEAL_ID = #{dealId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

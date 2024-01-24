@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.ContReviewTiDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.ContReviewTiDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="REVIEW_TI_ID" jdbcType="VARCHAR" property="reviewTiId" />
+    <result column="REVIEW_TYPE" jdbcType="VARCHAR" property="reviewType" />
+    <result column="REVIEW_SUB_TYPE" jdbcType="VARCHAR" property="reviewSubType" />
+    <result column="REVIEW_NO" jdbcType="VARCHAR" property="reviewNo" />
+    <result column="REVIEW_CTX" jdbcType="VARCHAR" property="reviewCtx" />
+    <result column="REF_VALUE" jdbcType="VARCHAR" property="refValue" />
+    <result column="REVIEW_TI_VALUE" jdbcType="FLOAT" property="reviewTiValue" />
+    <result column="DATA_TYPE" jdbcType="VARCHAR" property="dataType" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectContReviewTiByType" parameterType="java.util.Map" resultType="java.lang.String">
+    select t.REVIEW_NO from T_CONT_REVIEW_TI t
+    <where>
+      <if test="reviewType != null and reviewType != ''">
+        and t.REVIEW_TYPE = #{reviewType}
+      </if>
+      <if test="reviewSubType != null and reviewSubType != ''">
+        and t.REVIEW_SUB_TYPE = #{reviewSubType}
+      </if>
+    </where>
+    order by t.REVIEW_NO desc limit 0,1;
+  </select>
+
+  <select id="selectContReviewTi" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select t.REVIEW_TI_ID,t.REVIEW_TYPE,t.REVIEW_SUB_TYPE,t.REVIEW_NO,t.REVIEW_CTX,t.REF_VALUE,t.REVIEW_TI_VALUE,t.DATA_TYPE,
+           t.NOTES from T_CONT_REVIEW_TI t
+    <where>
+      <if test="reviewType != null and reviewType != ''">
+        and t.REVIEW_TYPE = #{reviewType}
+      </if>
+      <if test="reviewSubType != null and reviewSubType != ''">
+        and t.REVIEW_SUB_TYPE = #{reviewSubType}
+      </if>
+      <if test="reviewCtx != null and reviewCtx != ''">
+        and t.REVIEW_CTX like CONCAT('%',#{reviewSubType},'%')
+      </if>
+    </where>
+    order by t.REVIEW_NO
+  </select>
+</mapper>

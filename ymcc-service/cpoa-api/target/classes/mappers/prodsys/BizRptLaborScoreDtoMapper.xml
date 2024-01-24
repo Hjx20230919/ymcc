@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.BizRptLaborScoreDtoMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizRptLaborScoreDto">
+        <result column="SCORE_ID" jdbcType="VARCHAR" property="scoreId" />
+        <result column="QUARTER" jdbcType="VARCHAR" property="quarter" />
+        <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
+        <result column="START_AT" jdbcType="DATE" property="startAt" />
+        <result column="END_AT" jdbcType="DATE" property="endAt" />
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="JB_XQHT" jdbcType="FLOAT" property="jbXqht" />
+        <result column="JB_GKMYD" jdbcType="FLOAT" property="jbGkmyd" />
+        <result column="JB_SCKF" jdbcType="FLOAT" property="jbSckf" />
+        <result column="JB_CBSYJ" jdbcType="FLOAT" property="jbCbsyj" />
+        <result column="JB_HJ" jdbcType="FLOAT" property="jbHj" />
+        <result column="JF_XQHT" jdbcType="FLOAT" property="jfXqht" />
+        <result column="JF_DBZD" jdbcType="FLOAT" property="jfDbzd" />
+        <result column="JF_CXSC" jdbcType="FLOAT" property="jfCxsc" />
+        <result column="JF_GKMYD" jdbcType="FLOAT" property="jfGkmyd" />
+        <result column="JF_CBSYJ" jdbcType="FLOAT" property="jfCbsyj" />
+        <result column="JF_KHTS" jdbcType="FLOAT" property="jfKhts" />
+        <result column="JF_HJ" jdbcType="FLOAT" property="jfHj" />
+        <result column="ZF_HJ" jdbcType="FLOAT" property="zfHj" />
+
+    </resultMap>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT t.*, TD.DEPT_NAME
+        FROM T_BIZ_RPT_LABOR_SCORE t
+        LEFT JOIN T_SYS_DEPT TD ON T.DEPT_ID = TD.DEPT_ID
+        <where>
+            <if test="quarter!=null and quarter!=''">
+                AND t.QUARTER = #{quarter}
+            </if>
+            <if test="deptId!=null and deptId!=''">
+                AND t.DEPT_ID = #{deptId}
+            </if>
+        </where>
+        ORDER BY
+        t.QUARTER
+    </select>
+
+    <select id="queryLaborScoreSeasons" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT distinct t.QUARTER
+        FROM T_BIZ_RPT_LABOR_SCORE t
+        ORDER BY
+        t.QUARTER
+    </select>
+
+
+</mapper>

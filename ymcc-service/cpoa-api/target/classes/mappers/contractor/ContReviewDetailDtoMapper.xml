@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.ContReviewDetailDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.ContReviewDetailDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="REVIEW_DETAIL_ID" jdbcType="VARCHAR" property="reviewDetailId" />
+    <result column="REVIEW_TASK_ID" jdbcType="VARCHAR" property="reviewTaskId" />
+    <result column="REVIEW_DETAIL_TYPE" jdbcType="VARCHAR" property="reviewDetailType" />
+    <result column="REVIEW_DETAIL_SUB_TYPE" jdbcType="VARCHAR" property="reviewDetailSubType" />
+    <result column="REVIEW_DETAIL_NO" jdbcType="VARCHAR" property="reviewDetailNo" />
+    <result column="REVIEW_DETAIL_CTX" jdbcType="VARCHAR" property="reviewDetailCtx" />
+    <result column="REVIEW_TI_VALUE" jdbcType="VARCHAR" property="reviewTiValue" />
+    <result column="DATA_TYPE" jdbcType="VARCHAR" property="dataType" />
+    <result column="REF_VALUE" jdbcType="VARCHAR" property="refValue" />
+    <result column="REVIEW_VALUE" jdbcType="CHAR" property="reviewValue" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectContReviewDetail" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select t.REVIEW_DETAIL_ID,t.REVIEW_DETAIL_TYPE,t.REVIEW_DETAIL_SUB_TYPE,t.REVIEW_DETAIL_NO,t.REVIEW_DETAIL_CTX,t.REF_VALUE,t.DATA_TYPE,
+    t.NOTES,t.REVIEW_TASK_ID,t.REVIEW_VALUE,t.REVIEW_TI_VALUE from T_CONT_REVIEW_DETAIL t
+    <where>
+      <if test="reviewType != null and reviewType != ''">
+        and t.REVIEW_DETAIL_TYPE = #{reviewType}
+      </if>
+      <if test="reviewSubType != null and reviewSubType != ''">
+        and t.REVIEW_DETAIL_SUB_TYPE = #{reviewSubType}
+      </if>
+      <if test="reviewTaskId != null and reviewTaskId != ''">
+        and t.REVIEW_TASK_ID = #{reviewTaskId}
+      </if>
+    </where>
+    order by t.REVIEW_DETAIL_NO
+  </select>
+</mapper>

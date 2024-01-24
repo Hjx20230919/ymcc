@@ -1,0 +1,1362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.project.BizProjProjectDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.project.BizProjProjectDto">
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="CREATE_ID" jdbcType="VARCHAR" property="createId"/>
+        <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId"/>
+        <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName"/>
+        <result column="DEAL_VALUE" jdbcType="DECIMAL" property="dealValue"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo"/>
+        <result column="DEAL_CONTRACT" jdbcType="VARCHAR" property="dealContract"/>
+        <result column="PAY_TYPE" jdbcType="VARCHAR" property="payType"/>
+        <result column="SEL_CONT_TYPE" jdbcType="VARCHAR" property="selContType"/>
+        <result column="INCOME_INFO" jdbcType="VARCHAR" property="incomeInfo"/>
+        <result column="APPL_DESC" jdbcType="VARCHAR" property="applDesc"/>
+        <result column="CONT_QLY_REQ" jdbcType="VARCHAR" property="contQlyReq"/>
+        <result column="CONT_SVR_REQ" jdbcType="VARCHAR" property="contSvrReq"/>
+        <result column="DEAL_VALUE_MEASURE" jdbcType="VARCHAR" property="dealValueMeasure"/>
+        <result column="PROJ_STATUS" jdbcType="VARCHAR" property="projStatus"/>
+        <result column="PROJ_PHASE" jdbcType="VARCHAR" property="projPhase"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
+        <result column="PROJ_NOTES" jdbcType="VARCHAR" property="projNotes"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="SEL_CONT_ID" jdbcType="VARCHAR" property="selContId"/>
+        <result column="PLAN_ID" jdbcType="VARCHAR" property="planId"/>
+        <result column="RESULT_ID" jdbcType="VARCHAR" property="resultId"/>
+        <result column="RESPONSIBILITY_MAN" jdbcType="VARCHAR" property="responsibilityMan"/>
+        <result column="RESPONSIBILITY_PHONE" jdbcType="VARCHAR" property="responsibilityPhone"/>
+        <result column="PROJ_PLAN_NO" jdbcType="VARCHAR" property="projPlanNo"/>
+
+
+
+        <!--公开招标-->
+        <result column="OTENDER_ID" jdbcType="VARCHAR" property="otenderId"/>
+        <!--<result column="OTENDER_SEL_CONT_TYPE" jdbcType="VARCHAR" property="otenderSelContType"/>-->
+        <result column="OTENDER_PROJ_TYPE" jdbcType="VARCHAR" property="otenderProjType"/>
+        <result column="OTENDER_PLAN_NO" jdbcType="VARCHAR" property="otenderPlanNo"/>
+        <result column="OTENDER_TYPE" jdbcType="VARCHAR" property="otenderType"/>
+        <result column="OTENDER_TENDER_TYPE" jdbcType="VARCHAR" property="otenderTenderType"/>
+        <result column="OTENDER_START_DATE" jdbcType="DATE" property="otenderStartDate"/>
+        <result column="OTENDER_END_DATE" jdbcType="DATE" property="otenderEndDate"/>
+        <result column="OTENDER_VALUTION_TYPE" jdbcType="VARCHAR" property="otenderValutionType"/>
+        <result column="OTENDER_MODALITY" jdbcType="VARCHAR" property="otenderModality"/>
+        <result column="OTENDER_SUPERVISE" jdbcType="VARCHAR" property="otenderSupervise"/>
+        <result column="OTENDER_CONTENT" jdbcType="LONGVARCHAR" property="otenderContent"/>
+        <result column="OTENDER_COMMITTEE" jdbcType="LONGVARCHAR" property="otenderCommittee"/>
+        <result column="OTENDER_QUALIFICATIONS" jdbcType="LONGVARCHAR" property="otenderQualifications"/>
+
+        <!--可不招标-->
+        <result column="NTENDER_ID" jdbcType="VARCHAR" property="ntenderId"/>
+        <!--<result column="NTENDER_SEL_CONT_TYPE" jdbcType="VARCHAR" property="ntenderSelContType"/>-->
+        <result column="NTENDER_PROJ_TYPE" jdbcType="VARCHAR" property="ntenderProjType"/>
+        <result column="NTENDER_PLAN_NO" jdbcType="VARCHAR" property="ntenderPlanNo"/>
+        <result column="NTENDER_TYPE" jdbcType="VARCHAR" property="ntenderType"/>
+        <result column="NTENDER_PURCHASE_TYPE" jdbcType="VARCHAR" property="ntenderPurchaseType"/>
+        <result column="NTENDER_START_DATE" jdbcType="DATE" property="ntenderStartDate"/>
+        <result column="NTENDER_END_DATE" jdbcType="DATE" property="ntenderEndDate"/>
+        <result column="NTENDER_VALUTION_TYPE" jdbcType="VARCHAR" property="ntenderValutionType"/>
+        <result column="NTENDER_GROUP" jdbcType="VARCHAR" property="ntenderGroup"/>
+        <result column="NTENDER_SUMMARY" jdbcType="LONGVARCHAR" property="ntenderSummary"/>
+        <result column="NTENDER_REASON" jdbcType="LONGVARCHAR" property="ntenderReason"/>
+        <result column="NTENDER_SUPERVISE" jdbcType="LONGVARCHAR" property="ntenderSupervise"/>
+
+
+        <!--承包商名称，参与项目状态-->
+        <result column="joinStatus" jdbcType="VARCHAR" property="joinStatus"/>
+        <result column="joinName" jdbcType="VARCHAR" property="joinName"/>
+        <result column="bidStatus" jdbcType="VARCHAR" property="bidStatus"/>
+        <result column="bidName" jdbcType="VARCHAR" property="bidName"/>
+
+
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap3" type="cn.com.cnpc.cpoa.po.project.ProjProjectPo">
+        <result column="RESULT_ID" jdbcType="VARCHAR" property="resultId"/>
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName"/>
+        <result column="PROJ_AT" jdbcType="VARCHAR" property="projAt"/>
+        <result column="CONT_ID" jdbcType="VARCHAR" property="contId"/>
+        <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel"/>
+        <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent"/>
+        <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType"/>
+        <result column="LIMIT_TOTAL_PRICE" jdbcType="DECIMAL" property="limitTotalPrice"/>
+        <result column="OWNER_DEPT_ID" jdbcType="VARCHAR" property="ownerDeptId"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.project.ProActivitiItemPo">
+        <result column="OBJ_ID" jdbcType="VARCHAR" property="objId"/>
+        <result column="OBJ_TYPE" jdbcType="VARCHAR" property="objType"/>
+        <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName"/>
+        <result column="SEL_CONT_TYPE" jdbcType="VARCHAR" property="selContType"/>
+        <result column="DEAL_VALUE" jdbcType="DECIMAL" property="dealValue"/>
+        <result column="PROJ_STATUS" jdbcType="VARCHAR" property="projStatus"/>
+        <result column="PROJ_PHASE" jdbcType="VARCHAR" property="projPhase"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="SEL_CONT_ID" jdbcType="VARCHAR" property="selContId"/>
+        <result column="PLAN_ID" jdbcType="VARCHAR" property="planId"/>
+        <result column="RESULT_ID" jdbcType="VARCHAR" property="resultId"/>
+    </resultMap>
+
+    <!--综合查询-->
+    <select id="selectProject" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        ANY_VALUE ( t.PROJ_ID ) PROJ_ID,
+        ANY_VALUE ( t.CREATE_ID ) CREATE_ID,
+        ANY_VALUE ( t.OWNER_DEPT_ID ) OWNER_DEPT_ID,
+        ANY_VALUE ( t.PROJ_NAME ) PROJ_NAME,
+        ANY_VALUE ( t.DEAL_VALUE ) DEAL_VALUE,
+        ANY_VALUE ( t.DEAL_NAME ) DEAL_NAME,
+        ANY_VALUE ( t.DEAL_NO ) DEAL_NO,
+        ANY_VALUE ( t.PROJ_PLAN_NO ) PROJ_PLAN_NO,
+        ANY_VALUE ( t.DEAL_CONTRACT ) DEAL_CONTRACT,
+        ANY_VALUE ( t.PAY_TYPE ) PAY_TYPE,
+        ANY_VALUE ( t.SEL_CONT_TYPE ) SEL_CONT_TYPE,
+        ANY_VALUE ( t.INCOME_INFO ) INCOME_INFO,
+        ANY_VALUE ( t.APPL_DESC ) APPL_DESC,
+        ANY_VALUE ( t.CONT_QLY_REQ ) CONT_QLY_REQ,
+        ANY_VALUE ( t.CONT_SVR_REQ ) CONT_SVR_REQ,
+        ANY_VALUE ( t.DEAL_VALUE_MEASURE ) DEAL_VALUE_MEASURE,
+        ANY_VALUE ( t.PROJ_STATUS ) PROJ_STATUS,
+        ANY_VALUE ( t.PROJ_PHASE ) PROJ_PHASE,
+        ANY_VALUE ( t.CREATE_AT ) CREATE_AT,
+        ANY_VALUE ( t.NOTES ) NOTES,
+        ANY_VALUE ( t.PROJ_NOTES ) PROJ_NOTES,
+        ANY_VALUE ( t.RESPONSIBILITY_MAN ) RESPONSIBILITY_MAN,
+        ANY_VALUE ( t.RESPONSIBILITY_PHONE ) RESPONSIBILITY_PHONE,
+        ANY_VALUE ( t.USER_NAME ) USER_NAME,
+        ANY_VALUE ( t.DEPT_NAME ) DEPT_NAME,
+        ANY_VALUE ( t.SEL_CONT_ID ) SEL_CONT_ID,
+        ANY_VALUE ( t.PLAN_ID ) PLAN_ID,
+        ANY_VALUE ( t.RESULT_ID ) RESULT_ID,
+        ANY_VALUE ( t.OTENDER_ID ) OTENDER_ID,
+        ANY_VALUE ( t.OTENDER_SEL_CONT_TYPE ) OTENDER_SEL_CONT_TYPE,
+        ANY_VALUE ( t.OTENDER_PROJ_TYPE ) OTENDER_PROJ_TYPE,
+        ANY_VALUE ( t.OTENDER_PLAN_NO ) OTENDER_PLAN_NO,
+        ANY_VALUE ( t.OTENDER_TYPE ) OTENDER_TYPE,
+        ANY_VALUE ( t.OTENDER_TENDER_TYPE ) OTENDER_TENDER_TYPE,
+        ANY_VALUE ( t.OTENDER_START_DATE ) OTENDER_START_DATE,
+        ANY_VALUE ( t.OTENDER_END_DATE ) OTENDER_END_DATE,
+        ANY_VALUE ( t.OTENDER_VALUTION_TYPE ) OTENDER_VALUTION_TYPE,
+        ANY_VALUE ( t.OTENDER_MODALITY ) OTENDER_MODALITY,
+        ANY_VALUE ( t.OTENDER_SUPERVISE ) OTENDER_SUPERVISE,
+        ANY_VALUE ( t.OTENDER_CONTENT ) OTENDER_CONTENT,
+        ANY_VALUE ( t.OTENDER_COMMITTEE ) OTENDER_COMMITTEE,
+        ANY_VALUE ( t.OTENDER_QUALIFICATIONS ) OTENDER_QUALIFICATIONS,
+        ANY_VALUE ( t.NTENDER_ID ) NTENDER_ID,
+        ANY_VALUE ( t.NTENDER_SEL_CONT_TYPE ) NTENDER_SEL_CONT_TYPE,
+        ANY_VALUE ( t.NTENDER_PROJ_TYPE ) NTENDER_PROJ_TYPE,
+        ANY_VALUE ( t.NTENDER_PLAN_NO ) NTENDER_PLAN_NO,
+        ANY_VALUE ( t.NTENDER_TYPE ) NTENDER_TYPE,
+        ANY_VALUE ( t.NTENDER_PURCHASE_TYPE ) NTENDER_PURCHASE_TYPE,
+        ANY_VALUE ( t.NTENDER_START_DATE ) NTENDER_START_DATE,
+        ANY_VALUE ( t.NTENDER_END_DATE ) NTENDER_END_DATE,
+        ANY_VALUE ( t.NTENDER_VALUTION_TYPE ) NTENDER_VALUTION_TYPE,
+        ANY_VALUE ( t.NTENDER_GROUP ) NTENDER_GROUP,
+        ANY_VALUE ( t.NTENDER_SUMMARY ) NTENDER_SUMMARY,
+        ANY_VALUE ( t.NTENDER_REASON ) NTENDER_REASON,
+        ANY_VALUE ( t.NTENDER_SUPERVISE ) NTENDER_SUPERVISE,
+
+        ANY_VALUE ( t.bidName ) bidName,
+        ANY_VALUE ( t.bidStatus ) bidStatus,
+        ANY_VALUE ( TPCL.joinName ) joinName,
+        ANY_VALUE ( TPCL.joinStatus ) joinStatus
+        FROM
+        (
+        SELECT
+        TPP.*,
+        TSU.USER_NAME,
+        TSD.DEPT_NAME,
+        TSD.DEPT_ID,
+        TPSC.SEL_CONT_ID,
+        TPPP.PLAN_ID,
+        TPPR.RESULT_ID,
+        TPPO.OTENDER_ID,
+        TPPO.OTENDER_SEL_CONT_TYPE,
+        TPPO.OTENDER_PROJ_TYPE,
+        TPPO.OTENDER_PLAN_NO,
+        TPPO.OTENDER_TYPE,
+        TPPO.OTENDER_TENDER_TYPE,
+        TPPO.OTENDER_START_DATE,
+        TPPO.OTENDER_END_DATE,
+        TPPO.OTENDER_VALUTION_TYPE,
+        TPPO.OTENDER_MODALITY,
+        TPPO.OTENDER_SUPERVISE,
+        TPPO.OTENDER_CONTENT,
+        TPPO.OTENDER_COMMITTEE,
+        TPPO.OTENDER_QUALIFICATIONS,
+        TPPN.NTENDER_ID,
+        TPPN.NTENDER_SEL_CONT_TYPE,
+        TPPN.NTENDER_PROJ_TYPE,
+        TPPN.NTENDER_PLAN_NO,
+        TPPN.NTENDER_TYPE,
+        TPPN.NTENDER_PURCHASE_TYPE,
+        TPPN.NTENDER_START_DATE,
+        TPPN.NTENDER_END_DATE,
+        TPPN.NTENDER_VALUTION_TYPE,
+        TPPN.NTENDER_GROUP,
+        TPPN.NTENDER_SUMMARY,
+        TPPN.NTENDER_REASON,
+        TPPN.NTENDER_SUPERVISE,
+        TPPR.bidName,
+        TPPR.bidStatus
+        FROM
+        T_PROJ_PROJECT TPP
+        LEFT JOIN T_PROJ_PROJECT_OPENTENDER TPPO ON TPPO.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PROJECT_NOTENDER TPPN ON TPPN.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN (
+        SELECT
+        TPPR.*,
+        TCC.CONT_NAME bidName,
+        '中标' bidStatus
+        FROM
+        (
+        SELECT
+        TPPR.*,
+        TPRL.CONT_ID
+        FROM
+        T_PROJ_PURC_RESULT TPPR
+        LEFT JOIN ( SELECT TPRL.RESULT_ID, any_value ( TPRL.CONT_ID ) CONT_ID FROM T_PROJ_RESULT_LIST TPRL GROUP BY TPRL.RESULT_ID ) TPRL ON TPPR.RESULT_ID = TPRL.RESULT_ID
+        ) TPPR
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID = TPPR.CONT_ID
+        ) TPPR ON TPPR.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID = TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID = TSD.DEPT_ID
+        ) t
+        LEFT JOIN ( SELECT TPCL.*, TCC.CONT_NAME joinName, '参与' joinStatus FROM T_PROJ_CONT_LIST TPCL LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID = TPCL.CONT_ID ) TPCL ON TPCL.SEL_CONT_ID = t.SEL_CONT_ID
+
+        <where>
+            <if test="joinName != null and joinName != ''">
+                and TPCL.joinName like CONCAT('%',#{joinName},'%')
+            </if>
+            <if test="joinStatus != null and joinStatus != ''">
+                and TPCL.joinStatus = #{joinStatus}
+            </if>
+            <if test="bidName != null and bidName != ''">
+                and t.bidName like CONCAT('%',#{bidName},'%')
+            </if>
+            <if test="bidStatus != null and bidStatus != ''">
+                and t.bidStatus = #{bidStatus}
+            </if>
+            <if test="projId!=null and projId!=''">
+                and t.PROJ_ID=#{projId}
+            </if>
+
+            <if test="projName!=null and projName!=''">
+                and t.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+
+            <if test="selContTypes!=null and selContTypes!='' and selContTypes.length>0">
+                and t.SEL_CONT_TYPE in
+                <foreach collection="selContTypes" item="selContType" open="(" close=")" separator=",">
+                    #{selContType}
+                </foreach>
+            </if>
+
+
+            <if test="projStatus!=null and projStatus!=''">
+                and t.PROJ_STATUS=#{projStatus}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and t.USER_NAME LIKE CONCAT('%',#{userName},'%')
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and t.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+            </if>
+
+            <if test="createAtStart!=null and createAtStart!=''">
+                and t.CREATE_AT>= str_to_date(CONCAT(#{createAtStart},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="createAtEnd!=null and createAtEnd!=''">
+                and t.CREATE_AT &lt;= str_to_date(CONCAT(#{createAtEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="payType!=null and payType!=''">
+                and t.PAY_TYPE = #{payType}
+            </if>
+
+            <if test="projPhase!=null and projPhase!=''">
+                and t.PROJ_PHASE =#{projPhase}
+            </if>
+            <if test="dealNo!=null and dealNo!=''">
+                and t.DEAL_NO like CONCAT('%',#{dealNo},'%')
+            </if>
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND t.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND t.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+        <if test="joinStatus == null or joinStatus == ''">
+            GROUP BY t.PROJ_ID
+        </if>
+
+        ORDER BY t.CREATE_AT DESC
+    </select>
+
+    <!--<select id="selectProject" parameterType="java.util.Map" resultMap="BaseResultMap">
+        /*SELECT TPP.*,TSU.USER_NAME,TSD.DEPT_NAME,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID,
+        OTENDER_ID,OTENDER_SEL_CONT_TYPE,OTENDER_PROJ_TYPE,OTENDER_PLAN_NO,OTENDER_TYPE,OTENDER_TENDER_TYPE,
+        OTENDER_START_DATE,OTENDER_END_DATE,OTENDER_VALUTION_TYPE,OTENDER_MODALITY,OTENDER_SUPERVISE,
+        OTENDER_CONTENT,OTENDER_COMMITTEE,OTENDER_QUALIFICATIONS,NTENDER_ID,NTENDER_SEL_CONT_TYPE,NTENDER_PROJ_TYPE,
+        NTENDER_PLAN_NO,NTENDER_TYPE,NTENDER_PURCHASE_TYPE,NTENDER_START_DATE,NTENDER_END_DATE,NTENDER_VALUTION_TYPE,
+        NTENDER_GROUP,NTENDER_SUMMARY,NTENDER_REASON,NTENDER_SUPERVISE,RESPONSIBILITY_MAN,RESPONSIBILITY_PHONE
+        FROM T_PROJ_PROJECT TPP
+        LEFT JOIN T_PROJ_PROJECT_OPENTENDER TPPO ON TPPO.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PROJECT_NOTENDER TPPN ON TPPN.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID*/
+        SELECT
+        ANY_VALUE ( t.PROJ_ID ) PROJ_ID,
+        ANY_VALUE ( t.CREATE_ID ) CREATE_ID,
+        ANY_VALUE ( t.OWNER_DEPT_ID ) OWNER_DEPT_ID,
+        ANY_VALUE ( t.PROJ_NAME ) PROJ_NAME,
+        ANY_VALUE ( t.DEAL_VALUE ) DEAL_VALUE,
+        ANY_VALUE ( t.DEAL_NAME ) DEAL_NAME,
+        ANY_VALUE ( t.DEAL_NO ) DEAL_NO,
+        ANY_VALUE ( t.DEAL_CONTRACT ) DEAL_CONTRACT,
+        ANY_VALUE ( t.PAY_TYPE ) PAY_TYPE,
+        ANY_VALUE ( t.SEL_CONT_TYPE ) SEL_CONT_TYPE,
+        ANY_VALUE ( t.INCOME_INFO ) INCOME_INFO,
+        ANY_VALUE ( t.APPL_DESC ) APPL_DESC,
+        ANY_VALUE ( t.CONT_QLY_REQ ) CONT_QLY_REQ,
+        ANY_VALUE ( t.CONT_SVR_REQ ) CONT_SVR_REQ,
+        ANY_VALUE ( t.DEAL_VALUE_MEASURE ) DEAL_VALUE_MEASURE,
+        ANY_VALUE ( t.PROJ_STATUS ) PROJ_STATUS,
+        ANY_VALUE ( t.PROJ_PHASE ) PROJ_PHASE,
+        ANY_VALUE ( t.CREATE_AT ) CREATE_AT,
+        ANY_VALUE ( t.NOTES ) NOTES,
+        ANY_VALUE ( t.PROJ_NOTES ) PROJ_NOTES,
+        ANY_VALUE ( t.RESPONSIBILITY_MAN ) RESPONSIBILITY_MAN,
+        ANY_VALUE ( t.RESPONSIBILITY_PHONE ) RESPONSIBILITY_PHONE,
+        ANY_VALUE ( t.USER_NAME ) USER_NAME,
+        ANY_VALUE ( t.DEPT_NAME ) DEPT_NAME,
+        ANY_VALUE ( t.SEL_CONT_ID ) SEL_CONT_ID,
+        ANY_VALUE ( t.PLAN_ID ) PLAN_ID,
+        ANY_VALUE ( t.RESULT_ID ) RESULT_ID,
+        ANY_VALUE ( t.OTENDER_ID ) OTENDER_ID,
+        ANY_VALUE ( t.OTENDER_SEL_CONT_TYPE ) OTENDER_SEL_CONT_TYPE,
+        ANY_VALUE ( t.OTENDER_PROJ_TYPE ) OTENDER_PROJ_TYPE,
+        ANY_VALUE ( t.OTENDER_PLAN_NO ) OTENDER_PLAN_NO,
+        ANY_VALUE ( t.OTENDER_TYPE ) OTENDER_TYPE,
+        ANY_VALUE ( t.OTENDER_TENDER_TYPE ) OTENDER_TENDER_TYPE,
+        ANY_VALUE ( t.OTENDER_START_DATE ) OTENDER_START_DATE,
+        ANY_VALUE ( t.OTENDER_END_DATE ) OTENDER_END_DATE,
+        ANY_VALUE ( t.OTENDER_VALUTION_TYPE ) OTENDER_VALUTION_TYPE,
+        ANY_VALUE ( t.OTENDER_MODALITY ) OTENDER_MODALITY,
+        ANY_VALUE ( t.OTENDER_SUPERVISE ) OTENDER_SUPERVISE,
+        ANY_VALUE ( t.OTENDER_CONTENT ) OTENDER_CONTENT,
+        ANY_VALUE ( t.OTENDER_COMMITTEE ) OTENDER_COMMITTEE,
+        ANY_VALUE ( t.OTENDER_QUALIFICATIONS ) OTENDER_QUALIFICATIONS,
+        ANY_VALUE ( t.NTENDER_ID ) NTENDER_ID,
+        ANY_VALUE ( t.NTENDER_SEL_CONT_TYPE ) NTENDER_SEL_CONT_TYPE,
+        ANY_VALUE ( t.NTENDER_PROJ_TYPE ) NTENDER_PROJ_TYPE,
+        ANY_VALUE ( t.NTENDER_PLAN_NO ) NTENDER_PLAN_NO,
+        ANY_VALUE ( t.NTENDER_TYPE ) NTENDER_TYPE,
+        ANY_VALUE ( t.NTENDER_PURCHASE_TYPE ) NTENDER_PURCHASE_TYPE,
+        ANY_VALUE ( t.NTENDER_START_DATE ) NTENDER_START_DATE,
+        ANY_VALUE ( t.NTENDER_END_DATE ) NTENDER_END_DATE,
+        ANY_VALUE ( t.NTENDER_VALUTION_TYPE ) NTENDER_VALUTION_TYPE,
+        ANY_VALUE ( t.NTENDER_GROUP ) NTENDER_GROUP,
+        ANY_VALUE ( t.NTENDER_SUMMARY ) NTENDER_SUMMARY,
+        ANY_VALUE ( t.NTENDER_REASON ) NTENDER_REASON,
+        ANY_VALUE ( t.NTENDER_SUPERVISE ) NTENDER_SUPERVISE,
+        ANY_VALUE ( t.bidName ) bidName,
+        ANY_VALUE ( t.bidStatus ) bidStatus,
+        ANY_VALUE ( TPCL.joinName ) joinName,
+        ANY_VALUE ( TPCL.joinStatus ) joinStatus
+        FROM
+        (
+        SELECT
+        TPP.*,
+        TSU.USER_NAME,
+        TSD.DEPT_NAME,
+        TPSC.SEL_CONT_ID,
+        TPPP.PLAN_ID,
+        TPPR.RESULT_ID,
+        TPPO.OTENDER_ID,
+        TPPO.OTENDER_SEL_CONT_TYPE,
+        TPPO.OTENDER_PROJ_TYPE,
+        TPPO.OTENDER_PLAN_NO,
+        TPPO.OTENDER_TYPE,
+        TPPO.OTENDER_TENDER_TYPE,
+        TPPO.OTENDER_START_DATE,
+        TPPO.OTENDER_END_DATE,
+        TPPO.OTENDER_VALUTION_TYPE,
+        TPPO.OTENDER_MODALITY,
+        TPPO.OTENDER_SUPERVISE,
+        TPPO.OTENDER_CONTENT,
+        TPPO.OTENDER_COMMITTEE,
+        TPPO.OTENDER_QUALIFICATIONS,
+        TPPN.NTENDER_ID,
+        TPPN.NTENDER_SEL_CONT_TYPE,
+        TPPN.NTENDER_PROJ_TYPE,
+        TPPN.NTENDER_PLAN_NO,
+        TPPN.NTENDER_TYPE,
+        TPPN.NTENDER_PURCHASE_TYPE,
+        TPPN.NTENDER_START_DATE,
+        TPPN.NTENDER_END_DATE,
+        TPPN.NTENDER_VALUTION_TYPE,
+        TPPN.NTENDER_GROUP,
+        TPPN.NTENDER_SUMMARY,
+        TPPN.NTENDER_REASON,
+        TPPN.NTENDER_SUPERVISE,
+        TPPR.bidName,
+        TPPR.bidStatus
+        FROM
+        T_PROJ_PROJECT TPP
+        LEFT JOIN T_PROJ_PROJECT_OPENTENDER TPPO ON TPPO.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PROJECT_NOTENDER TPPN ON TPPN.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN (
+        SELECT
+        TPPR.*,
+        TCC.CONT_NAME bidName,
+        '中标' bidStatus
+        FROM
+        (
+        SELECT
+        TPPR.*,
+        TPRL.CONT_ID
+        FROM
+        T_PROJ_PURC_RESULT TPPR
+        LEFT JOIN ( SELECT TPRL.RESULT_ID, any_value ( TPRL.CONT_ID ) CONT_ID FROM t_proj_result_list TPRL GROUP BY TPRL.RESULT_ID ) TPRL ON TPPR.RESULT_ID = TPRL.RESULT_ID
+        ) TPPR
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID = TPPR.CONT_ID
+        ) TPPR ON TPPR.PROJ_ID = TPP.PROJ_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID = TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID = TSD.DEPT_ID
+        ) t
+        LEFT JOIN ( SELECT TPCL.*, TCC.CONT_NAME joinName, '参与' joinStatus FROM T_PROJ_CONT_LIST TPCL LEFT JOIN T_CONT_CONTRACTOR TCC ON TCC.CONT_ID = TPCL.CONT_ID ) TPCL ON TPCL.SEL_CONT_ID = t.SEL_CONT_ID
+        GROUP BY
+        t.PROJ_ID
+
+        <where>
+            <if test="joinName != null and joinName != ''">
+                and joinName like CONCAT('%',#{joinName},'%')
+            </if>
+            <if test="joinStatus != null and joinStatus != ''">
+                and joinStatus = #{joinStatus}
+            </if>
+            <if test="bidName != null and bidName != ''">
+                and bidName like CONCAT('%',#{bidName},'%')
+            </if>
+            <if test="bidStatus != null and bidStatus != ''">
+                and bidStatus = #{bidStatus}
+            </if>
+            <if test="projId!=null and projId!=''">
+                and TPP.PROJ_ID=#{projId}
+            </if>
+
+            <if test="projName!=null and projName!=''">
+                and TPP.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+
+            <if test="selContTypes!=null and selContTypes!='' and selContTypes.length>0">
+                and TPP.SEL_CONT_TYPE in
+                <foreach collection="selContTypes" item="selContType" open="(" close=")" separator=",">
+                    #{selContType}
+                </foreach>
+            </if>
+
+
+            <if test="projStatus!=null and projStatus!=''">
+                and TPP.PROJ_STATUS=#{projStatus}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME LIKE CONCAT('%',#{userName},'%')
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and TSD.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+            </if>
+
+            <if test="createAtStart!=null and createAtStart!=''">
+                and TPP.CREATE_AT>= str_to_date(CONCAT(#{createAtStart},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="createAtEnd!=null and createAtEnd!=''">
+                and TPP.CREATE_AT &lt;= str_to_date(CONCAT(#{createAtEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="projPhase!=null and projPhase!=''">
+                and TPP.PROJ_PHASE =#{projPhase}
+            </if>
+            <if test="dealNo!=null and dealNo!=''">
+                and TPP.DEAL_NO =#{dealNo}
+            </if>
+            &lt;!&ndash;数据权限&ndash;&gt;
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+        &lt;!&ndash;<if test="joinStatus == null or joinStatus == ''">
+            GROUP BY TPP.PROJ_ID
+        </if>&ndash;&gt;
+        ORDER BY TPP.CREATE_AT DESC
+    </select>-->
+
+    <!--审核查询-->
+    <select id="selectAuditProject" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPP.PROJ_STATUS,TPP.PROJ_PHASE,TPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_PROJECT TPP
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPP1.PROJ_ID FROM T_PROJ_PROJECT TPP1
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPP1.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPP1.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TPP1.PROJ_ID ) A
+        ON TPP.PROJ_ID=A.PROJ_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.USER_ID=#{userId}
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.PROJ_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        <where>
+            <if test="projName!=null and projName!=''">
+                and TPP.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+            <if test="selContType!=null and selContType!=''">
+                and TPP.SEL_CONT_TYPE=#{selContType}
+            </if>
+
+            <if test="projStatus!=null and projStatus!=''">
+                and TPP.PROJ_STATUS=#{projStatus}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME LIKE CONCAT('%',#{userName},'%')
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and TSD.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+            </if>
+
+            <if test="createAtStart!=null and createAtStart!=''">
+                and TPP.CREATE_AT>= str_to_date(CONCAT(#{createAtStart},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="createAtEnd!=null and createAtEnd!=''">
+                and TPP.CREATE_AT &lt;= str_to_date(CONCAT(#{createAtEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+
+        </where>
+        ORDER BY TPP.CREATE_AT DESC
+
+    </select>
+
+    <!--已审核查询-->
+    <select id="selectAuditedProject" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPP.PROJ_STATUS,TPP.PROJ_PHASE,TPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_PROJECT TPP
+        INNER JOIN (
+        SELECT TPP1.PROJ_ID FROM T_PROJ_PROJECT TPP1
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPP1.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.CHECK_STATE='PENDED' AND TBCM.USER_ID=#{userId}
+        GROUP BY TPP1.PROJ_ID ) A
+        ON TPP.PROJ_ID=A.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        <where>
+            <if test="projName!=null and projName!=''">
+                and TPP.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+            <if test="selContType!=null and selContType!=''">
+                and TPP.SEL_CONT_TYPE=#{selContType}
+            </if>
+
+            <if test="projStatus!=null and projStatus!=''">
+                and TPP.PROJ_STATUS=#{projStatus}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME LIKE CONCAT('%',#{userName},'%')
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and TSD.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+            </if>
+
+
+            <if test="createAtStart!=null and createAtStart!=''">
+                and TPP.CREATE_AT>= str_to_date(CONCAT(#{createAtStart},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="createAtEnd!=null and createAtEnd!=''">
+                and TPP.CREATE_AT &lt;= str_to_date(CONCAT(#{createAtEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+
+        </where>
+        ORDER BY TPP.CREATE_AT DESC
+
+    </select>
+
+
+    <!--查询待办事项-未审核-->
+    <select id="selectAuditItem" parameterType="java.util.Map" resultMap="BaseResultMap2">
+
+        SELECT *FROM (
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPP.PROJ_STATUS,TPP.PROJ_PHASE,TPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPP.PROJ_ID OBJ_ID,'proProject' OBJ_TYPE,'1'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_PROJECT TPP
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPP1.PROJ_ID FROM T_PROJ_PROJECT TPP1
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPP1.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPP1.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TPP1.PROJ_ID ) A
+        ON TPP.PROJ_ID=A.PROJ_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.USER_ID=#{userId}
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.PROJ_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPSC.PROJ_STATUS,TPSC.PROJ_PHASE,TPSC.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPSC.SEL_CONT_ID OBJ_ID,'selCont' OBJ_TYPE,'2'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_SEL_CONT TPSC
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPSC.SEL_CONT_ID FROM T_PROJ_SEL_CONT TPSC
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPSC.SEL_CONT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPSC.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TPSC.SEL_CONT_ID ) A
+        ON TPSC.SEL_CONT_ID=A.SEL_CONT_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.USER_ID=#{userId}
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.SEL_CONT_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPPP.PROJ_STATUS,TPPP.PROJ_PHASE,TPPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPPP.PLAN_ID OBJ_ID,'purchase' OBJ_TYPE,'3'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_PURC_PLAN TPPP
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPPP.PLAN_ID FROM T_PROJ_PURC_PLAN TPPP
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPPP.PLAN_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPPP.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TPPP.PLAN_ID ) A
+        ON TPPP.PLAN_ID=A.PLAN_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.USER_ID=#{userId}
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.PLAN_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPPR.PROJ_STATUS,TPPR.PROJ_PHASE,TPPR.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPPR.RESULT_ID OBJ_ID,'rePurchase' OBJ_TYPE,'4'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_PURC_RESULT TPPR
+        INNER JOIN (
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPPR.RESULT_ID FROM T_PROJ_PURC_RESULT TPPR
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPPR.RESULT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPPR.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TPPR.RESULT_ID ) A
+        ON TPPR.RESULT_ID=A.RESULT_ID
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.USER_ID=#{userId}
+        AND TBCM.CHECK_STATE='PENDING'
+        GROUP BY TBCS.CHECK_OBJ_ID
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.RESULT_ID=B.CHECK_OBJ_ID
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        )A
+        <where>
+            <if test="projName!=null and projName!=''">
+                and A.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+            <if test="selContType!=null and selContType!=''">
+                and A.SEL_CONT_TYPE=#{selContType}
+            </if>
+
+            <if test="projStatus!=null and projStatus!=''">
+                and A.PROJ_STATUS=#{projStatus}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and A.USER_NAME LIKE CONCAT('%',#{userName},'%')
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and A.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+            </if>
+
+            <if test="createAtStart!=null and createAtStart!=''">
+                and A.CREATE_AT>= str_to_date(CONCAT(#{createAtStart},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="createAtEnd!=null and createAtEnd!=''">
+                and A.CREATE_AT &lt;= str_to_date(CONCAT(#{createAtEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+        </where>
+        ORDER BY CREATE_AT DESC
+
+    </select>
+
+    <!--查询待办事项-已审核-->
+    <select id="selectAuditedItem" parameterType="java.util.Map" resultMap="BaseResultMap2">
+
+        SELECT *FROM (
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPP.PROJ_STATUS,TPP.PROJ_PHASE,TPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPP.PROJ_ID OBJ_ID,'proProject' OBJ_TYPE,'1'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_PROJECT TPP
+        INNER JOIN (
+        SELECT TPP1.PROJ_ID FROM T_PROJ_PROJECT TPP1
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPP1.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.CHECK_STATE='PENDED'
+        AND TBCM.USER_ID=#{userId}
+        GROUP BY TPP1.PROJ_ID ) A
+        ON TPP.PROJ_ID=A.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPSC.PROJ_STATUS,TPSC.PROJ_PHASE,TPSC.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPSC.SEL_CONT_ID OBJ_ID,'selCont' OBJ_TYPE,'2'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_SEL_CONT TPSC
+        INNER JOIN (
+        SELECT TPSC.SEL_CONT_ID FROM T_PROJ_SEL_CONT TPSC
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPSC.SEL_CONT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.CHECK_STATE='PENDED' AND TBCM.USER_ID=#{userId}
+        GROUP BY TPSC.SEL_CONT_ID ) A
+        ON TPSC.SEL_CONT_ID=A.SEL_CONT_ID
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPPP.PROJ_STATUS,TPPP.PROJ_PHASE,TPPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPPP.PLAN_ID OBJ_ID,'purchase' OBJ_TYPE,'3'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_PURC_PLAN TPPP
+        INNER JOIN (
+        SELECT TPPP.PLAN_ID FROM T_PROJ_PURC_PLAN TPPP
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPPP.PLAN_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.CHECK_STATE='PENDED' AND TBCM.USER_ID=#{userId}
+        GROUP BY TPPP.PLAN_ID ) A
+        ON TPPP.PLAN_ID=A.PLAN_ID
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPPR.PROJ_STATUS,TPPR.PROJ_PHASE,TPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPPR.RESULT_ID OBJ_ID,'rePurchase' OBJ_TYPE,'4'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID
+        FROM T_PROJ_PURC_RESULT TPPR
+        INNER JOIN (
+        SELECT TPPR.RESULT_ID FROM T_PROJ_PURC_RESULT TPPR
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPPR.RESULT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TBCM.CHECK_STATE='PENDED' AND TBCM.USER_ID=#{userId}
+        GROUP BY TPPR.RESULT_ID ) A
+        ON TPPR.RESULT_ID=A.RESULT_ID
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+
+
+        )A
+        <where>
+            <if test="projName!=null and projName!=''">
+                and A.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+            <if test="selContType!=null and selContType!=''">
+                and A.SEL_CONT_TYPE=#{selContType}
+            </if>
+
+            <if test="projStatus!=null and projStatus!=''">
+                and A.PROJ_STATUS=#{projStatus}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and A.USER_NAME LIKE CONCAT('%',#{userName},'%')
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and A.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+            </if>
+
+            <if test="createAtStart!=null and createAtStart!=''">
+                and A.CREATE_AT>= str_to_date(CONCAT(#{createAtStart},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="createAtEnd!=null and createAtEnd!=''">
+                and A.CREATE_AT &lt;= str_to_date(CONCAT(#{createAtEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+
+        </where>
+        ORDER BY CREATE_AT DESC
+
+    </select>
+
+    <!--查询流程中事项-->
+    <select id="selectActivitiItem" parameterType="java.util.Map" resultMap="BaseResultMap2">
+
+        SELECT *FROM (
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPP.PROJ_STATUS,TPP.PROJ_PHASE,TPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPP.PROJ_ID OBJ_ID,'proProject' OBJ_TYPE,'1'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID,TSD.DEPT_ID
+        FROM T_PROJ_PROJECT TPP
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+        WHERE
+        TPP.PROJ_STATUS IN ('auditing','back')
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPSC.PROJ_STATUS,TPSC.PROJ_PHASE,TPSC.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPSC.SEL_CONT_ID OBJ_ID,'selCont' OBJ_TYPE,'2'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID,TSD.DEPT_ID
+        FROM T_PROJ_SEL_CONT TPSC
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+        WHERE
+        TPSC.PROJ_STATUS IN ('auditing','back')
+
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPPP.PROJ_STATUS,TPPP.PROJ_PHASE,TPPP.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPPP.PLAN_ID OBJ_ID,'purchase' OBJ_TYPE,'3'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID,TSD.DEPT_ID
+        FROM T_PROJ_PURC_PLAN TPPP
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+        WHERE
+        TPPP.PROJ_STATUS IN ('auditing','back')
+
+        UNION ALL
+
+        SELECT
+        TPP.PROJ_NAME,TPP.SEL_CONT_TYPE,TPP.DEAL_VALUE,TPP.DEAL_NAME,TPPR.PROJ_STATUS,TPPR.PROJ_PHASE,TPPR.CREATE_AT,
+        TSD.DEPT_NAME,TSU.USER_NAME,TPPR.RESULT_ID OBJ_ID,'rePurchase' OBJ_TYPE,'4'
+        NUM,TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID,TSD.DEPT_ID
+        FROM T_PROJ_PURC_RESULT TPPR
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPPR.PROJ_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+        WHERE
+        TPPR.PROJ_STATUS IN ('auditing','back')
+
+
+        )A
+        <where>
+            <if test="projName!=null and projName!=''">
+                and A.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+            <if test="selContType!=null and selContType!=''">
+                and A.SEL_CONT_TYPE=#{selContType}
+            </if>
+
+            <if test="projStatus!=null and projStatus!=''">
+                and A.PROJ_STATUS=#{projStatus}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and A.USER_NAME LIKE CONCAT('%',#{userName},'%')
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and A.DEPT_NAME LIKE CONCAT('%',#{deptName},'%')
+            </if>
+
+            <if test="createAtStart!=null and createAtStart!=''">
+                and TPP.CREATE_AT>= str_to_date(CONCAT(#{createAtStart},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="createAtEnd!=null and createAtEnd!=''">
+                and TPP.CREATE_AT &lt;= str_to_date(CONCAT(#{createAtEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+
+
+            <if test="projPhase!=null and projPhase!=''">
+                and A.PROJ_PHASE =#{projPhase}
+            </if>
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND A.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND A.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+        ORDER BY CREATE_AT DESC
+
+    </select>
+
+    <!--查询当前审核人-->
+    <select id="selectUserNameList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT A.PROJ_ID,B.USER_NAME,B.USER_ID FROM (
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPP.PROJ_ID
+        FROM T_PROJ_PROJECT TPP
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPP.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPP.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TPP.PROJ_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TPP.PROJ_ID
+
+        UNION ALL
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPSC.SEL_CONT_ID OBJ_ID
+        FROM T_PROJ_SEL_CONT TPSC
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPSC.SEL_CONT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPSC.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TPSC.SEL_CONT_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TPSC.SEL_CONT_ID
+
+        UNION ALL
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPPP.PLAN_ID OBJ_ID
+        FROM T_PROJ_PURC_PLAN TPPP
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPPP.PLAN_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPPP.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TPPP.PLAN_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TPPP.PLAN_ID
+
+        UNION ALL
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPPR.RESULT_ID OBJ_ID
+        FROM T_PROJ_PURC_RESULT TPPR
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPPR.RESULT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPPR.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TPPR.RESULT_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TPPR.RESULT_ID
+
+        ) A
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID,TSU.USER_ID,TSU.USER_NAME
+        FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+        WHERE TBCM.CHECK_STATE='PENDING'
+        AND TBCS.CHECK_OBJ_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TBCS.CHECK_OBJ_ID,TSU.USER_ID,TSU.USER_NAME
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.PROJ_ID=B.CHECK_OBJ_ID
+    </select>
+
+
+    <!--查询待办事项-当前审核人-->
+    <select id="selectUserNameListPo" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT A.OBJ_ID,B.USER_NAME,B.USER_ID FROM (
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPP.PROJ_ID OBJ_ID
+        FROM T_PROJ_PROJECT TPP
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPP.PROJ_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPP.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TPP.PROJ_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TPP.PROJ_ID
+
+        UNION ALL
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPSC.SEL_CONT_ID OBJ_ID
+        FROM T_PROJ_SEL_CONT TPSC
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPSC.SEL_CONT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPSC.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TPSC.SEL_CONT_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TPSC.SEL_CONT_ID
+
+        UNION ALL
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPPP.PLAN_ID OBJ_ID
+        FROM T_PROJ_PURC_PLAN TPPP
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPPP.PLAN_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPPP.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TPPP.PLAN_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TPPP.PLAN_ID
+
+        UNION ALL
+
+        SELECT IFNULL(MIN(TBCS.STEP_NO),-1) STEP_NO,TPPR.RESULT_ID OBJ_ID
+        FROM T_PROJ_PURC_RESULT TPPR
+        INNER JOIN T_BIZ_CHECK_STEP TBCS ON TBCS.CHECK_OBJ_ID=TPPR.RESULT_ID
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        WHERE TPPR.PROJ_STATUS='auditing'
+        AND TBCM.CHECK_STATE='PENDING'
+        AND TPPR.RESULT_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TPPR.RESULT_ID
+
+
+        ) A
+        INNER JOIN (
+        SELECT MIN(TBCS.STEP_NO) STEP_NO,TBCS.CHECK_OBJ_ID,TSU.USER_ID,TSU.USER_NAME
+        FROM T_BIZ_CHECK_STEP TBCS
+        INNER JOIN T_BIZ_CHECK_MAN TBCM ON TBCS.STEP_ID=TBCM.STEP_ID
+        INNER JOIN T_SYS_USER TSU ON TSU.USER_ID=TBCM.USER_ID
+        WHERE TBCM.CHECK_STATE='PENDING'
+        AND TBCS.CHECK_OBJ_ID IN
+        <foreach collection="objIdList" item="objId" open="(" close=")" separator=",">
+            #{objId, jdbcType=VARCHAR }
+        </foreach>
+        GROUP BY TBCS.CHECK_OBJ_ID,TSU.USER_ID,TSU.USER_NAME
+        ) B ON A.STEP_NO=B.STEP_NO
+        AND A.OBJ_ID=B.CHECK_OBJ_ID
+    </select>
+
+    <!--查询合同 编码-->
+    <select id="selectCurrentDealNo" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT SUBSTRING_INDEX(TBD.DEAL_NO,'-',-1)
+        FROM T_PROJ_PROJECT TBD
+        WHERE SUBSTRING(TBD.DEAL_NO,1,4)=#{year}
+        AND SUBSTRING(TBD.DEAL_NO,6,2)=#{projPhaseType}
+        ORDER BY  CAST(SUBSTRING_INDEX(TBD.DEAL_NO,'-',-1) AS SIGNED INTEGER) DESC LIMIT 1
+    </select>
+
+    <!--查询合同 编码 可不招标公开招标-->
+    <select id="selectCurrentDealNo2" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT SUBSTRING_INDEX(TBD.DEAL_NO,'-',-1)
+        FROM T_PROJ_PROJECT TBD
+        WHERE SUBSTRING(TBD.DEAL_NO,1,4)=#{year}
+        AND SUBSTRING(TBD.DEAL_NO,6,4)=#{projPhaseType}
+        ORDER BY  CAST(SUBSTRING_INDEX(TBD.DEAL_NO,'-',-1) AS SIGNED INTEGER) DESC LIMIT 1
+    </select>
+    <!--查询可用选商-->
+    <select id="selectSelContPro" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TPP.*,TSU.USER_NAME,TSD.DEPT_NAME FROM T_PROJ_PROJECT TPP
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+
+        <where>
+            AND TPP.PROJ_STATUS='done'
+            AND TPP.SEL_CONT_TYPE='buildProjectNegotiation'
+            AND NOT EXISTS (
+            SELECT 1 FROM T_PROJ_SEL_CONT TPSC WHERE TPP.PROJ_ID=TPSC.PROJ_ID
+            )
+            <if test="projName!=null and projName!=''">
+                and TPP.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+        ORDER BY TPP.DEAL_NO
+    </select>
+
+    <!--查询采购方案可用项目-->
+    <select id="selectProjPurcPlan" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TPP.*,TSU.USER_NAME,TSD.DEPT_NAME,TPSC.SEL_CONT_ID FROM T_PROJ_PROJECT TPP
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPP.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+
+        <where>
+            AND TPP.PROJ_STATUS='done'
+            AND TPSC.PROJ_STATUS='done'
+            AND TPP.SEL_CONT_TYPE='buildProjectNegotiation'
+            AND NOT EXISTS (
+            SELECT 1 FROM T_PROJ_PURC_PLAN TPPP WHERE TPP.PROJ_ID=TPPP.PROJ_ID
+            )
+            <if test="projName!=null and projName!=''">
+                and TPP.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+        ORDER BY TPP.DEAL_NO
+    </select>
+
+
+    <!--查询采购方案可用项目-->
+    <select id="selectProjPurcResult" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TPP.*,TSU.USER_NAME,TSD.DEPT_NAME,TPPP.PLAN_ID,TPSC.SEL_CONT_ID FROM T_PROJ_PROJECT TPP
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPP.PROJ_ID=TPPP.PROJ_ID
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPP.PROJ_ID=TPSC.PROJ_ID
+        LEFT JOIN T_SYS_USER TSU ON TPP.CREATE_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TPP.OWNER_DEPT_ID=TSD.DEPT_ID
+
+        <where>
+            AND TPP.PROJ_STATUS='done'
+            AND TPSC.PROJ_STATUS='done'
+            AND TPPP.PROJ_STATUS='done'
+            AND TPP.SEL_CONT_TYPE='buildProjectNegotiation'
+            AND NOT EXISTS (
+            SELECT 1 FROM T_PROJ_PURC_RESULT TPPS WHERE TPP.PROJ_ID=TPPS.PROJ_ID
+            )
+            <if test="projName!=null and projName!=''">
+                and TPP.PROJ_NAME LIKE CONCAT('%',#{projName},'%')
+            </if>
+
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+        ORDER BY TPP.DEAL_NO
+    </select>
+
+    <select id="selectProjComplete" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        SELECT
+            tpp.RESULT_ID,
+            tpp.PROJ_ID,
+            tpp.PROJ_NAME,
+            DATE_FORMAT( tpp.STEP_END_AT, '%Y' ) PROJ_AT,
+            tcc.CONT_ID,
+            tcc.ACCESS_LEVEL,
+            tcc.PROJ_CONTENT,
+            tcc.PROJ_ACCESS_TYPE,
+            tpp.LIMIT_TOTAL_PRICE,
+            tpp.OWNER_DEPT_ID
+        FROM
+            (
+                SELECT
+                    tpp.PROJ_ID,
+                    tpp.PROJ_NAME,
+                    tpp.OWNER_DEPT_ID,
+                    t.CONT_ID,
+                    t.STEP_END_AT,
+                    t.RESULT_ID,
+                    t.LIMIT_TOTAL_PRICE
+                FROM
+                    (
+                        SELECT
+                            tpp.PROJ_ID,
+                            tpp.PROJ_NAME,
+                            tpp.OWNER_DEPT_ID
+                        FROM
+                            T_PROJ_PROJECT tpp
+                        WHERE
+                                tpp.SEL_CONT_TYPE IN ( 'buildProjectSingle', 'buildProjectNegotiation', 'buildProjectInside' )
+                          AND tpp.PROJ_PHASE = 'complete'
+                          AND tpp.PROJ_STATUS = 'done'
+                    ) tpp
+                        LEFT JOIN (
+                        SELECT
+                            tppr.PROJ_ID,
+                            tpsl.RESULT_ID,
+                            tpsl.CONT_ID,
+                            tpsl.LIMIT_TOTAL_PRICE,
+                            tbcs.STEP_END_AT
+                        FROM
+                            ( SELECT tppr.PROJ_ID, tppr.RESULT_ID FROM T_PROJ_PURC_RESULT tppr WHERE tppr.PROJ_PHASE = 'complete' AND tppr.PROJ_STATUS = 'done' ) tppr
+                                LEFT JOIN (SELECT ANY_VALUE(tpsl.CONT_ID) CONT_ID, tpsl.RESULT_ID, ANY_VALUE(tpsl.LIMIT_TOTAL_PRICE) LIMIT_TOTAL_PRICE FROM T_PROJ_RESULT_LIST tpsl GROUP BY tpsl.RESULT_ID ) tpsl ON tppr.RESULT_ID = tpsl.RESULT_ID
+                                LEFT JOIN (
+                                SELECT
+                                    tbcs.CHECK_OBJ_ID,
+                                    ANY_VALUE(max( tbcs.STEP_NO )) stepNo,
+                                    ANY_VALUE(tbcs.STEP_END_AT) STEP_END_AT
+                                FROM
+                                    T_BIZ_CHECK_STEP tbcs
+                                WHERE
+                                    tbcs.CHECK_OBJ_TYPE = 'rePurchase'
+                                GROUP BY
+                                    tbcs.CHECK_OBJ_ID
+                            ) tbcs ON tppr.RESULT_ID = tbcs.CHECK_OBJ_ID
+                    ) t ON t.PROJ_ID = tpp.PROJ_ID
+            ) tpp
+                LEFT JOIN (
+                SELECT
+                    tcc.CONT_ID,
+                    tcc.ACCESS_LEVEL,
+                    tcp.PROJ_CONTENT,
+                    tcp.PROJ_ACCESS_TYPE
+                FROM
+                    (
+                        SELECT
+                            tcc.CONT_ID,
+                            tcc.ACCESS_LEVEL,
+                            tca.PROJ_ID
+                        FROM
+                            ( SELECT tcc.CONT_ID, tcc.ACCESS_LEVEL FROM T_CONT_CONTRACTOR tcc WHERE tcc.CONT_STATE = 'fillcompelte' AND tcc.CONT_FREEZE_STATE = 'using' ) tcc
+                                LEFT JOIN ( SELECT tca.ACCE_ID, tca.PROJ_ID, tca.CONT_ID FROM T_CONT_ACCESS tca WHERE tca.ACCE_STATE = 'done' ) tca ON tcc.CONT_ID = tca.CONT_ID
+                    ) tcc
+                        LEFT JOIN ( SELECT tcp.PROJ_ID, tcp.PROJ_CONTENT, tcp.PROJ_ACCESS_TYPE FROM T_CONT_PROJECT tcp WHERE tcp.PROJ_STATE = 'down' ) tcp ON tcp.PROJ_ID = tcc.PROJ_ID
+            ) tcc ON tpp.CONT_ID = tcc.CONT_ID
+        WHERE
+            tpp.RESULT_ID = #{resultId} limit 1
+    </select>
+</mapper>

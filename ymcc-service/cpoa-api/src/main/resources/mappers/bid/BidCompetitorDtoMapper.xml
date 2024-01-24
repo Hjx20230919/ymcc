@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidCompetitorDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidCompetitorDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="COMPETITOR_ID" jdbcType="VARCHAR" property="competitorId" />
+    <result column="COMP_NAME" jdbcType="VARCHAR" property="compName" />
+    <result column="COPM_ADDR" jdbcType="VARCHAR" property="copmAddr" />
+    <result column="COMP_TYPE" jdbcType="VARCHAR" property="compType" />
+    <result column="REG_AMOUNT" jdbcType="VARCHAR" property="regAmount" />
+    <result column="COMP_SCALE" jdbcType="VARCHAR" property="compScale" />
+    <result column="MAIN_ADV" jdbcType="VARCHAR" property="mainAdv" />
+    <result column="CUR_PERF" jdbcType="VARCHAR" property="curPerf" />
+    <result column="COMP_ANAL" jdbcType="VARCHAR" property="compAnal" />
+    <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="BidCompetitorPo" type="cn.com.cnpc.cpoa.po.bid.BidCompetitorPo">
+    <result column="COMPETITOR_ID" jdbcType="VARCHAR" property="competitorId" />
+    <result column="COMP_NAME" jdbcType="VARCHAR" property="compName" />
+    <result column="COPM_ADDR" jdbcType="VARCHAR" property="copmAddr" />
+    <result column="COMP_TYPE" jdbcType="VARCHAR" property="compType" />
+    <result column="REG_AMOUNT" jdbcType="VARCHAR" property="regAmount" />
+    <result column="COMP_SCALE" jdbcType="VARCHAR" property="compScale" />
+    <result column="MAIN_ADV" jdbcType="VARCHAR" property="mainAdv" />
+    <result column="CUR_PERF" jdbcType="VARCHAR" property="curPerf" />
+    <result column="COMP_ANAL" jdbcType="VARCHAR" property="compAnal" />
+    <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectAllByMap" parameterType="java.util.Map" resultMap="BidCompetitorPo">
+    select * from T_BID_COMPETITOR
+    <where>
+      <if test="compName != null and compName != ''">
+        and COMP_NAME like CONCAT('%',#{compName},'%')
+      </if>
+      <if test="compType != null and compType != ''">
+        and COMP_TYPE like  CONCAT('%',#{compType},'%')
+      </if>
+      <if test="regAmountStart != null and regAmountStart != ''">
+        and REG_AMOUNT &gt;= #{regAmountStart}
+      </if>
+      <if test="regAmountEnd != null and regAmountEnd != ''">
+        and REG_AMOUNT &lt;= #{regAmountEnd}
+      </if>
+    </where>
+    order by CREATE_AT desc
+  </select>
+
+  <select id="selectByBidProjId" parameterType="java.lang.String" resultMap="BidCompetitorPo">
+    SELECT
+      tbc.*
+    FROM
+      T_BID_PROJECT_BIDDER tbpd
+        LEFT JOIN T_BID_COMPETITOR tbc ON tbc.COMPETITOR_ID = tbpd.COMPETITOR_ID
+    WHERE
+      tbpd.BID_PROJ_ID = #{bidProjId}
+  </select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.SysUserRoleDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.SysUserRoleDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="USER_ACTION_ID" jdbcType="VARCHAR" property="userActionId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+  </resultMap>
+
+  <select id="selectRoleIdByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+    select ROLE_ID from T_SYS_USER_ROLES where USER_ID = #{userId}
+  </select>
+
+  <select id="selectUserRoles" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select tnur.* from T_SYS_USER_ROLES tnur
+    <where>
+      <if test="userId!=null and userId!=''">
+        and tnur.user_id=#{userId}
+      </if>
+      <if test="roleId!=null and roleId!=''">
+        and tnur.role_id=#{roleId}
+      </if>
+    </where>
+  </select>
+</mapper>

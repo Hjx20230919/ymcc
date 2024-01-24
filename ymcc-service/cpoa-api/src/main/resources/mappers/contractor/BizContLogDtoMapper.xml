@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContLogDtoMapper">
+
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContLogDto">
+    <result column="LOG_ID" jdbcType="VARCHAR" property="logId" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="LOG_OBJ" jdbcType="VARCHAR" property="logObj" />
+    <result column="LOG_OBJ_ID" jdbcType="VARCHAR" property="logObjId" />
+    <result column="LOG_DESC" jdbcType="VARCHAR" property="logDesc" />
+    <result column="LOG_TIME" jdbcType="TIMESTAMP" property="logTime" />
+    <result column="LOG_USER" jdbcType="VARCHAR" property="logUser" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.contractor.ContLogPo">
+    <result column="LOG_ID" jdbcType="VARCHAR" property="logId" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="LOG_OBJ" jdbcType="VARCHAR" property="logObj" />
+    <result column="LOG_OBJ_ID" jdbcType="VARCHAR" property="logObjId" />
+    <result column="LOG_DESC" jdbcType="VARCHAR" property="logDesc" />
+    <result column="LOG_TIME" jdbcType="TIMESTAMP" property="logTime" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="logUser" />
+  </resultMap>
+
+
+  <select id="selectContLogDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM T_CONT_LOG TCL
+    <where>
+      <if test="contId!=null and contId!=''">
+      and TCL.CONT_ID=#{contId}
+    </if>
+    </where>
+
+    ORDER BY LOG_TIME
+
+  </select>
+
+
+  <select id="selectContLogPo" parameterType="java.util.Map" resultMap="BaseResultMap2">
+    SELECT TCL.*,TSU.USER_NAME FROM T_CONT_LOG TCL
+    LEFT JOIN T_SYS_USER TSU ON TCL.LOG_USER=TSU.USER_ID
+
+    <where>
+      <if test="contId!=null and contId!=''">
+        and TCL.CONT_ID=#{contId}
+      </if>
+
+      <if test="logObj!=null and logObj=='evaluation'.toString()">
+        and TCL.LOG_OBJ in ('yearEvaluation','dayEvaluation')
+      </if>
+      <if test="logObj!=null and logObj=='review'.toString()">
+        and TCL.LOG_OBJ in ('annualReview','dayReview')
+      </if>
+    </where>
+
+    ORDER BY LOG_TIME DESC
+
+  </select>
+
+
+
+</mapper>

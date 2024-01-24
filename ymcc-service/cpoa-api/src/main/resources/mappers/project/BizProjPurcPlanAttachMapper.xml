@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.project.BizProjPurcPlanAttachMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.project.BizProjPurcPlanAttachDto">
+        <result column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="PLAN_ID" jdbcType="VARCHAR" property="planId"/>
+        <result column="ATTACH_ID" jdbcType="VARCHAR" property="attachId"/>
+    </resultMap>
+
+    <!--查询附件-->
+    <select id="selectProjPurcPlanAttachDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM T_PROJ_PURC_PLAN_ATTACH TPPPA
+
+        <where>
+            <if test="planId!=null and planId!=''">
+                and TPPPA.PLAN_ID=#{planId}
+            </if>
+
+        </where>
+    </select>
+
+
+</mapper>

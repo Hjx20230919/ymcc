@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.ContBlackListHisDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.ContBlackListHisDto">
+    <result column="BLACKLIST_HIS_ID" jdbcType="VARCHAR" property="blacklistHisId" />
+    <result column="BLACKLIST_ID" jdbcType="VARCHAR" property="blacklistId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="CONT_IAC_NO" jdbcType="VARCHAR" property="contIacNo" />
+    <result column="CONT_TAX_NO" jdbcType="VARCHAR" property="contTaxNo" />
+    <result column="CONT_ORG_NO" jdbcType="VARCHAR" property="contOrgNo" />
+    <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel" />
+    <result column="BLACK_REASON" jdbcType="VARCHAR" property="blackReason" />
+    <result column="BLACK_AT" jdbcType="TIMESTAMP" property="blackAt" />
+    <result column="BLACK_MAN" jdbcType="VARCHAR" property="blackMan" />
+    <result column="IS_RELIEVE" jdbcType="INTEGER" property="isRelieve" />
+    <result column="RELIEVE_REASON" jdbcType="VARCHAR" property="relieveReason" />
+    <result column="RELIEVE_AT" jdbcType="TIMESTAMP" property="relieveAt" />
+    <result column="RELIEVE_MAN" jdbcType="VARCHAR" property="relieveMan" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <resultMap id="ContBlackListHisPo" type="cn.com.cnpc.cpoa.po.contractor.ContBlackListHisPo">
+    <result column="BLACKLIST_HIS_ID" jdbcType="VARCHAR" property="blacklistHisId" />
+    <result column="BLACKLIST_ID" jdbcType="VARCHAR" property="blacklistId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="CONT_IAC_NO" jdbcType="VARCHAR" property="contIacNo" />
+    <result column="CONT_TAX_NO" jdbcType="VARCHAR" property="contTaxNo" />
+    <result column="CONT_ORG_NO" jdbcType="VARCHAR" property="contOrgNo" />
+    <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel" />
+    <result column="BLACK_REASON" jdbcType="VARCHAR" property="blackReason" />
+    <result column="BLACK_AT" jdbcType="VARCHAR" property="blackAt" />
+    <result column="BLACK_MAN" jdbcType="VARCHAR" property="blackMan" />
+    <result column="IS_RELIEVE" jdbcType="INTEGER" property="isRelieve" />
+    <result column="RELIEVE_REASON" jdbcType="VARCHAR" property="relieveReason" />
+    <result column="RELIEVE_AT" jdbcType="VARCHAR" property="relieveAt" />
+    <result column="RELIEVE_MAN" jdbcType="VARCHAR" property="relieveMan" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectContBlackListHis" parameterType="java.util.Map" resultMap="ContBlackListHisPo">
+    select * from T_CONT_BLACKLIST_HIS
+    <where>
+      <if test="contName != null and contName != ''">
+        and CONT_NAME like CONCAT('%',#{contName},'%')
+      </if>
+      <if test="relieveAtStart != null and relieveAtStart != ''">
+        and RELIEVE_AT &gt;= #{relieveAtStart}
+      </if>
+      <if test="relieveAtEnd != null and relieveAtEnd != ''">
+        and RELIEVE_AT &lt;= #{relieveAtEnd}
+      </if>
+      <if test="contIacNo != null and contIacNo != ''">
+        and CONT_IAC_NO = #{contIacNo}
+      </if>
+      <if test="contTaxNo != null and contTaxNo != ''">
+        and CONT_TAX_NO = #{contTaxNo}
+      </if>
+      <if test="contOrgNo != null and contOrgNo != ''">
+        and CONT_ORG_NO = #{contOrgNo}
+      </if>
+      <if test="accessLevel != null and accessLevel != ''">
+        and ACCESS_LEVEL = #{accessLevel}
+      </if>
+      and IS_RELIEVE = 1
+    </where>
+  </select>
+</mapper>

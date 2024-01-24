@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ymcc-api-system" />
+        <module name="cpoa-api" />
+        <module name="ymcc-service-gateway" />
+        <module name="hdoms-api" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lql-basic" target="1.8" />
+      <module name="lql-basic-common" target="1.8" />
+      <module name="lql-gen-code" target="1.8" />
+      <module name="ymcc-api" target="1.8" />
+      <module name="ymcc-api-course" target="1.8" />
+      <module name="ymcc-api-media" target="1.8" />
+      <module name="ymcc-api-search" target="1.8" />
+      <module name="ymcc-api-system" target="1.8" />
+      <module name="ymcc-api-uaa" target="1.8" />
+      <module name="ymcc-api-user" target="1.8" />
+      <module name="ymcc-basic" target="1.8" />
+      <module name="ymcc-basic-common" target="1.8" />
+      <module name="ymcc-basic-dependency" target="1.8" />
+      <module name="ymcc-pojo" target="1.8" />
+      <module name="ymcc-pojo-common" target="1.8" />
+      <module name="ymcc-pojo-course" target="1.8" />
+      <module name="ymcc-pojo-media" target="1.8" />
+      <module name="ymcc-pojo-order" target="1.8" />
+      <module name="ymcc-pojo-pay" target="1.8" />
+      <module name="ymcc-pojo-search" target="1.8" />
+      <module name="ymcc-pojo-system" target="1.8" />
+      <module name="ymcc-pojo-uaa" target="1.8" />
+      <module name="ymcc-pojo-user" target="1.8" />
+      <module name="ymcc-service-common" target="1.8" />
+      <module name="ymcc-service-course" target="1.8" />
+      <module name="ymcc-service-media" target="1.8" />
+      <module name="ymcc-service-order" target="1.8" />
+      <module name="ymcc-service-pay" target="1.8" />
+      <module name="ymcc-service-system" target="1.8" />
+      <module name="ymcc-service-uaa" target="1.8" />
+      <module name="ymcc-service-user" target="1.8" />
+      <module name="ymcc-servie-search" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="cpoa-api" options="-parameters" />
+      <module name="hdoms-api" options="-parameters" />
+      <module name="lql-basic-common" options="-parameters" />
+      <module name="lql-gen-code" options="-parameters" />
+      <module name="ymcc-api-course" options="-parameters" />
+      <module name="ymcc-api-media" options="-parameters" />
+      <module name="ymcc-api-search" options="-parameters" />
+      <module name="ymcc-api-system" options="-parameters" />
+      <module name="ymcc-api-uaa" options="-parameters" />
+      <module name="ymcc-api-user" options="-parameters" />
+      <module name="ymcc-basic-common" options="-parameters" />
+      <module name="ymcc-basic-dependency" options="-parameters" />
+      <module name="ymcc-pojo-common" options="-parameters" />
+      <module name="ymcc-pojo-course" options="-parameters" />
+      <module name="ymcc-pojo-media" options="-parameters" />
+      <module name="ymcc-pojo-order" options="-parameters" />
+      <module name="ymcc-pojo-pay" options="-parameters" />
+      <module name="ymcc-pojo-search" options="-parameters" />
+      <module name="ymcc-pojo-system" options="-parameters" />
+      <module name="ymcc-pojo-uaa" options="-parameters" />
+      <module name="ymcc-pojo-user" options="-parameters" />
+      <module name="ymcc-service-common" options="-parameters" />
+      <module name="ymcc-service-course" options="-parameters" />
+      <module name="ymcc-service-gateway" options="-parameters" />
+      <module name="ymcc-service-media" options="-parameters" />
+      <module name="ymcc-service-order" options="-parameters" />
+      <module name="ymcc-service-pay" options="-parameters" />
+      <module name="ymcc-service-system" options="-parameters" />
+      <module name="ymcc-service-uaa" options="-parameters" />
+      <module name="ymcc-service-user" options="-parameters" />
+      <module name="ymcc-servie-search" options="-parameters" />
+    </option>
+  </component>
+</project>

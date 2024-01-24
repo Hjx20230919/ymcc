@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizComprehensiveMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.vo.DealSettleCompreVo">
+      <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo" />
+      <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+      <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType" />
+      <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus" />
+      <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome" />
+      <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+      <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+      <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+      <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+      <result column="SETTLE_AMOUNT" jdbcType="DOUBLE" property="settleAmount" />
+      <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="DOWN_TIME" jdbcType="TIMESTAMP" property="downTime" />
+      <result column="SETTLE_ID" jdbcType="VARCHAR" property="settleId" />
+      <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+      <result column="SETTLE_BANK" jdbcType="VARCHAR" property="settleBank" />
+      <result column="SETTLE_ACOUNT" jdbcType="VARCHAR" property="settleAcount" />
+      <result column="PAYABLE_TIME" jdbcType="TIMESTAMP" property="payableTime" />
+      <result column="ACTUAL_PAY_AMOUNT" jdbcType="DOUBLE" property="actualPayAmount" />
+      <result column="ACTUAL_PAY_TIME" jdbcType="TIMESTAMP" property="actualPayTime" />
+      <result column="ACTUAL_PAY_MAN" jdbcType="VARCHAR" property="actualPayMan" />
+      <result column="ACTUAL_PAY_NOTES" jdbcType="VARCHAR" property="actualPayNotes" />
+      <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+      <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+      <result column="STEP_NO" jdbcType="VARCHAR" property="stepNo" />
+      <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+      <result column="CONT_NAME2" jdbcType="VARCHAR" property="contName2" />
+      <result column="ORG_NO" jdbcType="VARCHAR" property="orgNo" />
+      <result column="CONT_ADDRSS" jdbcType="VARCHAR" property="contAddrss" />
+      <result column="LINK_NUM" jdbcType="VARCHAR" property="linkNum" />
+  </resultMap>
+
+
+    <select id="selectCompreList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TBD.*,TBD.CONT_NAME CONT_NAME2,TSD.DEPT_NAME, TBC2.CONT_NAME FROM (
+
+        SELECT TBD.DEAL_NO,TBD.DEAL_NAME,TBD.DEAL_TYPE,TBD.DEAL_INCOME,TSU.USER_NAME,
+        TBD.DEAL_REPORT_NO,
+        TBD.CONTRACT_ID,TBS.* FROM T_BIZ_SETTLEMENT TBS
+        INNER JOIN T_BIZ_DEAL TBD ON TBS.DEAL_ID=TBD.DEAL_ID
+        LEFT JOIN T_SYS_USER TSU ON TBS.USER_ID=TSU.USER_ID
+
+        ) TBD
+        LEFT JOIN T_SYS_DEPT TSD ON TBD.DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TBC2.CONT_ID=TBD.CONTRACT_ID
+
+        <where>
+            <if test="dealType!=null and dealType!='' and dealType!='null'.toString()">
+                AND TBD.DEAL_TYPE =#{dealType}
+            </if>
+
+            <if test="dealNo!=null and dealNo!='' and dealNo!='null'.toString()">
+                AND TBD.DEAL_NO like  CONCAT('%',#{dealNo},'%')
+            </if>
+
+            <if test="dealName!=null and dealName!='' and dealName!='null'.toString()">
+                AND TBD.DEAL_NAME like  CONCAT('%',#{dealName},'%')
+            </if>
+
+            <if test="contractId!=null and contractId!=''and contractId!='null'.toString()">
+                AND TBD.CONTRACT_ID = #{contractId}
+            </if>
+
+            <if test="statusList!=null and statusList.length > 0">
+                AND  TBD.SETTLE_STATUS in
+                <foreach collection="statusList" item="settleStatusItem" open="(" close=")" separator=",">
+                    #{settleStatusItem, jdbcType=VARCHAR }
+                </foreach>
+            </if>
+
+            <if test="dealReportNo!=null and dealReportNo!=''and dealReportNo!='null'.toString()">
+                AND TBD.DEAL_REPORT_NO = #{dealReportNo}
+            </if>
+
+            <if test="deptId!=null and deptId!=''and deptId!='null'.toString()">
+                AND TBD.DEPT_ID = #{deptId}
+            </if>
+
+            <if test="dealIncome!=null and dealIncome!=''and dealIncome!='null'.toString()">
+                AND TBD.DEAL_INCOME = #{dealIncome}
+            </if>
+
+            <if test="settleTimeStart!=null and settleTimeStart!=''">
+                AND TBD.DOWN_TIME >= str_to_date(#{settleTimeStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="settleTimeEnd!=null and settleTimeEnd!=''">
+                AND TBD.DOWN_TIME &lt;= str_to_date(#{settleTimeEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+        </where>
+
+        ORDER BY TBD.DOWN_TIME DESC
+    </select>
+
+
+</mapper>

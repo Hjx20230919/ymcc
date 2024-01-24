@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContAcceAchievementDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContAcceAchievementDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="ACH_ID" jdbcType="VARCHAR" property="achId" />
+    <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId" />
+    <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+    <result column="DEAL_VALUE" jdbcType="DECIMAL" property="dealValue" />
+    <result column="DEAL_AUDIOVISUAL" jdbcType="VARCHAR" property="dealAudiovisual" />
+    <result column="ACHIEVEMENT_NO" jdbcType="INTEGER" property="achievementNo" />
+  </resultMap>
+
+
+  <select id="selectContAcceAchievement" parameterType="string" resultMap="BaseResultMap">
+    SELECT * FROM T_CONT_ACCE_ACHIEVEMENT TCAA
+    <where>
+      <if test="acceId!=null and acceId!=''">
+        and TCAA.ACCE_ID=#{acceId}
+      </if>
+    </where>
+
+    ORDER BY ACHIEVEMENT_NO
+
+
+
+  </select>
+
+</mapper>

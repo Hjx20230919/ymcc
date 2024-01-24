@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.BizContContractorDtoMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContContractorDto">
+        <result column="CONT_ID" jdbcType="VARCHAR" property="contId"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="CONT_IAC_NO" jdbcType="VARCHAR" property="contIacNo"/>
+        <result column="CONT_TAX_NO" jdbcType="VARCHAR" property="contTaxNo"/>
+        <result column="CONT_ORG_NO" jdbcType="VARCHAR" property="contOrgNo"/>
+        <result column="CONT_POSTCODE" jdbcType="VARCHAR" property="contPostcode"/>
+        <result column="CONT_ADDR_PROVINCE" jdbcType="VARCHAR" property="contAddrProvince"/>
+        <result column="CONT_ADDR_CITY" jdbcType="VARCHAR" property="contAddrCity"/>
+        <result column="CONT_ADDR_WAY" jdbcType="VARCHAR" property="contAddrWay"/>
+        <result column="CONT_ADDR_NUMBER" jdbcType="VARCHAR" property="contAddrNumber"/>
+        <result column="CONT_ADDR_DETAIL" jdbcType="VARCHAR" property="contAddrDetail"/>
+        <result column="CERDIT_LEVEL" jdbcType="VARCHAR" property="cerditLevel"/>
+        <result column="ISO_INFO" jdbcType="VARCHAR" property="isoInfo"/>
+        <result column="HSE_INFO" jdbcType="VARCHAR" property="hseInfo"/>
+        <result column="TZHY_CODE" jdbcType="VARCHAR" property="tzhyCode"/>
+        <result column="AQSC_CODE" jdbcType="VARCHAR" property="aqscCode"/>
+        <result column="CORPORATE" jdbcType="VARCHAR" property="corporate"/>
+        <result column="CONT_AWARDS" jdbcType="VARCHAR" property="contAwards"/>
+        <result column="CONT_REG_CAPTIAL" jdbcType="VARCHAR" property="contRegCaptial"/>
+        <result column="LINKMAN" jdbcType="VARCHAR" property="linkman"/>
+        <result column="LINK_MOBILE" jdbcType="VARCHAR" property="linkMobile"/>
+        <result column="LINK_PHONE" jdbcType="VARCHAR" property="linkPhone"/>
+        <result column="LINK_COMPANY" jdbcType="VARCHAR" property="linkCompany"/>
+        <result column="COM_TYPE" jdbcType="VARCHAR" property="comType"/>
+        <result column="SETUP_TIME" jdbcType="TIMESTAMP" property="setupTime"/>
+        <result column="CONT_BANK" jdbcType="VARCHAR" property="contBank"/>
+        <result column="LINK_FAX" jdbcType="VARCHAR" property="linkFax"/>
+        <result column="CONT_ACCOUNT" jdbcType="VARCHAR" property="contAccount"/>
+        <result column="LINK_MAIL" jdbcType="VARCHAR" property="linkMail"/>
+        <result column="CONT_CREDIT_RATING" jdbcType="VARCHAR" property="contCreditRating"/>
+        <result column="CONT_SITE_URL" jdbcType="VARCHAR" property="contSiteUrl"/>
+        <result column="CONT_STATE" jdbcType="VARCHAR" property="contState"/>
+        <result column="CONT_FREEZE_STATE" jdbcType="VARCHAR" property="contFreezeState"/>
+        <result column="CONT_STATE_AT" jdbcType="TIMESTAMP" property="contStateAt"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="CONT_SCOPE" jdbcType="VARCHAR" property="contScope"/>
+        <result column="CHECK_AT" jdbcType="VARCHAR" property="checkAt"/>
+        <result column="CHECK_RESULT" jdbcType="VARCHAR" property="checkResult"/>
+        <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel"/>
+        <result column="ACCESS_NO" jdbcType="VARCHAR" property="accessNo"/>
+        <result column="ACCE_STATE_AT" jdbcType="TIMESTAMP" property="acceStateAt"/>
+        <result column="PART_NAME" jdbcType="VARCHAR" property="partName"/>
+        <result column="CONT_TEMP_FREEZE_DATE" jdbcType="TIMESTAMP" property="contTempFreezeDate"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.contractor.ContContractorPo">
+        <result column="CONT_ID" jdbcType="VARCHAR" property="contId"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="CONT_IAC_NO" jdbcType="VARCHAR" property="contIacNo"/>
+        <result column="CONT_TAX_NO" jdbcType="VARCHAR" property="contTaxNo"/>
+        <result column="CONT_ORG_NO" jdbcType="VARCHAR" property="contOrgNo"/>
+        <result column="CONT_POSTCODE" jdbcType="VARCHAR" property="contPostcode"/>
+        <result column="CONT_ADDR_PROVINCE" jdbcType="VARCHAR" property="contAddrProvince"/>
+        <result column="CONT_ADDR_CITY" jdbcType="VARCHAR" property="contAddrCity"/>
+        <result column="CONT_ADDR_WAY" jdbcType="VARCHAR" property="contAddrWay"/>
+        <result column="CONT_ADDR_NUMBER" jdbcType="VARCHAR" property="contAddrNumber"/>
+        <result column="CONT_ADDR_DETAIL" jdbcType="VARCHAR" property="contAddrDetail"/>
+        <result column="CERDIT_LEVEL" jdbcType="VARCHAR" property="cerditLevel"/>
+        <result column="ISO_INFO" jdbcType="VARCHAR" property="isoInfo"/>
+        <result column="HSE_INFO" jdbcType="VARCHAR" property="hseInfo"/>
+        <result column="TZHY_CODE" jdbcType="VARCHAR" property="tzhyCode"/>
+        <result column="AQSC_CODE" jdbcType="VARCHAR" property="aqscCode"/>
+        <result column="CORPORATE" jdbcType="VARCHAR" property="corporate"/>
+        <result column="CONT_AWARDS" jdbcType="VARCHAR" property="contAwards"/>
+        <result column="CONT_REG_CAPTIAL" jdbcType="VARCHAR" property="contRegCaptial"/>
+        <result column="LINKMAN" jdbcType="VARCHAR" property="linkman"/>
+        <result column="LINK_MOBILE" jdbcType="VARCHAR" property="linkMobile"/>
+        <result column="LINK_PHONE" jdbcType="VARCHAR" property="linkPhone"/>
+        <result column="LINK_COMPANY" jdbcType="VARCHAR" property="linkCompany"/>
+        <result column="COM_TYPE" jdbcType="VARCHAR" property="comType"/>
+        <result column="SETUP_TIME" jdbcType="TIMESTAMP" property="setupTime"/>
+        <result column="CONT_BANK" jdbcType="VARCHAR" property="contBank"/>
+        <result column="LINK_FAX" jdbcType="VARCHAR" property="linkFax"/>
+        <result column="CONT_ACCOUNT" jdbcType="VARCHAR" property="contAccount"/>
+        <result column="LINK_MAIL" jdbcType="VARCHAR" property="linkMail"/>
+        <result column="CONT_CREDIT_RATING" jdbcType="VARCHAR" property="contCreditRating"/>
+        <result column="CONT_SITE_URL" jdbcType="VARCHAR" property="contSiteUrl"/>
+        <result column="CONT_STATE" jdbcType="VARCHAR" property="contState"/>
+        <result column="CONT_FREEZE_STATE" jdbcType="VARCHAR" property="contFreezeState"/>
+        <result column="CONT_STATE_AT" jdbcType="TIMESTAMP" property="contStateAt"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="CONT_SCOPE" jdbcType="VARCHAR" property="contScope"/>
+        <result column="CHECK_AT" jdbcType="VARCHAR" property="checkAt"/>
+        <result column="CHECK_RESULT" jdbcType="VARCHAR" property="checkResult"/>
+        <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType"/>
+        <result column="PROJ_NAME" jdbcType="VARCHAR" property="projName"/>
+        <result column="PART_NAME" jdbcType="VARCHAR" property="partName"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap3" type="cn.com.cnpc.cpoa.po.contractor.ContManageQueryPo">
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="CONT_ORG_NO" jdbcType="VARCHAR" property="contOrgNo"/>
+        <result column="CORPORATE" jdbcType="VARCHAR" property="corporate"/>
+        <result column="LINK_MOBILE" jdbcType="VARCHAR" property="linkMobile"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="CONT_STATE" jdbcType="VARCHAR" property="contState"/>
+        <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+        <result column="ACESS_DATE" jdbcType="VARCHAR" property="acessDate"/>
+        <result column="CONT_ID" jdbcType="VARCHAR" property="contId"/>
+        <result column="CONT_FREEZE_STATE" jdbcType="VARCHAR" property="contFreezeState"/>
+        <result column="PROJ_CONTENT" jdbcType="VARCHAR" property="projContent"/>
+        <result column="PROJ_ACCESS_TYPE" jdbcType="VARCHAR" property="projAccessType"/>
+        <result column="CHECK_RESULT" jdbcType="VARCHAR" property="checkResult"/>
+        <result column="CHECK_AT" jdbcType="TIMESTAMP" property="checkAt"/>
+        <result column="ACCESS_NO" jdbcType="VARCHAR" property="accessNo"/>
+        <result column="ACCESS_LEVEL" jdbcType="VARCHAR" property="accessLevel"/>
+        <result column="ACCE_STATE_AT" jdbcType="TIMESTAMP" property="acceStateAt"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="SCOPE_NAME" jdbcType="VARCHAR" property="scopeName"/>
+        <result column="isRelieve" jdbcType="INTEGER" property="isRelieve"/>
+    </resultMap>
+    <!--查询-->
+    <select id="selectContContractor" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT TCC.* FROM T_CONT_CONTRACTOR TCC
+        LEFT JOIN T_CONT_ACCESS TCA
+        ON TCC.CONT_ID =TCA.CONT_ID
+        LEFT JOIN T_CONT_CREDIT TCC2
+        ON TCA.ACCE_ID=TCC2.ACCE_ID
+        <where>
+            <if test="contOrgNo != null and contOrgNo != ''">
+                and TCC.CONT_ORG_NO=#{contOrgNo}
+            </if>
+            <if test="contId != null and contId != ''">
+                and TCC.CONT_ID=#{contId}
+            </if>
+            <if test="contName != null and contName != ''">
+                and TCC.CONT_NAME=#{contName}
+            </if>
+
+
+            <if test="accessId != null and accessId != ''">
+                and TCA.ACCE_ID=#{accessId}
+            </if>
+
+            <if test="overdue != null and overdue != ''">
+                and DATEDIFF(now(),TCC.CHECK_AT)>60 and TCC.CONT_FREEZE_STATE!='freezed'
+            </if>
+
+            <if test="freeze != null and freeze != ''">
+                and DATEDIFF(now(),TCC2.CREDIT_VALID_END)>0 and CREDIT_STATE='valid' and
+                TCC.CONT_FREEZE_STATE!='freezed'
+            </if>
+
+            <if test="freezeCont != null and freezeCont != ''">
+                and DATEDIFF(now(),TCC.CONT_TEMP_FREEZE_DATE)>0 and TCC.ACCESS_LEVEL='临时准入' and
+                TCC.CONT_FREEZE_STATE != 'freezed'
+            </if>
+
+            <if test="soonToExpire !=null and soonToExpire !=''">
+                and DATEDIFF(TCC2.CREDIT_VALID_END,now()) &lt;= 30 and CREDIT_STATE='notvalid' and
+                TCC.CONT_FREEZE_STATE != 'freezed'
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectContContractorDetails" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT * FROM T_CONT_CONTRACTOR TCC
+        LEFT JOIN T_CONT_ACCESS TCA
+        ON TCC.CONT_ID =TCA.CONT_ID
+
+        <where>
+            <if test="contOrgNo!=null and contOrgNo!=''">
+                and TCC.CONT_ORG_NO=#{contOrgNo}
+            </if>
+            <if test="contId!=null and contId!=''">
+                and TCC.CONT_ID=#{contId}
+            </if>
+            <if test="contName!=null and contName!=''">
+                and TCC.CONT_NAME=#{contName}
+            </if>
+
+
+            <if test="accessId!=null and accessId!=''">
+                and TCA.ACCE_ID=#{accessId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectContCompre" parameterType="java.util.Map" resultMap="BaseResultMap3">
+        SELECT
+        TCA.PROJ_ID,
+        TCC.CONT_NAME,
+        TCC.CONT_ORG_NO,
+        TCC.CORPORATE,
+        TCC.LINK_MOBILE,
+        TSU.USER_NAME,
+        IFNULL( TSD.DEPT_NAME, TCC.PART_NAME ) DEPT_NAME,
+        TCC.CONT_STATE,
+        CAP.CONTENT,
+        TCA2.STEP_END_AT ACESS_DATE,
+        TCC.CONT_ID,
+        TCC.CONT_FREEZE_STATE,
+        TCP.PROJ_CONTENT,
+        CAP.PROJ_ACCESS_TYPE,
+        TCC.ACCESS_NO,
+        TCC.ACCESS_LEVEL,
+        TCC.ACCE_STATE_AT,
+        TSD.DEPT_ID,
+
+        IF
+        ( TCB.CONT_NAME = TCC.CONT_NAME, 1, 0 ) isRelieve
+        FROM
+        T_CONT_CONTRACTOR TCC
+        LEFT JOIN T_CONT_BLACKLIST TCB ON TCB.CONT_NAME = TCC.CONT_NAME
+        AND TCB.IS_RELIEVE = '1'
+
+
+        LEFT JOIN (
+        SELECT
+        ANY_VALUE (
+        MAX( OWNER_ID )) OWNER_ID,
+        ANY_VALUE (
+        MAX( OWNER_DEPT_ID )) OWNER_DEPT_ID,
+        ANY_VALUE ( A.CONT_ID ) CONT_ID,
+        ANY_VALUE ( A.PROJ_ID ) PROJ_ID
+        FROM
+        T_CONT_ACCESS A
+        INNER JOIN ( SELECT ANY_VALUE ( MAX( ACCE_AT )) ACCE_AT, CONT_ID FROM T_CONT_ACCESS GROUP BY CONT_ID ) B ON A.ACCE_AT = B.ACCE_AT
+        AND A.CONT_ID = B.CONT_ID
+        GROUP BY
+        A.CONT_ID
+        ) TCA ON TCC.CONT_ID = TCA.CONT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCA.OWNER_ID = TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCA.OWNER_DEPT_ID = TSD.DEPT_ID
+        LEFT JOIN ( SELECT CONT_ID, GROUP_CONCAT( TCAP.PROJ_NAME ) CONTENT, PROJ_ACCESS_TYPE FROM T_CONT_ACCESS_PROJ TCAP GROUP BY TCAP.CONT_ID, PROJ_ACCESS_TYPE ) CAP ON TCC.CONT_ID = CAP.CONT_ID
+        LEFT JOIN (
+        SELECT
+        TCA.CONT_ID,
+        MAX( TBCS.STEP_END_AT ) STEP_END_AT
+        FROM
+        T_CONT_ACCESS TCA
+        LEFT JOIN T_BIZ_CHECK_STEP TBCS ON TCA.ACCE_ID = TBCS.CHECK_OBJ_ID
+        WHERE
+        TCA.ACCE_STATE = 'done' AND TBCS.CHECK_OBJ_TYPE = 'access'
+        AND EXISTS (
+        SELECT
+        1
+        FROM
+        ( SELECT CONT_ID, MAX( ACCE_AT ) ACCE_AT FROM T_CONT_ACCESS GROUP BY CONT_ID ) A
+        WHERE
+        A.CONT_ID = TCA.CONT_ID
+        AND A.ACCE_AT = TCA.ACCE_AT
+        )
+        GROUP BY
+        CONT_ID
+        ) TCA2 ON TCC.CONT_ID = TCA2.CONT_ID
+        LEFT JOIN (
+        SELECT
+        GROUP_CONCAT( TCP.PROJ_CONTENT ) PROJ_CONTENT,
+        TCA.CONT_ID,
+        PROJ_ACCESS_TYPE
+        FROM
+        T_CONT_ACCESS TCA
+        LEFT JOIN T_CONT_PROJECT TCP ON TCA.PROJ_ID = TCP.PROJ_ID
+
+        GROUP BY
+        TCA.CONT_ID,
+        PROJ_ACCESS_TYPE
+        ) TCP ON TCP.CONT_ID = CAP.CONT_ID
+        AND TCP.PROJ_ACCESS_TYPE = CAP.PROJ_ACCESS_TYPE
+        <where>
+            <if test="contName!=null and contName!=''">
+                and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+            </if>
+            <if test="contOrgNo!=null and contOrgNo!=''">
+                and TCC.CONT_ORG_NO like CONCAT('%',#{contOrgNo},'%')
+            </if>
+            <if test="contentType != null and contentType.size() > 0">
+                and CAP.CONTENT in
+                <foreach collection="contentType" index="index" item="content" open="(" separator="," close=")">
+                    #{content}
+                </foreach>
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and (TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+                OR TCC.PART_NAME like CONCAT('%',#{deptName},'%')
+                )
+            </if>
+            <if test="scopeName!=null and scopeName!=''">
+                AND TCPT.SCOPE_NAME like CONCAT('%',#{scopeName},'%')
+            </if>
+            <if test="contState!=null and contState!=''">
+                and TCC.CONT_STATE=#{contState}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME=#{userName}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and TCA2.STEP_END_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and TCA2.STEP_END_AT &lt;=str_to_date(CONCAT(#{accessDateEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="projAccessType != null and projAccessType.size() > 0">
+                and CAP.CAP.PROJ_ACCESS_TYPE in
+                <foreach collection="projAccessType" index="index" item="accessType" open="(" separator="," close=")">
+                    #{accessType}
+                </foreach>
+            </if>
+
+            <if test="contFreezeState!=null and contFreezeState!=''">
+                AND TCC.CONT_FREEZE_STATE=#{contFreezeState}
+            </if>
+            <if test="accessLevel != null and accessLevel.size() > 0">
+                and TCC.ACCESS_LEVEL in
+                <foreach collection="accessLevel" index="index" item="level" open="(" separator="," close=")">
+                    #{level}
+                </foreach>
+            </if>
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+
+        ORDER BY TCA2.STEP_END_AT DESC
+
+    </select>
+    <select id="selectContCompreTwo" parameterType="java.util.Map" resultMap="BaseResultMap3">
+        SELECT
+        TCA.PROJ_ID,
+        TCC.CONT_NAME,
+        TCC.CONT_ORG_NO,
+        TCC.CORPORATE,
+        TCC.LINK_MOBILE,
+        TSU.USER_NAME,
+        IFNULL( TSD.DEPT_NAME, TCC.PART_NAME ) DEPT_NAME,
+        TCC.CONT_STATE,
+        CAP.CONTENT,
+        TCA2.STEP_END_AT ACESS_DATE,
+        TCC.CONT_ID,
+        TCC.CONT_FREEZE_STATE,
+        TCP.PROJ_CONTENT,
+        CAP.PROJ_ACCESS_TYPE,
+        TCC.ACCESS_NO,
+        TCC.ACCESS_LEVEL,
+        TCC.ACCE_STATE_AT,
+        TSD.DEPT_ID,
+        TCPT.SCOPE_NAME,
+        IF
+        ( TCB.CONT_NAME = TCC.CONT_NAME, 1, 0 ) isRelieve
+        FROM
+        T_CONT_CONTRACTOR TCC
+        LEFT JOIN T_CONT_BLACKLIST TCB ON TCB.CONT_NAME = TCC.CONT_NAME
+        AND TCB.IS_RELIEVE = '1'
+        LEFT JOIN (SELECT TCP.PROJ_CONT_CODE,TCATCAS.SCOPE_NAME FROM T_CONT_PROJECT TCP
+        LEFT JOIN (SELECT TCA.PROJ_ID,TCAS.SCOPE_NAME FROM T_CONT_ACCESS TCA
+        LEFT JOIN T_CONT_ACCE_SCOPE TCAS ON TCA.ACCE_ID=TCAS.ACCE_ID ) TCATCAS ON TCP.PROJ_ID=TCATCAS.PROJ_ID
+        )TCPT ON TCC.CONT_ORG_NO= TCPT.PROJ_CONT_CODE
+        LEFT JOIN (
+        SELECT
+        ANY_VALUE (
+        MAX( OWNER_ID )) OWNER_ID,
+        ANY_VALUE (
+        MAX( OWNER_DEPT_ID )) OWNER_DEPT_ID,
+        ANY_VALUE ( A.CONT_ID ) CONT_ID,
+        ANY_VALUE ( A.PROJ_ID ) PROJ_ID
+        FROM
+        T_CONT_ACCESS A
+        INNER JOIN ( SELECT ANY_VALUE ( MAX( ACCE_AT )) ACCE_AT, CONT_ID FROM T_CONT_ACCESS GROUP BY CONT_ID ) B ON A.ACCE_AT = B.ACCE_AT
+        AND A.CONT_ID = B.CONT_ID
+        GROUP BY
+        A.CONT_ID
+        ) TCA ON TCC.CONT_ID = TCA.CONT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCA.OWNER_ID = TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCA.OWNER_DEPT_ID = TSD.DEPT_ID
+        LEFT JOIN ( SELECT CONT_ID, GROUP_CONCAT( TCAP.PROJ_NAME ) CONTENT, PROJ_ACCESS_TYPE FROM T_CONT_ACCESS_PROJ TCAP GROUP BY TCAP.CONT_ID, PROJ_ACCESS_TYPE ) CAP ON TCC.CONT_ID = CAP.CONT_ID
+        LEFT JOIN (
+        SELECT
+        TCA.CONT_ID,
+        MAX( TBCS.STEP_END_AT ) STEP_END_AT
+        FROM
+        T_CONT_ACCESS TCA
+        LEFT JOIN T_BIZ_CHECK_STEP TBCS ON TCA.ACCE_ID = TBCS.CHECK_OBJ_ID
+        WHERE
+        TCA.ACCE_STATE = 'done' AND TBCS.CHECK_OBJ_TYPE = 'access'
+        AND EXISTS (
+        SELECT
+        1
+        FROM
+        ( SELECT CONT_ID, MAX( ACCE_AT ) ACCE_AT FROM T_CONT_ACCESS GROUP BY CONT_ID ) A
+        WHERE
+        A.CONT_ID = TCA.CONT_ID
+        AND A.ACCE_AT = TCA.ACCE_AT
+        )
+        GROUP BY
+        CONT_ID
+        ) TCA2 ON TCC.CONT_ID = TCA2.CONT_ID
+        LEFT JOIN (
+        SELECT
+        GROUP_CONCAT( TCP.PROJ_CONTENT ) PROJ_CONTENT,
+        TCA.CONT_ID,
+        PROJ_ACCESS_TYPE
+        FROM
+        T_CONT_ACCESS TCA
+        LEFT JOIN T_CONT_PROJECT TCP ON TCA.PROJ_ID = TCP.PROJ_ID
+
+        GROUP BY
+        TCA.CONT_ID,
+        PROJ_ACCESS_TYPE
+        ) TCP ON TCP.CONT_ID = CAP.CONT_ID
+        AND TCP.PROJ_ACCESS_TYPE = CAP.PROJ_ACCESS_TYPE
+        <where>
+            <if test="contName!=null and contName!=''">
+                and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+            </if>
+            <if test="contOrgNo!=null and contOrgNo!=''">
+                and TCC.CONT_ORG_NO like CONCAT('%',#{contOrgNo},'%')
+            </if>
+            <if test="contentType != null and contentType.size() > 0">
+                and CAP.CONTENT in
+                <foreach collection="contentType" index="index" item="content" open="(" separator="," close=")">
+                    #{content}
+                </foreach>
+            </if>
+
+            <if test="deptName!=null and deptName!=''">
+                and (TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+                OR TCC.PART_NAME like CONCAT('%',#{deptName},'%')
+                )
+            </if>
+            <if test="scopeName!=null and scopeName!=''">
+                AND TCPT.SCOPE_NAME like CONCAT('%',#{scopeName},'%')
+            </if>
+            <if test="contState!=null and contState!=''">
+                and TCC.CONT_STATE=#{contState}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME=#{userName}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and TCA2.STEP_END_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and TCA2.STEP_END_AT &lt;=str_to_date(CONCAT(#{accessDateEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="projAccessType != null and projAccessType.size() > 0">
+                and CAP.CAP.PROJ_ACCESS_TYPE in
+                <foreach collection="projAccessType" index="index" item="accessType" open="(" separator="," close=")">
+                    #{accessType}
+                </foreach>
+            </if>
+
+            <if test="contFreezeState!=null and contFreezeState!=''">
+                AND TCC.CONT_FREEZE_STATE=#{contFreezeState}
+            </if>
+            <if test="accessLevel != null and accessLevel.size() > 0">
+                and TCC.ACCESS_LEVEL in
+                <foreach collection="accessLevel" index="index" item="level" open="(" separator="," close=")">
+                    #{level}
+                </foreach>
+            </if>
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+
+        ORDER BY TCA2.STEP_END_AT DESC
+
+    </select>
+
+    <select id="selectContCompreThree" parameterType="java.util.Map" resultMap="BaseResultMap3">
+        SELECT
+        TCA.PROJ_ID,
+        TCC.CONT_NAME,
+        TCC.CONT_ORG_NO,
+        TCC.CORPORATE,
+        TCC.LINK_MOBILE,
+        TSU.USER_NAME,
+        IFNULL( TSD.DEPT_NAME, TCC.PART_NAME ) DEPT_NAME,
+        TCC.CONT_STATE,
+        CAP.CONTENT,
+        TCA2.STEP_END_AT ACESS_DATE,
+        TCC.CONT_ID,
+        TCC.CONT_FREEZE_STATE,
+        TCP.PROJ_CONTENT,
+        CAP.PROJ_ACCESS_TYPE,
+        TCC.ACCESS_NO,
+        TCC.ACCESS_LEVEL,
+        TCC.ACCE_STATE_AT,
+        TSD.DEPT_ID,
+
+        IF
+        ( TCB.CONT_NAME = TCC.CONT_NAME, 1, 0 ) isRelieve
+        FROM
+        T_CONT_CONTRACTOR TCC
+        LEFT JOIN T_CONT_BLACKLIST TCB ON TCB.CONT_NAME = TCC.CONT_NAME
+        AND TCB.IS_RELIEVE = '1'
+
+
+        LEFT JOIN (
+        SELECT
+        ANY_VALUE (
+        MAX( OWNER_ID )) OWNER_ID,
+        ANY_VALUE (
+        MAX( OWNER_DEPT_ID )) OWNER_DEPT_ID,
+        ANY_VALUE ( A.CONT_ID ) CONT_ID,
+        ANY_VALUE ( A.PROJ_ID ) PROJ_ID
+        FROM
+        T_CONT_ACCESS A
+        INNER JOIN ( SELECT ANY_VALUE ( MAX( ACCE_AT )) ACCE_AT, CONT_ID FROM T_CONT_ACCESS GROUP BY CONT_ID ) B ON A.ACCE_AT = B.ACCE_AT
+        AND A.CONT_ID = B.CONT_ID
+        GROUP BY
+        A.CONT_ID
+        ) TCA ON TCC.CONT_ID = TCA.CONT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCA.OWNER_ID = TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCA.OWNER_DEPT_ID = TSD.DEPT_ID
+        LEFT JOIN ( SELECT CONT_ID, GROUP_CONCAT( TCAP.PROJ_NAME ) CONTENT, PROJ_ACCESS_TYPE FROM T_CONT_ACCESS_PROJ TCAP GROUP BY TCAP.CONT_ID, PROJ_ACCESS_TYPE ) CAP ON TCC.CONT_ID = CAP.CONT_ID
+        LEFT JOIN (
+        SELECT
+        TCA.CONT_ID,
+        MAX( TBCS.STEP_END_AT ) STEP_END_AT
+        FROM
+        T_CONT_ACCESS TCA
+        LEFT JOIN T_BIZ_CHECK_STEP TBCS ON TCA.ACCE_ID = TBCS.CHECK_OBJ_ID
+        WHERE
+        TCA.ACCE_STATE = 'done' AND TBCS.CHECK_OBJ_TYPE = 'access'
+        AND EXISTS (
+        SELECT
+        1
+        FROM
+        ( SELECT CONT_ID, MAX( ACCE_AT ) ACCE_AT FROM T_CONT_ACCESS GROUP BY CONT_ID ) A
+        WHERE
+        A.CONT_ID = TCA.CONT_ID
+        AND A.ACCE_AT = TCA.ACCE_AT
+        )
+        GROUP BY
+        CONT_ID
+        ) TCA2 ON TCC.CONT_ID = TCA2.CONT_ID
+        LEFT JOIN (
+        SELECT
+        GROUP_CONCAT( TCP.PROJ_CONTENT ) PROJ_CONTENT,
+        TCA.CONT_ID,
+        PROJ_ACCESS_TYPE
+        FROM
+        T_CONT_ACCESS TCA
+        LEFT JOIN T_CONT_PROJECT TCP ON TCA.PROJ_ID = TCP.PROJ_ID
+
+        GROUP BY
+        TCA.CONT_ID,
+        PROJ_ACCESS_TYPE
+        ) TCP ON TCP.CONT_ID = CAP.CONT_ID
+        AND TCP.PROJ_ACCESS_TYPE = CAP.PROJ_ACCESS_TYPE
+        <where>
+            <if test="contName!=null and contName!=''">
+                and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+            </if>
+            <if test="contOrgNo!=null and contOrgNo!=''">
+                and TCC.CONT_ORG_NO like CONCAT('%',#{contOrgNo},'%')
+            </if>
+<!--            <if test="contentType != null and contentType.size() > 0">-->
+<!--                <trim prefix="AND" prefixOverrides="AND | OR">-->
+<!--                <foreach collection="contentType" index="index" item="content"  separator=" " >-->
+<!--                    AND CAP.CONTENT like CONCAT('%',#{content},'%')-->
+<!--                </foreach>-->
+<!--                </trim>-->
+<!--            </if>-->
+            <if test="contentType != null and contentType.size() > 0">
+                <trim prefix="AND" prefixOverrides="AND | OR">
+                    <foreach collection="contentType" index="index" item="content" separator=" OR " open="(" close=")">
+                        CAP.CONTENT like CONCAT('%',#{content},'%')
+                    </foreach>
+                </trim>
+            </if>
+
+
+            <if test="deptName!=null and deptName!=''">
+                and (TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+                OR TCC.PART_NAME like CONCAT('%',#{deptName},'%')
+                )
+            </if>
+            <if test="scopeName!=null and scopeName!=''">
+                AND TCPT.SCOPE_NAME like CONCAT('%',#{scopeName},'%')
+            </if>
+            <if test="contState!=null and contState!=''">
+                and TCC.CONT_STATE=#{contState}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME=#{userName}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and TCA2.STEP_END_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and TCA2.STEP_END_AT &lt;=str_to_date(CONCAT(#{accessDateEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="projAccessType != null and projAccessType.size() > 0">
+                and CAP.CAP.PROJ_ACCESS_TYPE in
+                <foreach collection="projAccessType" index="index" item="accessType" open="(" separator="," close=")">
+                    #{accessType}
+                </foreach>
+            </if>
+
+            <if test="contFreezeState!=null and contFreezeState!=''">
+                AND TCC.CONT_FREEZE_STATE=#{contFreezeState}
+            </if>
+            <if test="accessLevel != null and accessLevel.size() > 0">
+                and TCC.ACCESS_LEVEL in
+                <foreach collection="accessLevel" index="index" item="level" open="(" separator="," close=")">
+                    #{level}
+                </foreach>
+            </if>
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+
+        ORDER BY TCA2.STEP_END_AT DESC
+
+    </select>
+
+
+
+
+
+
+
+    <!--,TCC.CONT_ID-->
+    <!--<select id="selectContCompre" parameterType="java.util.Map" resultMap="BaseResultMap3">
+        SELECT TCC.CONT_NAME,TCC.CONT_ORG_NO,TCC.CORPORATE,
+        TCC.LINK_MOBILE,TSU.USER_NAME,IFNULL(TSD.DEPT_NAME,TCC.PART_NAME) DEPT_NAME,TCC.CONT_STATE,
+        CAP.CONTENT,TCA2.STEP_END_AT ACESS_DATE,TCC.CONT_ID,TCC.CONT_FREEZE_STATE,TCP.PROJ_CONTENT,CAP.PROJ_ACCESS_TYPE,
+        TCC.ACCESS_NO,TCC.ACCESS_LEVEL,TCC.ACCE_STATE_AT,TSD.DEPT_ID
+
+        FROM T_CONT_CONTRACTOR TCC
+        LEFT JOIN (
+        SELECT MAX(OWNER_ID) OWNER_ID,MAX(OWNER_DEPT_ID) OWNER_DEPT_ID,A.CONT_ID FROM T_CONT_ACCESS A INNER JOIN (
+        SELECT MAX(ACCE_AT) ACCE_AT,CONT_ID FROM T_CONT_ACCESS GROUP BY CONT_ID
+        ) B ON A.ACCE_AT=B.ACCE_AT AND A.CONT_ID=B.CONT_ID
+        GROUP BY A.CONT_ID
+        ) TCA
+        ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCA.OWNER_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCA.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN (
+        SELECT CONT_ID,GROUP_CONCAT(TCAP.PROJ_NAME) CONTENT,PROJ_ACCESS_TYPE FROM
+        T_CONT_ACCESS_PROJ TCAP GROUP BY TCAP.CONT_ID,PROJ_ACCESS_TYPE
+        ) CAP ON TCC.CONT_ID=CAP.CONT_ID
+        LEFT JOIN (
+        SELECT TCA.CONT_ID,MAX(TBCS.STEP_END_AT) STEP_END_AT FROM T_CONT_ACCESS TCA
+        LEFT JOIN T_BIZ_CHECK_STEP TBCS
+        ON TCA.ACCE_ID=TBCS.CHECK_OBJ_ID
+        WHERE TCA.ACCE_STATE='done'
+        AND EXISTS (
+        SELECT 1 FROM (
+        SELECT CONT_ID,MAX(ACCE_AT) ACCE_AT FROM T_CONT_ACCESS GROUP BY CONT_ID
+        ) A WHERE A.CONT_ID=TCA.CONT_ID AND A.ACCE_AT=TCA.ACCE_AT
+        )
+        GROUP BY CONT_ID
+        ) TCA2 ON TCC.CONT_ID=TCA2.CONT_ID
+        LEFT JOIN (
+        SELECT GROUP_CONCAT(TCP.PROJ_CONTENT) PROJ_CONTENT,TCA.CONT_ID,PROJ_ACCESS_TYPE FROM T_CONT_ACCESS TCA
+        LEFT JOIN T_CONT_PROJECT TCP ON TCA.PROJ_ID=TCP.PROJ_ID
+        GROUP BY TCA.CONT_ID,PROJ_ACCESS_TYPE
+        ) TCP ON TCP.CONT_ID=CAP.CONT_ID AND TCP.PROJ_ACCESS_TYPE=CAP.PROJ_ACCESS_TYPE
+
+
+        <where>
+            <if test="scopeName!=null and scopeName!=''">
+                AND EXISTS (
+                SELECT 1
+                FROM T_CONT_ACCESS TCA3
+                LEFT JOIN T_CONT_ACCE_SCOPE TCAS
+                ON TCAS.ACCE_ID=TCA3.ACCE_ID
+                WHERE TCC.CONT_ID=TCA3.CONT_ID
+                AND TCAS.SCOPE_NAME LIKE CONCAT('%',#{scopeName},'%')
+                )
+            </if>
+
+            <if test="contName!=null and contName!=''">
+                and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+            </if>
+            <if test="contentType!=null and contentType!=''">
+                and CAP.CONTENT like CONCAT('%',#{contentType},'%')
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and (TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+                OR TCC.PART_NAME like CONCAT('%',#{deptName},'%')
+                )
+            </if>
+            <if test="contState!=null and contState!=''">
+                and TCC.CONT_STATE=#{contState}
+            </if>
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and TCA2.STEP_END_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and TCA2.STEP_END_AT &lt;=str_to_date(CONCAT(#{accessDateEnd},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="projAccessType!=null and projAccessType!=''">
+                and CAP.PROJ_ACCESS_TYPE=#{projAccessType}
+            </if>
+
+
+            <if test="contFreezeState!=null and contFreezeState!=''">
+                AND TCC.CONT_FREEZE_STATE=#{contFreezeState}
+            </if>
+
+            <choose>
+                <when test="accessLevel2!=null and accessLevel2!=''">
+                    and ((CAP.PROJ_ACCESS_TYPE=#{accessLevel2} and TCC.ACCESS_LEVEL is null) or TCC.ACCESS_LEVEL=#{accessLevel})
+                </when>
+                <when test="accessLevel!=null and accessLevel!=''">
+                    AND TCC.ACCESS_LEVEL=#{accessLevel}
+                </when>
+                <otherwise>
+
+                </otherwise>
+            </choose>
+
+            &lt;!&ndash;数据权限&ndash;&gt;
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+        ORDER BY TCA2.STEP_END_AT DESC
+    </select>-->
+
+    <select id="selectContCompreEvaluation" parameterType="java.util.Map" resultMap="BaseResultMap3">
+        SELECT TCC.CONT_NAME,TCC.CONT_ORG_NO,TCC.CORPORATE,
+        TCC.LINK_MOBILE,TSU.USER_NAME,IFNULL(TSD.DEPT_NAME,TCC.PART_NAME) DEPT_NAME,TCC.CONT_STATE,
+        CAP.CONTENT,TCA2.STEP_END_AT ACESS_DATE,TCC.CONT_ID,
+        TCC.CONT_FREEZE_STATE,TCP.PROJ_CONTENT,TCC.CHECK_RESULT,TCC.CHECK_AT,TSD.DEPT_ID
+        FROM T_CONT_CONTRACTOR TCC
+        LEFT JOIN (
+        SELECT MAX(OWNER_ID) OWNER_ID,MAX(OWNER_DEPT_ID) OWNER_DEPT_ID,A.CONT_ID FROM T_CONT_ACCESS A INNER JOIN (
+        SELECT MAX(ACCE_AT) ACCE_AT,CONT_ID FROM T_CONT_ACCESS GROUP BY CONT_ID
+        ) B ON A.ACCE_AT=B.ACCE_AT AND A.CONT_ID=B.CONT_ID
+        GROUP BY A.CONT_ID
+        ) TCA
+        ON TCC.CONT_ID=TCA.CONT_ID
+        LEFT JOIN T_SYS_USER TSU ON TCA.OWNER_ID=TSU.USER_ID
+        LEFT JOIN T_SYS_DEPT TSD ON TCA.OWNER_DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN (
+        SELECT CONT_ID,GROUP_CONCAT(TCAP.PROJ_NAME) CONTENT FROM
+        T_CONT_ACCESS_PROJ TCAP GROUP BY TCAP.CONT_ID
+        ) CAP ON TCC.CONT_ID=CAP.CONT_ID
+        LEFT JOIN (
+        SELECT TCA.CONT_ID,MAX(TBCS.STEP_END_AT) STEP_END_AT FROM T_CONT_ACCESS TCA
+        INNER JOIN T_BIZ_CHECK_STEP TBCS
+        ON TCA.ACCE_ID=TBCS.CHECK_OBJ_ID
+        WHERE TCA.ACCE_STATE='done'
+        AND EXISTS (
+        SELECT 1 FROM (
+        SELECT CONT_ID,MAX(ACCE_AT) ACCE_AT FROM T_CONT_ACCESS GROUP BY CONT_ID
+        ) A WHERE A.CONT_ID=TCA.CONT_ID AND A.ACCE_AT=TCA.ACCE_AT
+        )
+        GROUP BY CONT_ID
+        ) TCA2 ON TCC.CONT_ID=TCA2.CONT_ID
+        LEFT JOIN (
+        SELECT GROUP_CONCAT(TCP.PROJ_CONTENT) PROJ_CONTENT,TCA.CONT_ID FROM T_CONT_ACCESS TCA
+        INNER JOIN T_CONT_PROJECT TCP ON TCA.PROJ_ID=TCP.PROJ_ID
+        GROUP BY TCA.CONT_ID
+        ) TCP ON TCP.CONT_ID=TCC.CONT_ID
+        <where>
+
+            and TCC.CONT_STATE='fillcompelte'
+
+            <if test="contName!=null and contName!=''">
+                and TCC.CONT_NAME like CONCAT('%',#{contName},'%')
+            </if>
+            <if test="contentType!=null and contentType!=''">
+                and CAP.CONTENT like CONCAT('%',#{contentType},'%')
+            </if>
+            <if test="userName!=null and userName!=''">
+                and TSU.USER_NAME like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and (TSD.DEPT_NAME like CONCAT('%',#{deptName},'%')
+                OR TCC.PART_NAME like CONCAT('%',#{deptName},'%')
+                )
+            </if>
+
+            <if test="accessDateStart!=null and accessDateStart!=''">
+                and TCA2.STEP_END_AT >=str_to_date(#{accessDateStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="accessDateEnd!=null and accessDateEnd!=''">
+                and TCA2.STEP_END_AT &lt;=str_to_date(#{accessDateEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="contFreezeState!=null and contFreezeState!=''">
+                AND TCC.CONT_FREEZE_STATE=#{contFreezeState}
+            </if>
+
+            <if test="checkAtStart!=null and checkAtStart!=''">
+                and TCC.CHECK_AT >=str_to_date(#{checkAtStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="checkAtEnd!=null and checkAtEnd!=''">
+                and TCC.CHECK_AT &lt;=str_to_date(#{checkAtEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="checkResult!=null and checkResult!=''">
+                and TCC.CHECK_RESULT =#{checkResult}
+            </if>
+
+            <!--数据权限-->
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND TSD.DEPT_ID=#{dataScopeDept}
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+        </where>
+    </select>
+
+
+    <!--查询-->
+    <select id="selectContSelCont" parameterType="java.util.Map" resultMap="BaseResultMap2">
+        SELECT TCC.*,CAP.PROJ_ACCESS_TYPE,CAP.PROJ_NAME FROM T_CONT_CONTRACTOR TCC
+        INNER JOIN
+
+        (SELECT TCA.CONT_ID,TCAP.PROJ_NAME,TCAP.PROJ_ACCESS_TYPE FROM T_CONT_ACCESS TCA
+        INNER JOIN T_CONT_ACCESS_PROJ TCAP
+        ON TCA.ACCE_ID =TCAP.ACCE_ID
+        WHERE TCA.ACCE_STATE='done'
+        <if test="projName!=null and projName!=''">
+            AND TCAP.PROJ_NAME=#{projName}
+        </if>
+        AND TCA.PROJ_ID=TCA.PROJ_ID ) CAP ON TCC.CONT_ID=CAP.CONT_ID
+
+    </select>
+
+    <select id="selectContIdByContName" parameterType="java.lang.String" resultType="java.lang.String">
+        select tcc.CONT_ID contId from T_CONT_CONTRACTOR tcc
+        <where>
+            <if test="contName != null and contName != ''">
+                and tcc.CONT_NAME = #{contName}
+            </if>
+        </where>
+    </select>
+
+    <select id="getContContractor" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TCC.* FROM T_CONT_CONTRACTOR TCC
+        <where>
+            <if test="contOrgNo != null and contOrgNo != ''">
+                and TCC.CONT_ORG_NO=#{contOrgNo}
+            </if>
+        </where>
+    </select>
+</mapper>

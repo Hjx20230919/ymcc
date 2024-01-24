@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.project.BizProjResultListDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.project.BizProjResultListDto">
+        <result column="RESULT_LIST_ID" jdbcType="VARCHAR" property="resultListId"/>
+        <result column="RESULT_ID" jdbcType="VARCHAR" property="resultId"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="SERVICE_CONTEXT" jdbcType="VARCHAR" property="serviceContext"/>
+        <result column="BILL_CONTEXT" jdbcType="VARCHAR" property="billContext"/>
+        <result column="VALUATION_CONTEXT" jdbcType="VARCHAR" property="valuationContext"/>
+        <result column="UNIT_PRICE" jdbcType="DECIMAL" property="unitPrice"/>
+        <result column="LIMIT_TOTAL_PRICE" jdbcType="DECIMAL" property="limitTotalPrice"/>
+        <result column="SERVICE_PLACE" jdbcType="VARCHAR" property="servicePlace"/>
+        <result column="CONT_ID" jdbcType="VARCHAR" property="contId"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="RECOM_CONT_REASON" jdbcType="VARCHAR" property="recomContReason"/>
+        <result column="SEL_CONT_TYPE" jdbcType="VARCHAR" property="selContType"/>
+        <result column="PAY_TYPE" jdbcType="VARCHAR" property="payType"/>
+        <result column="PLAN_SOURCE" jdbcType="VARCHAR" property="planSource"/>
+        <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
+        <result column="COUNT" jdbcType="FLOAT" property="count"/>
+    </resultMap>
+
+    <!--根据panid查询实体-->
+    <select id="selectResultList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TPRL.*,TCC.CONT_NAME FROM T_PROJ_RESULT_LIST TPRL
+        LEFT JOIN T_CONT_CONTRACTOR TCC ON TPRL.CONT_ID=TCC.CONT_ID
+        <where>
+            <if test="resultId!=null and resultId!=''">
+                and RESULT_ID =#{resultId}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

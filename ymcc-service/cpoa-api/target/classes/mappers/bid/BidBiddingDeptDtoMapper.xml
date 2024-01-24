@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidBiddingDeptDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidBiddingDeptDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="BIDDING_DEPT_ID" jdbcType="VARCHAR" property="biddingDeptId" />
+    <result column="BIDDING_ID" jdbcType="VARCHAR" property="biddingId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="DEPT_DESC" jdbcType="VARCHAR" property="deptDesc" />
+    <result column="CONFIRM_BID" jdbcType="VARCHAR" property="confirmBid" />
+    <result column="CONFIRM_MAN" jdbcType="VARCHAR" property="confirmMan" />
+    <result column="CONFIRM_AT" jdbcType="TIMESTAMP" property="confirmAt" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectBiddingDeptByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from T_BID_BIDDING_DEPT tbbd
+    <where>
+      <if test="biddingId != null and biddingId != ''">
+        and tbbd.BIDDING_ID = #{biddingId}
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizCheckManDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizCheckManDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="MAN_ID" jdbcType="VARCHAR" property="manId" />
+    <result column="STEP_ID" jdbcType="VARCHAR" property="stepId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="CHECK_STATE" jdbcType="VARCHAR" property="checkState" />
+    <result column="CHECK_TIME" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="CHECK_NODE" jdbcType="VARCHAR" property="checkNode" />
+    <result column="CHECK_RESULT" jdbcType="VARCHAR" property="checkResult" />
+
+  </resultMap>
+
+    <!--查询附件-->
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM T_BIZ_CHECK_MAN TBM
+        <where>
+          <if test="stepId!=null and stepId!=''">
+            and TBM.STEP_ID=#{stepId}
+          </if>
+
+        </where>
+    </select>
+
+  <!--查询合同回退的审核人表-->
+  <select id="selectBackList" parameterType="java.util.Map" resultMap="BaseResultMap">
+   SELECT bcm.* FROM T_BIZ_CHECK_MAN bcm
+   INNER JOIN T_BIZ_CHECK_STEP bcs
+   ON bcm.`STEP_ID`=bcs.`STEP_ID`
+   WHERE  bcs.`CHECK_OBJ_ID`=#{objId} AND bcs.`STEP_STATE`='BACK' AND bcm.CHECK_STATE='PENDED'
+  </select>
+
+    <delete id="deleteByStepId" parameterType="java.lang.String">
+        delete from T_BIZ_CHECK_MAN  where STEP_ID = #{stepId}
+    </delete>
+
+</mapper>

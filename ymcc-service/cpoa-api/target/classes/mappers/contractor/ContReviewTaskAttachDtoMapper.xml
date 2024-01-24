@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.contractor.ContReviewTaskAttachDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.ContReviewTaskAttachDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="ATTACH_ID" jdbcType="VARCHAR" property="attachId" />
+    <result column="REVIEW_TASK_ID" jdbcType="VARCHAR" property="reviewTaskId" />
+  </resultMap>
+
+  <select id="selectByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from T_CONT_REVIEW_TASK_ATTACH
+    <where>
+      <if test="reviewTaskId != null and reviewTaskId != ''">
+        and REVIEW_TASK_ID = #{reviewTaskId}
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizAttachDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizAttachDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="ATTACH_ID" jdbcType="VARCHAR" property="attachId"/>
+        <result column="OWNER_ID" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName"/>
+        <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType"/>
+        <result column="FILE_URI" jdbcType="VARCHAR" property="fileUri"/>
+        <result column="FILE_SIZE" jdbcType="DOUBLE" property="fileSize"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="USER_ID" jdbcType="INTEGER" property="userId"/>
+        <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
+        <result column="OWNER_TYPE" jdbcType="VARCHAR" property="ownerType"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEAL_FILE_TYPE" jdbcType="VARCHAR" property="dealFileType"/>
+    </resultMap>
+
+    <!--查询附件-->
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TBA.* ,TSU.USER_NAME FROM T_BIZ_ATTACH TBA
+        LEFT JOIN T_SYS_USER TSU
+        ON TSU.USER_ID=TBA.USER_ID
+        <where>
+            <if test="userId!=null and userId!=''">
+                and TBA.USER_ID=#{userId}
+            </if>
+
+            <if test="fileName!=null and fileName!=''">
+                and TBA.FILE_NAME=#{fileName}
+            </if>
+
+            <if test="fileUri!=null and fileUri!=''">
+                and TBA.FILE_URI LIKE CONCAT(#{fileUri},'%')
+            </if>
+
+            <if test="attachId!=null and attachId!=''">
+                and TBA.ATTACH_ID =#{attachId}
+            </if>
+
+            <if test="ownerId!=null and ownerId!=''">
+                and TBA.OWNER_ID=#{ownerId}
+            </if>
+
+            <if test="ownerType!=null and ownerType!=''">
+                and TBA.OWNER_TYPE=#{ownerType}
+            </if>
+
+            <if test="ownerTypes!=null  and ownerTypes.size()>0">
+                and TBA.OWNER_TYPE in
+                <foreach collection="ownerTypes" item="ownerType" open="(" close=")" separator=",">
+                    #{ownerType}
+                </foreach>
+            </if>
+
+
+        </where>
+    </select>
+
+    <!--查询附件  -->
+    <select id="selectListByDealId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT TBA.* ,TSU.USER_NAME,TBD.DEAL_FILE_TYPE  FROM T_BIZ_ATTACH TBA
+    INNER JOIN T_BIZ_DEAL_ATTACH TBD
+    ON TBA.`ATTACH_ID`=TBD.`ATTACH_ID`
+    LEFT JOIN T_SYS_USER TSU
+    ON TSU.USER_ID=TBA.USER_ID
+    WHERE TBD.`DEAL_ID`=#{dealId}
+  </select>
+
+    <!--查询附件  -->
+    <select id="selectListBySettleId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT TBA.* ,TSU.USER_NAME  FROM T_BIZ_ATTACH TBA
+    INNER JOIN T_BIZ_SETTLEMENT_ATTACH TBSA
+    ON TBA.`ATTACH_ID`=TBSA.`ATTACH_ID`
+    LEFT JOIN T_SYS_USER TSU
+    ON TSU.USER_ID=TBA.USER_ID
+    WHERE TBSA.`SETTLE_ID`=#{settleId}
+  </select>
+
+    <!--查询附件  -->
+    <select id="selectListByObjId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT TBA.* ,TSU.USER_NAME  FROM T_BIZ_ATTACH TBA
+    LEFT JOIN T_SYS_USER TSU
+    ON TSU.USER_ID=TBA.USER_ID
+    <where>
+        <if test="ownerType != null and ownerType != ''">
+            and TBA.OWNER_TYPE = #{ownerType}
+        </if>
+        <if test="objId != null and objId != ''">
+            and TBA.OWNER_ID = #{objId}
+        </if>
+    </where>
+    ORDER BY TBA.CREATE_TIME
+  </select>
+
+    <!--查询附件  -->
+    <select id="selectListByProjId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT TBA.* ,TSU.USER_NAME  FROM T_BIZ_ATTACH TBA
+    INNER JOIN T_BIZ_PROJECT_ATTACH TBD
+    ON TBA.`ATTACH_ID`=TBD.`ATTACH_ID`
+    LEFT JOIN T_SYS_USER TSU
+    ON TSU.USER_ID=TBA.USER_ID
+    WHERE TBD.`PROJECT_ID`=#{projId}
+  </select>
+
+
+    <!--查询附件  -->
+    <select id="selectAttachById" parameterType="java.lang.String" resultType="cn.com.cnpc.cpoa.domain.BizAttachDto">
+        SELECT TBA.*  FROM T_BIZ_ATTACH TBA WHERE TBA.`ATTACH_ID`=#{attachId}
+    </select>
+</mapper>

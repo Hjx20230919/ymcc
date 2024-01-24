@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizImportLogDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizImportLogDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="IMPORT_ID" jdbcType="VARCHAR" property="importId"/>
+        <result column="IMPORT_NAME" jdbcType="VARCHAR" property="importName"/>
+        <result column="IMPORT_NO" jdbcType="VARCHAR" property="importNo"/>
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo"/>
+        <result column="PROJECT_NO" jdbcType="VARCHAR" property="projectNo"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="IMPORT_STATUS" jdbcType="VARCHAR" property="importStatus"/>
+        <result column="IMPORT_LOG" jdbcType="VARCHAR" property="importLog"/>
+
+    </resultMap>
+
+    <!--查询附件-->
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM T_BIZ_IMPORT_LOG TBIL
+        <where>
+            <if test="importNo!=null and importNo!=''">
+                and TBIL.IMPORT_NO=#{importNo}
+            </if>
+        </where>
+    </select>
+
+</mapper>

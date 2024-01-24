@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizContAcceWorkerStateDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.contractor.BizContAcceWorkerStateDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="STATE_ID" jdbcType="VARCHAR" property="stateId"/>
+        <result column="ACCE_ID" jdbcType="VARCHAR" property="acceId"/>
+        <result column="WORKER_STATE_NO" jdbcType="INTEGER" property="workerStateNo"/>
+        <result column="WORKER_NAME" jdbcType="VARCHAR" property="workerName"/>
+        <result column="CREDIT_NAME" jdbcType="VARCHAR" property="creditName"/>
+        <result column="WORKER_ORG" jdbcType="VARCHAR" property="workerOrg"/>
+        <result column="CREDIT_VALID_START" jdbcType="DATE" property="creditValidStart"/>
+        <result column="CREDIT_VALID_END" jdbcType="DATE" property="creditValidEnd"/>
+        <result column="WORKER_SACN" jdbcType="VARCHAR" property="workerSacn"/>
+    </resultMap>
+
+
+    <select id="selectContAcceWorkerStateDto" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM T_CONT_ACCE_WORKER_STATE TCAWS
+        <where>
+            <if test="acceId!=null and acceId!=''">
+                and TCAWS.ACCE_ID=#{acceId}
+            </if>
+        </where>
+
+        ORDER BY TCAWS.WORKER_STATE_NO
+
+    </select>
+
+
+</mapper>

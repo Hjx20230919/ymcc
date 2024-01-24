@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.BizProjectSumDataDtoMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizProjectSumDataDto">
+        <result column="PSD_ID" jdbcType="VARCHAR" property="psdId" />
+        <result column="YEAR_MOMTH" jdbcType="VARCHAR" property="yearMonth" />
+        <result column="CLIENT_ID" jdbcType="VARCHAR" property="clientId" />
+        <result column="CLIENT_NAME" jdbcType="VARCHAR" property="clientName"/>
+        <result column="MARKET_TYPE" jdbcType="VARCHAR" property="marketType" />
+        <result column="COMPANY_TYPE" jdbcType="VARCHAR" property="companyType" />
+        <result column="CONTRACT_TYPE" jdbcType="VARCHAR" property="contractType" />
+        <result column="WORK_ZONE" jdbcType="VARCHAR" property="workZone" />
+        <result column="WORK_TYPE" jdbcType="VARCHAR" property="workType" />
+        <result column="BIZ_TYPE_ID" jdbcType="VARCHAR" property="bizTypeId" />
+        <result column="CONTRACT_PRICE" jdbcType="DOUBLE" property="contractPrice" />
+        <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+        <result column="SUB_DEPT_NAME" jdbcType="VARCHAR" property="subDeptName" />
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+        <result column="WORK_TYPE1" jdbcType="VARCHAR" property="workType1" />
+        <result column="WORK_TYPE2" jdbcType="VARCHAR" property="workType2" />
+        <result column="SERV_TYPE" jdbcType="VARCHAR" property="servType" />
+    </resultMap>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT t.*, TBC.CONT_NAME CLIENT_NAME, TD.DEPT_NAME
+        FROM T_BIZ_PROJECT_SUMDATA t
+        LEFT JOIN T_BIZ_CONTRACTOR TBC ON T.CLIENT_ID = TBC.CONT_ID
+        LEFT JOIN T_SYS_DEPT TD ON T.DEPT_ID = TD.DEPT_ID
+        <where>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND t.YEAR_MOMTH = #{yearMonth}
+            </if>
+            <if test="deptId!=null and deptId!=''">
+                AND t.DEPT_ID = #{deptId}
+            </if>
+            <if test="clientId!=null and clientId!=''">
+                AND t.CLIENT_ID = #{clientId}
+            </if>
+            <if test="marketType!=null and marketType!=''">
+                AND t.MARKET_TYPE = #{marketType}
+            </if>
+            <if test="companyType!=null and companyType!=''">
+                AND t.COMPANY_TYPE = #{companyType}
+            </if>
+            <if test="contractType!=null and contractType!=''">
+                AND t.CONTRACT_TYPE = #{contractType}
+            </if>
+            <if test="workZone!=null and workZone!=''">
+                AND t.WORK_ZONE = #{workZone}
+            </if>
+            <if test="workType!=null and workType!=''">
+                AND t.WORK_TYPE = #{workType}
+            </if>
+        </where>
+        ORDER BY
+        t.YEAR_MOMTH
+    </select>
+
+    <select id="selectListContractTypeAnalysis" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        IFNULL(SUM(t.CONTRACT_PRICE), 0) AS CONTRACT_PRICE,
+        t.CONTRACT_TYPE
+        FROM
+        T_BIZ_PROJECT_SUMDATA t
+        <where>
+            t.YEAR_MOMTH &gt;= #{yearMonthStart}
+            AND t.YEAR_MOMTH &lt;= #{yearMonthEnd}
+        </where>
+        GROUP BY
+        t.CONTRACT_TYPE
+
+    </select>
+
+    <select id="selectListClientDeptAnalysis" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        IFNULL(SUM(p.CONTRACT_PRICE), 0) CONTRACT_PRICE,
+        IFNULL(c.parent_name, '未知') DEPT_NAME
+        FROM
+        T_BIZ_PROJECT_SUMDATA p
+        LEFT JOIN T_BIZ_CONTRACTOR c ON p.CLIENT_ID = c.CONT_ID
+        <where>
+            1 = 1
+            AND p.YEAR_MOMTH &gt;= #{yearMonthStart}
+            AND p.YEAR_MOMTH &lt;= #{yearMonthEnd}
+        </where>
+        GROUP BY
+        c.parent_name
+
+    </select>
+
+    <select id="selectListClientSubDeptAnalysis" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        IFNULL(SUM(p.CONTRACT_PRICE), 0) CONTRACT_PRICE,
+        IFNULL(c.parent_name, '未知') DEPT_NAME,
+        c.CONT_NAME SUB_DEPT_NAME
+        FROM
+        T_BIZ_PROJECT_SUMDATA p
+        LEFT JOIN T_BIZ_CONTRACTOR c ON p.CLIENT_ID = c.CONT_ID
+        <where>
+            1 = 1
+            AND p.YEAR_MOMTH &gt;= #{yearMonthStart}
+            AND p.YEAR_MOMTH &lt;= #{yearMonthEnd}
+            AND c.PARENT_NAME = #{parentName}
+        </where>
+        GROUP BY
+        c.parent_name, c.CONT_NAME
+
+    </select>
+
+    <select id="selectListMarketAreaAnalysis" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(v.CONTRACT_PRICE), 0) as CONTRACT_PRICE, v.WORK_ZONE from (
+            SELECT s.CONTRACT_PRICE, concat(s.WORK_ZONE, '（', '页岩气', '）') AS WORK_ZONE
+            FROM T_BIZ_PROJECT_SUMDATA s
+            WHERE s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE = '川渝地区' and s.WORK_TYPE = '页岩气'
+            UNION
+            SELECT s.CONTRACT_PRICE, concat(s.WORK_ZONE, '（', '非页岩气', '）') AS WORK_ZONE
+            FROM T_BIZ_PROJECT_SUMDATA s
+            WHERE s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE = '川渝地区' and s.WORK_TYPE != '页岩气'
+            UNION
+            SELECT s.CONTRACT_PRICE, s.WORK_ZONE
+            FROM T_BIZ_PROJECT_SUMDATA s
+            WHERE s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE != '川渝地区'
+        ) v
+        GROUP BY v.WORK_ZONE
+    </select>
+
+    <select id="selectListMarketAreaWorktypeCydqYyq" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.WORK_TYPE1 AS WORK_TYPE1
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE = '川渝地区' and s.WORK_TYPE = '页岩气'
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+    <select id="selectListMarketAreaWorktypeCydqFyyq" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.WORK_TYPE1 AS WORK_TYPE1
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE = '川渝地区' and s.WORK_TYPE != '页岩气'
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+    <select id="selectListMarketAreaWorktypeFcydq" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.WORK_TYPE1 AS WORK_TYPE1
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE = #{workZone}
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+    <select id="selectListMarketAreaServtypeCydqYyq" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.SERV_TYPE
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE = '川渝地区' and s.WORK_TYPE = '页岩气'
+        and w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="selectListMarketAreaServtypeCydqFyyq" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.SERV_TYPE
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE = '川渝地区' and s.WORK_TYPE != '页岩气'
+        and w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="selectListMarketAreaServtypeFcydq" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.SERV_TYPE
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd} and s.WORK_ZONE = #{workZone}
+        and w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="selectListClasWorkType1" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.WORK_TYPE1
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd}
+        GROUP BY w.WORK_TYPE1
+    </select>
+
+    <select id="selectListClasWorkType2" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.WORK_TYPE2
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd}
+        AND w.WORK_TYPE1 = #{workType1}
+        GROUP BY w.WORK_TYPE2
+    </select>
+
+    <select id="selectListClasServType" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT IFNULL(SUM(s.CONTRACT_PRICE), 0) as CONTRACT_PRICE, w.SERV_TYPE
+        FROM T_BIZ_PROJECT_SUMDATA s, T_BIZ_WORK_TABLE w
+        WHERE s.BIZ_TYPE_ID = w.CLAS_ID
+        AND s.YEAR_MOMTH >= #{yearMonthStart} and s.YEAR_MOMTH &lt;= #{yearMonthEnd}
+        AND w.WORK_TYPE1 = #{workType1}
+        AND w.WORK_TYPE2 = #{workType2}
+        GROUP BY w.SERV_TYPE
+    </select>
+
+    <select id="sumMonthly" parameterType="java.util.Map" resultType="String">
+        SELECT IFNULL(SUM(TBPS.CONTRACT_PRICE), 0) CONTRACT_PRICE FROM T_BIZ_PROJECT_SUMDATA TBPS
+        <where>
+            <if test="yearMonth!=null and yearMonth!=''">
+                AND TBPS.YEAR_MOMTH = #{yearMonth}
+            </if>
+            <if test="year!=null and year!=''">
+                AND SUBSTR(TBPS.YEAR_MOMTH, 1, 4) = #{year}
+            </if>
+            <if test="marketType!=null and marketType!=''">
+                AND TBPS.MARKET_TYPE = #{marketType}
+            </if>
+            <if test="companyType!=null and companyType!=''">
+                AND TBPS.COMPANY_TYPE = #{companyType}
+            </if>
+            <if test="contractType!=null and contractType!=''">
+                AND TBPS.CONTRACT_TYPE = #{contractType}
+            </if>
+            <if test="workZone!=null and workZone!=''">
+                AND TBPS.WORK_ZONE = #{workZone}
+            </if>
+            <if test="workZoneNot!=null and workZoneNot!=''">
+                AND TBPS.WORK_ZONE NOT IN ('川渝地区', '长庆地区', '塔里木地区')
+            </if>
+        </where>
+    </select>
+</mapper>

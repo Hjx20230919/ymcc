@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.prodsys.BizDealPsJoinDtoMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.prodsys.BizDealPsJoinDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="DEAL_JOIN_ID" jdbcType="VARCHAR" property="dealJoinId"/>
+    </resultMap>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TBP.* FROM T_BIZ_DEAL_PS_JOIN TBP
+        <where>
+            <if test="id!=null and id!=''">
+                AND TBP.ID = #{id}
+            </if>
+        <if test="dealId!=null and dealId!=''">
+            AND TBP.DEAL_ID = #{dealId}
+        </if>
+        <if test="dealJoinId!=null and dealJoinId!=''">
+            AND TBP.DEAL_JOIN_ID = #{dealJoinId}
+        </if>
+        </where>
+    </select>
+</mapper>

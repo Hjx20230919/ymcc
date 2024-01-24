@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidKeywordDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidKeywordDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="KEYWORD_ID" jdbcType="VARCHAR" property="keywordId" />
+    <result column="KEYWORD_NAME" jdbcType="VARCHAR" property="keywordName" />
+    <result column="KEYWORD_TYPE" jdbcType="VARCHAR" property="keywordType" />
+    <result column="ENABLED" jdbcType="INTEGER" property="enabled" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+  </resultMap>
+
+  <select id="selectAllByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from T_BID_KEYWORD
+    <where>
+      <if test="enabled != null and enabled != ''">
+        and ENABLED = #{enabled}
+      </if>
+      <if test="keywordName != null and keywordName != ''">
+        and KEYWORD_NAME like  CONCAT('%',#{keywordName},'%')
+      </if>
+    </where>
+
+  </select>
+</mapper>

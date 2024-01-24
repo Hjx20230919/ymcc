@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.project.ProjBackLogDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.project.ProjBackLogDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="BACK_LOG_ID" jdbcType="VARCHAR" property="backLogId" />
+    <result column="PROJ_ID" jdbcType="VARCHAR" property="projId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="PLAN_LOG" jdbcType="VARCHAR" property="planLog" />
+    <result column="SEL_CONT_LOG" jdbcType="VARCHAR" property="selContLog" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="CREATE_ID" jdbcType="VARBINARY" property="createId" />
+  </resultMap>
+</mapper>

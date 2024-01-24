@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizDealHdMapper">
+    <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizDealHdDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo"/>
+        <result column="PROJECT_NO" jdbcType="VARCHAR" property="projectNo"/>
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="DEAL_VALUE" jdbcType="DOUBLE" property="dealValue"/>
+        <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="DEAL_SIGN_TIME" jdbcType="TIMESTAMP" property="dealSignTime"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId"/>
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome"/>
+        <result column="DEAL_FUNDS" jdbcType="VARCHAR" property="dealFunds"/>
+        <result column="DEAL_REPORT_NO" jdbcType="VARCHAR" property="dealReportNo"/>
+        <result column="DEAL_CONTRACT" jdbcType="VARCHAR" property="dealContract"/>
+        <result column="DEAL_DISPUTE" jdbcType="VARCHAR" property="dealDispute"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="DEAL_START" jdbcType="TIMESTAMP" property="dealStart"/>
+        <result column="DEAL_END" jdbcType="TIMESTAMP" property="dealEnd"/>
+        <result column="PLACED_TIME" jdbcType="TIMESTAMP" property="placedTime"/>
+        <result column="DEAL_SELECTION" jdbcType="VARCHAR" property="dealSelection"/>
+        <!--<result column="DEAL_SETTLEMENT" jdbcType="DOUBLE" property="dealSettlement" />-->
+        <result column="SETTLE_DATE" jdbcType="TIMESTAMP" property="settleDate"/>
+        <result column="DEAL_NOTES" jdbcType="VARCHAR" property="dealNotes"/>
+        <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt"/>
+        <result column="DEAL_CURRENCY" jdbcType="VARCHAR" property="dealCurrency"/>
+        <result column="SUBTYPE_ID" jdbcType="VARCHAR" property="subtypeId"/>
+        <result column="DEAL_STATUS" jdbcType="VARCHAR" property="dealStatus"/>
+        <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType"/>
+        <result column="PAYMENT_TYPE" jdbcType="VARCHAR" property="paymentType"/>
+        <result column="PAYMENT_REQ" jdbcType="VARCHAR" property="paymentTeq"/>
+        <result column="DEAL_VALUE_AFTER" jdbcType="DOUBLE" property="dealValueAfter"/>
+        <result column="DEAL_VALUE_BEFORE" jdbcType="DOUBLE" property="dealValueBefore"/>
+        <result column="HAVE_TAX" jdbcType="INTEGER" property="haveTax"/>
+        <result column="TAX_RATE" jdbcType="INTEGER" property="taxRate"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="SUBTYPE_NAME" jdbcType="VARCHAR" property="subtypeName"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="STEP_NO" jdbcType="VARCHAR" property="stepNo"/>
+        <result column="FLAG" jdbcType="VARCHAR" property="flag"/>
+        <result column="DEAL_SETTLEMENT" jdbcType="DOUBLE" property="dealSettlement"/>
+        <result column="DUTY_MAN" jdbcType="VARCHAR" property="dutyMan"/>
+        <result column="CONT_BANK" jdbcType="VARCHAR" property="contBank"/>
+        <result column="CONT_ACCOUNT" jdbcType="VARCHAR" property="contAccount"/>
+        <result column="SETTLE_STATUS" jdbcType="VARCHAR" property="settleStatus"/>
+        <result column="outTime" jdbcType="VARCHAR" property="outTime"/>
+        <result column="settleNow" jdbcType="DOUBLE" property="settleNow"/>
+        <result column="settleHis" jdbcType="DOUBLE" property="settleHis"/>
+        <result column="PROJ_ID" jdbcType="VARCHAR" property="projId"/>
+        <result column="SEL_CONT_ID" jdbcType="VARCHAR" property="selContId"/>
+        <result column="PLAN_ID" jdbcType="VARCHAR" property="planId"/>
+        <result column="RESULT_ID" jdbcType="VARCHAR" property="resultId"/>
+        <result column="CONTRACT_NUMBER" jdbcType="VARCHAR" property="contractNumber"/>
+        <result column="CHANGE_DESC" jdbcType="VARCHAR" property="changeDesc" />
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="cn.com.cnpc.cpoa.po.ActivitiItemDealPo">
+        <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName"/>
+        <result column="DEAL_TYPE" jdbcType="VARCHAR" property="dealType"/>
+        <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome"/>
+        <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId"/>
+        <result column="DEAL_VALUE" jdbcType="DOUBLE" property="dealValue"/>
+        <result column="CONT_NAME" jdbcType="VARCHAR" property="contName"/>
+        <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo"/>
+        <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId"/>
+        <result column="DEAL_STATUS" jdbcType="VARCHAR" property="dealStatus"/>
+        <result column="DEAL_START" jdbcType="TIMESTAMP" property="dealStart"/>
+        <result column="DEAL_END" jdbcType="TIMESTAMP" property="dealEnd"/>
+    </resultMap>
+
+    <!--<sql id="Base_Column_List" >-->
+    <!--TBD.DEAL_ID,TBD.DEAL_NO,TBD.DEAL_NAME,TBD.DEAL_VALUE,TBD.CATEGORY_ID,TBD.DEAL_SIGN_TIME,TBD.DEPT_ID,-->
+    <!--TBD.CONTRACT_ID,TBD.DEAL_INCOME,TBD.DEAL_FUNDS,TBD.DEAL_REPORT_NO,TBD.DEAL_CONTRACT,TBD.DEAL_DISPUTE,-->
+    <!--TBD.USER_ID,TBD.DEAL_START,TBD.DEAL_END,TBD.DEAL_SELECTION,TBD.DEAL_SETTLEMENT,TBD.SETTLE_DATE,TBD.DEAL_NOTES,-->
+    <!--DATE_FORMAT(TBD.CREATE_AT,'%Y-%c-%d %h:%i:%s') CREATE_AT,TBD.DEAL_CURRENCY,TBD.SUBTYPE_ID,TBD.DEAL_STATUS,TBD.PAYMENT_REQ,TBD.DEAL_VALUE_AFTER,TBD.DEAL_VALUE_BEFORE-->
+    <!--</sql>-->
+    <!--查询合同-->
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT TBD.*,TSD.DEPT_NAME,TBC.CATEGORY_NAME,TBS.SUBTYPE_NAME,TBC2.CONT_NAME,TSU.USER_NAME,A.DEAL_ID flag ,
+        TBC2.DUTY_MAN,TBC2.CONT_BANK,TBC2.CONT_ACCOUNT,C1.SETTLE_STATUS,
+        TPP.PROJ_ID,TPSC.SEL_CONT_ID,TPPP.PLAN_ID,TPPR.RESULT_ID,
+        TBP.CONTRACT_NUMBER, TBP.CONTRACT_ID bizProjectId, TBD2.DEAL_ID joinedDealId, TBD2.DEAL_NAME joinedDealName
+        FROM T_BIZ_DEAL_HD TBD
+        LEFT JOIN T_SYS_DEPT TSD ON TBD.DEPT_ID=TSD.DEPT_ID
+        LEFT JOIN T_BIZ_CATEGORY TBC ON TBD.CATEGORY_ID=TBC.CATEGORY_ID
+        LEFT JOIN T_BIZ_SUBTYPE TBS ON TBS.SUBTYPE_ID = TBD.SUBTYPE_ID
+        LEFT JOIN T_BIZ_CONTRACTOR TBC2 ON TBC2.CONT_ID=TBD.CONTRACT_ID
+        LEFT JOIN T_SYS_USER TSU ON TSU.USER_ID=TBD.USER_ID
+        LEFT JOIN (
+        SELECT TBS.DEAL_ID FROM T_BIZ_SETTLEMENT TBS WHERE TBS.SETTLE_STATUS !='down' GROUP BY TBS.DEAL_ID
+        ) A ON TBD.DEAL_ID=A.DEAL_ID
+        LEFT JOIN (
+        SELECT T1.DEAL_ID,T1.SETTLE_STATUS FROM T_BIZ_SETTLEMENT T1 INNER JOIN (
+        SELECT MAX(T2.CREATE_TIME) CREATE_TIME,T2.DEAL_ID FROM T_BIZ_SETTLEMENT T2 GROUP BY T2.DEAL_ID
+        ) T3 ON T1.DEAL_ID=T3.DEAL_ID AND T1.CREATE_TIME=T3.CREATE_TIME
+        ) C1 ON TBD.DEAL_ID=C1.DEAL_ID
+        <!--更具立项编码关联取数-->
+        LEFT JOIN T_PROJ_PROJECT TPP ON TPP.DEAL_NO=TBD.PROJECT_NO
+        LEFT JOIN T_PROJ_SEL_CONT TPSC ON TPSC.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_PLAN TPPP ON TPPP.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_PROJ_PURC_RESULT TPPR ON TPPR.PROJ_ID=TPP.PROJ_ID
+        LEFT JOIN T_BIZ_PROJECT TBP ON TBD.DEAL_ID = TBP.DEAL_ID
+        LEFT JOIN T_BIZ_DEAL_PS_JOIN TBDPJ ON TBDPJ.DEAL_ID = TBD.DEAL_ID
+        LEFT JOIN T_BIZ_DEAL TBD2 ON TBDPJ.DEAL_JOIN_ID = TBD2.DEAL_ID
+
+        <where>
+            <if test="dealReportNo!=null and dealReportNo!=''">
+                AND TBD.DEAL_REPORT_NO like CONCAT('%',#{dealReportNo},'%')
+            </if>
+            <if test="dealId!=null and dealId!=''">
+                AND TBD.DEAL_ID = #{dealId}
+            </if>
+
+            <if test="dealNo!=null and dealNo!=''">
+                AND TBD.DEAL_NO =#{dealNo}
+            </if>
+            <if test="dealName!=null and dealName!=''">
+                AND TBD.DEAL_NAME like CONCAT('%',#{dealName},'%')
+            </if>
+
+            <if test="dealValueMax!=null and dealValueMax!=''">
+                AND TBD.DEAL_VALUE &lt;= #{dealValueMax}
+            </if>
+
+            <if test="dealValueMin!=null and dealValueMin!=''">
+                AND TBD.DEAL_VALUE >= #{dealValueMin}
+            </if>
+
+            <if test="contractId!=null and contractId!=''">
+                AND TBD.CONTRACT_ID = #{contractId}
+            </if>
+            <if test="dealSignTimeStart!=null and dealSignTimeStart!=''">
+                AND TBD.DEAL_SIGN_TIME >= str_to_date(#{dealSignTimeStart},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="dealSignTimeEnd!=null and dealSignTimeEnd!=''">
+                AND TBD.DEAL_SIGN_TIME &lt;= str_to_date(#{dealSignTimeEnd},'%Y-%m-%d %H:%i:%s')
+            </if>
+
+            <if test="dealType!=null and dealType!=''">
+                AND TBD.DEAL_TYPE =#{dealType}
+            </if>
+            <if test="userId!=null and userId!=''">
+                AND TSU.USER_ID = #{userId}
+            </if>
+
+            <if test="userIdSpecial!=null and userIdSpecial!=''">
+                <if test="dataScopeSelf==null or dataScopeSelf==''">
+                    AND (TSU.USER_ID = #{userIdSpecial}
+                    OR (TSD.DEPT_ID = #{deptIdSpecial}))
+                </if>
+            </if>
+
+            <if test="dealStatus!=null and dealStatus!=''">
+                AND (TBD.DEAL_STATUS =#{dealStatus})
+            </if>
+
+            <if test="statusList!=null and statusList.length > 0">
+                AND TBD.DEAL_STATUS in
+                <foreach collection="statusList" item="dealStatusItem" open="(" close=")" separator=",">
+                    #{dealStatusItem, jdbcType=VARCHAR }
+                </foreach>
+            </if>
+            <if test="dealStart!=null and dealStart!=''">
+
+                <if test='dealStartFlag!=null and dealStartFlag==">"'>
+                    AND TBD.DEAL_START > str_to_date(#{dealStart},'%Y-%m-%d %H:%i:%s')
+                </if>
+
+                <if test='dealStartFlag!=null and dealStartFlag=="&lt;"'>
+                    AND TBD.DEAL_START &lt; str_to_date(#{dealStart},'%Y-%m-%d %H:%i:%s')
+                </if>
+            </if>
+
+            <if test="dealEnd!=null and dealEnd!=''">
+
+                <if test='dealEndFlag!=null and dealEndFlag==">"'>
+                    AND TBD.DEAL_END > str_to_date(#{dealEnd},'%Y-%m-%d %H:%i:%s')
+                </if>
+
+                <if test='dealEndFlag!=null and dealEndFlag=="&lt;"'>
+                    AND TBD.DEAL_END &lt; str_to_date(#{dealEnd},'%Y-%m-%d %H:%i:%s')
+                </if>
+            </if>
+
+            <if test="dataScopeDept!=null and dataScopeDept!=''">
+                AND (TSD.DEPT_ID=#{dataScopeDept} or TSU.USER_ID = #{userId2})
+            </if>
+
+            <if test="dataScopeSelf!=null and dataScopeSelf!=''">
+                AND TSU.USER_ID = #{dataScopeSelf}
+            </if>
+
+            <if test="deptId!=null and deptId!=''">
+                AND TBD.DEPT_ID=#{deptId}
+            </if>
+            <if test="dealIncome!=null and dealIncome!=''">
+                AND TBD.DEAL_INCOME= #{dealIncome}
+            </if>
+
+            <if test="typeList!=null and typeList.length > 0">
+                AND TBD.DEAL_TYPE in
+                <foreach collection="typeList" item="dealTypeItem" open="(" close=")" separator=",">
+                    #{dealTypeItem, jdbcType=VARCHAR }
+                </foreach>
+            </if>
+        </where>
+        order by TBD.CREATE_AT desc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.bid.BidCertiBorrowListDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.bid.BidCertiBorrowListDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="BORROW_LIST_ID" jdbcType="VARCHAR" property="borrowListId" />
+    <result column="USER_CERTI_ID" jdbcType="VARCHAR" property="userCertiId" />
+    <result column="CERTI_BORROW_ID" jdbcType="VARCHAR" property="certiBorrowId" />
+  </resultMap>
+
+  <select id="selectBYCertiBorrowId" parameterType="java.lang.String" resultType="java.lang.Object">
+    select BORROW_LIST_ID from T_BID_CERTI_BORROW_LIST t where t.CERTI_BORROW_ID = #{certiBorrowId}
+  </select>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.cnpc.cpoa.mapper.BizDealStatisticsHisDtoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.cnpc.cpoa.domain.BizDealStatisticsHisDto">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="STAT_ID" jdbcType="VARCHAR" property="statId" />
+    <result column="STAT_TYPE" jdbcType="VARCHAR" property="statType" />
+    <result column="STAT_ORDER" jdbcType="INTEGER" property="statOrder" />
+    <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+    <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo" />
+    <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome" />
+    <result column="YEAR_MONH" jdbcType="VARCHAR" property="yearMonh" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="DEAL_CONTRACT" jdbcType="VARCHAR" property="dealContract" />
+    <result column="DEAL_REPORT_NO" jdbcType="VARCHAR" property="dealReportNo" />
+    <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="DEAL_START" jdbcType="DATE" property="dealStart" />
+    <result column="DEAL_END" jdbcType="DATE" property="dealEnd" />
+    <result column="DEAL_VALUE" jdbcType="DECIMAL" property="dealValue" />
+    <result column="SETTLE_PROGRESS" jdbcType="DECIMAL" property="settleProgress" />
+    <result column="SETTLE" jdbcType="DECIMAL" property="settle" />
+    <result column="SETTLE_NOW" jdbcType="DECIMAL" property="settleNow" />
+    <result column="SETTLE_LAST" jdbcType="DECIMAL" property="settleLast" />
+    <result column="DEAL_SETTLE_PROGRESS" jdbcType="DECIMAL" property="dealSettleProgress" />
+    <result column="DEAL_SETTLE" jdbcType="DECIMAL" property="dealSettle" />
+    <result column="DEAL_SETTLE_NOW" jdbcType="DECIMAL" property="dealSettleNow" />
+    <result column="DEAL_SETTLE_LAST" jdbcType="DECIMAL" property="dealSettleLast" />
+    <result column="DEAL_SETTLE_WAY" jdbcType="VARCHAR" property="dealSettleWay" />
+    <result column="IS_DEAL_SETTLE_DONE" jdbcType="VARCHAR" property="isDealSettleDone" />
+    <result column="SETTLE_WAY" jdbcType="VARCHAR" property="settleWay" />
+    <result column="IS_SETTLE_DONE" jdbcType="VARCHAR" property="isSettleDone" />
+    <result column="NOT_SETTLE_LAST" jdbcType="DECIMAL" property="notSettleLast" />
+    <result column="NOT_SETTLE" jdbcType="DECIMAL" property="notSettle" />
+    <result column="MARKET_DIST" jdbcType="VARCHAR" property="marketDist" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="EXPECT_INCOME_NOW" jdbcType="DECIMAL" property="expectIncomeNow" />
+    <result column="EXPECT_INCOME_HALF" jdbcType="DECIMAL" property="expectIncomeHalf" />
+    <result column="EXPECT_SETTLE_NOW" jdbcType="DECIMAL" property="expectSettleNow" />
+    <result column="NOTE" jdbcType="LONGVARCHAR" property="note" />
+    <result column="CHANGES_REASON" jdbcType="LONGVARCHAR" property="changesReason" />
+    <result column="CHANGE_ANALYSIS" jdbcType="LONGVARCHAR" property="changeAnalysis" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+  </resultMap>
+
+  <resultMap id="BizDealStatisticsHisPo" type="cn.com.cnpc.cpoa.po.BizDealStatisticsHisPo">
+    <result column="STAT_ID" jdbcType="VARCHAR" property="statId" />
+    <result column="STAT_TYPE" jdbcType="VARCHAR" property="statType" />
+    <result column="STAT_ORDER" jdbcType="INTEGER" property="statOrder" />
+    <result column="DEAL_ID" jdbcType="VARCHAR" property="dealId" />
+    <result column="DEAL_NO" jdbcType="VARCHAR" property="dealNo" />
+    <result column="DEAL_INCOME" jdbcType="VARCHAR" property="dealIncome" />
+    <result column="YEAR_MONH" jdbcType="VARCHAR" property="yearMonh" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="DEAL_CONTRACT" jdbcType="VARCHAR" property="dealContract" />
+    <result column="DEAL_REPORT_NO" jdbcType="VARCHAR" property="dealReportNo" />
+    <result column="DEAL_NAME" jdbcType="VARCHAR" property="dealName" />
+    <result column="CONT_ID" jdbcType="VARCHAR" property="contId" />
+    <result column="CONT_NAME" jdbcType="VARCHAR" property="contName" />
+    <result column="DEAL_START" jdbcType="VARCHAR" property="dealStart" />
+    <result column="DEAL_END" jdbcType="VARCHAR" property="dealEnd" />
+    <result column="DEAL_VALUE" jdbcType="DECIMAL" property="dealValue" />
+    <result column="SETTLE_PROGRESS" jdbcType="DECIMAL" property="settleProgress" />
+    <result column="SETTLE" jdbcType="DECIMAL" property="settle" />
+    <result column="SETTLE_NOW" jdbcType="DECIMAL" property="settleNow" />
+    <result column="SETTLE_LAST" jdbcType="DECIMAL" property="settleLast" />
+    <result column="DEAL_SETTLE_PROGRESS" jdbcType="DECIMAL" property="dealSettleProgress" />
+    <result column="DEAL_SETTLE" jdbcType="DECIMAL" property="dealSettle" />
+    <result column="DEAL_SETTLE_NOW" jdbcType="DECIMAL" property="dealSettleNow" />
+    <result column="DEAL_SETTLE_LAST" jdbcType="DECIMAL" property="dealSettleLast" />
+    <result column="DEAL_SETTLE_WAY" jdbcType="VARCHAR" property="dealSettleWay" />
+    <result column="IS_DEAL_SETTLE_DONE" jdbcType="VARCHAR" property="isDealSettleDone" />
+    <result column="SETTLE_WAY" jdbcType="VARCHAR" property="settleWay" />
+    <result column="IS_SETTLE_DONE" jdbcType="VARCHAR" property="isSettleDone" />
+    <result column="NOT_SETTLE_LAST" jdbcType="DECIMAL" property="notSettleLast" />
+    <result column="NOT_SETTLE" jdbcType="DECIMAL" property="notSettle" />
+    <result column="MARKET_DIST" jdbcType="VARCHAR" property="marketDist" />
+    <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="VARCHAR" property="updateTime" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="EXPECT_INCOME_NOW" jdbcType="DECIMAL" property="expectIncomeNow" />
+    <result column="EXPECT_INCOME_HALF" jdbcType="DECIMAL" property="expectIncomeHalf" />
+    <result column="EXPECT_SETTLE_NOW" jdbcType="DECIMAL" property="expectSettleNow" />
+    <result column="NOTE" jdbcType="LONGVARCHAR" property="note" />
+    <result column="CHANGES_REASON" jdbcType="LONGVARCHAR" property="changesReason" />
+    <result column="CHANGE_ANALYSIS" jdbcType="LONGVARCHAR" property="changeAnalysis" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+  </resultMap>
+
+  <select id="selectDealStatisticsHis" parameterType="java.util.Map" resultMap="BizDealStatisticsHisPo">
+    select tbdsh.*,tsd.DEPT_NAME from T_BIZ_DEAL_STATISTICS_HIS tbdsh
+    left join T_SYS_DEPT tsd on tbdsh.DEPT_ID=tsd.DEPT_ID
+    <where>
+
+      <if test="dealIncome!=null and dealIncome!=''">
+        AND tbdsh.DEAL_INCOME=#{dealIncome}
+      </if>
+
+      <if test="deptId!=null and deptId!=''">
+        AND tbdsh.DEPT_ID=#{deptId}
+      </if>
+
+      <if test="statType!=null and statType!=''">
+        AND tbdsh.STAT_TYPE=#{statType}
+      </if>
+
+      <if test="dealName!=null and dealName!=''">
+        AND tbdsh.DEAL_NAME LIKE CONCAT('%',#{dealName},'%')
+      </if>
+
+      <if test="dealId!=null and dealId!=''">
+        AND tbdsh.DEAL_ID=#{dealId}
+      </if>
+      <if test="yearMonth !=null and yearMonth!=''">
+        AND tbdsh.YEAR_MONH = #{yearMonth}
+      </if>
+      <if test="dealNo !=null and dealNo!=''">
+        AND tbdsh.DEAL_NO like  CONCAT('%',#{dealNo},'%')
+      </if>
+    </where>
+    order by tbdsh.STAT_ORDER asc
+  </select>
+</mapper>
